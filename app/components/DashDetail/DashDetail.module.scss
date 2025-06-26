@@ -1,0 +1,16 @@
+@import '../../../styles/variables.scss';
+
+.dashDetail {
+  flex: 0 0 30%;
+  padding: $spacing-xl;
+  background: $background-white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+}
+
+.dashDetail h3 {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-md;
+  color: $text-primary;
+} 

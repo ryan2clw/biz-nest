@@ -1,41 +1,44 @@
+@import '../../../styles/variables.scss';
+
 .hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem 1rem;
-  background: #f5f7fa;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  padding: $spacing-2xl $spacing-md;
+  background: $background-light;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-md;
 }
 
 .hero h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  color: #2563eb;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-md;
+  color: $primary-blue;
 }
 
 .hero p {
-  font-size: 1.25rem;
+  font-size: $font-size-xl;
   max-width: 600px;
   text-align: center;
-  margin-bottom: 2rem;
-  color: #374151;
+  margin-bottom: $spacing-xl;
+  color: $text-primary;
 }
 
 .hero button {
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: white;
-  background: #2563eb;
+  padding: $spacing-md $spacing-xl;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-light;
+  background: $primary-blue;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: $border-radius-md;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: $shadow-light;
   transition: background 0.2s;
 }
 
 .hero button:hover {
-  background: #1e40af;
+  background: $primary-blue-dark;
 } 

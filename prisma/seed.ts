@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "../generated/prisma";
 const prisma = new PrismaClient();
 
 const firstNames = [
@@ -25,7 +25,7 @@ const screenNames = [
   'AshWilliams', 'FrankCastle', 'JudgeDredd', 'EllenRipley', 'MadMax', 'V', 'Leon', 'TheBride', 'BeatrixKiddo', 'JohnWick'
 ];
 
-const image = 'https://cdn.jsdelivr.net/gh/edent/SuperTinyIcons/images/svg/user.svg'; // Stock blue shadow user icon (SVG, but you can swap for webp if you have a link)
+const image = '/user.svg'; // Local user icon
 
 function getRandom(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -39,6 +39,7 @@ async function main() {
         lastName: getRandom(lastNames),
         screenName: getRandom(screenNames),
         image,
+        email: `user${i + 1}@example.com`, // Add email for NextAuth compatibility
       },
     });
   }

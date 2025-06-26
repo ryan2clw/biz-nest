@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.admin-layout {
+  display: flex;
+  gap: $spacing-xl;
+  padding: $spacing-xl;
+  min-height: 100vh;
+  background: $background-dark;
+}
+
+@media (max-width: $breakpoint-md) {
+  .admin-layout {
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+} 

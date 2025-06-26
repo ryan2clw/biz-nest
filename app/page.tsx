@@ -1,6 +1,5 @@
 import styles from './page.module.scss';
 import Hero from './components/Hero/Hero';
-import NavBar from './components/NavBar/NavBar';
 
 export const metadata = {
   title: 'Biz Nest | Build Your Business Nest Egg',
@@ -10,7 +9,6 @@ export const metadata = {
 export default function Home() {
   return (
     <div className={styles["tampa-bg"]}>
-      <NavBar />
       <main className="main">
         <Hero />
       </main>
