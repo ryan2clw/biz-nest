@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import styles from './Dashboard.module.scss';
 import Spinner from '../Spinner/Spinner';
-import { PrismaClient } from '../../../generated/prisma';
+import { prisma } from '../../lib/prisma';
 
 interface User {
   id: number;
@@ -12,8 +12,6 @@ interface User {
   image?: string | null;
   emailVerified?: Date | null;
 }
-
-const prisma = new PrismaClient();
 
 export default async function Dashboard() {
   let users: User[] = [];
