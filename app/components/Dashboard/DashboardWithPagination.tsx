@@ -30,7 +30,6 @@ export default function DashboardWithPagination({ initialUsers }: DashboardWithP
   const [users, setUsers] = useState<User[]>(initialUsers);
   const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch total count and set initial pagination on mount
@@ -73,7 +72,6 @@ export default function DashboardWithPagination({ initialUsers }: DashboardWithP
   };
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
     fetchUsers(newPage);
   };
 
@@ -86,7 +84,7 @@ export default function DashboardWithPagination({ initialUsers }: DashboardWithP
       <div className="error">
         <h2>Error</h2>
         <p>{error}</p>
-        <button onClick={() => fetchUsers(currentPage)}>Retry</button>
+        <button onClick={() => fetchUsers(1)}>Retry</button>
       </div>
     );
   }
@@ -95,7 +93,6 @@ export default function DashboardWithPagination({ initialUsers }: DashboardWithP
     <Dashboard 
       users={users} 
       pagination={pagination}
-      currentPage={currentPage}
       onPageChange={handlePageChange}
     />
   );

@@ -27,6 +27,35 @@
   }
 }
 
+.content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.formsContainer {
+  display: flex;
+  gap: 2rem;
+  flex: 1;
+  
+  > * {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    
+    > * {
+      flex: none;
+    }
+  }
+}
+
 .error {
   text-align: center;
   padding: 3rem;
@@ -41,11 +70,10 @@
   }
   
   p {
-    color: $text-primary;
-    font-size: 1.1rem;
+    color: $text-secondary;
     
     .dark & {
-      color: $text-primary-dark-theme;
+      color: $text-secondary-dark-theme;
     }
   }
 } 

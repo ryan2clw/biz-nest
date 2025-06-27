@@ -6,7 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { Provider } from 'react-redux';
 import { store } from './lib/store';
 import NavBar from './components/NavBar/NavBar';
-import IndustryUpdater from './components/IndustryUpdater/IndustryUpdater';
+import ScreenNameUpdater from './components/ScreenNameUpdater/ScreenNameUpdater';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Provider store={store}>
           <SessionProvider>
-            <IndustryUpdater />
+            <ScreenNameUpdater />
             <NavBar />
             {children}
           </SessionProvider>

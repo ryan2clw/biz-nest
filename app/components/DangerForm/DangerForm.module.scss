@@ -1,0 +1,140 @@
+@use '@/styles/variables.scss' as *;
+
+.dangerForm {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.accordion {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  :global(.dark) & {
+    border-color: #374151;
+    background: #1f2937;
+  }
+}
+
+.accordionHeader {
+  width: 100%;
+  padding: 16px 20px;
+  background: #f9fafb;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+
+  :global(.dark) & {
+    background: #374151;
+    
+    &:hover {
+      background: #4b5563;
+    }
+  }
+}
+
+.accordionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #dc2626;
+  
+  :global(.dark) & {
+    color: #f87171;
+  }
+}
+
+.accordionIcon {
+  font-size: 12px;
+  color: #6b7280;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.open {
+    transform: rotate(180deg);
+  }
+  
+  :global(.dark) & {
+    color: #9ca3af;
+  }
+}
+
+.accordionContent {
+  height: 0;
+  padding: 0 20px;
+  border-top: 1px solid #e5e7eb;
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  
+  &.accordionOpen {
+    height: 140px;
+    padding: 15px 0;
+  }
+  
+  :global(.dark) & {
+    border-top-color: #374151;
+  }
+}
+
+.dangerZone {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  padding-top: 10px;
+}
+
+.warning {
+  color: #dc2626;
+  font-size: 14px;
+  margin-bottom: 16px;
+  font-weight: 500;
+  margin-top: 0;
+  
+  :global(.dark) & {
+    color: #f87171;
+  }
+}
+
+.deleteButton {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: #b91c1c;
+  }
+
+  &:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+  }
+
+  :global(.dark) & {
+    background: #ef4444;
+    
+    &:hover:not(:disabled) {
+      background: #dc2626;
+    }
+    
+    &:disabled {
+      background: #6b7280;
+    }
+  }
+} 

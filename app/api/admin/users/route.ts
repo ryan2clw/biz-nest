@@ -17,7 +17,11 @@ export async function GET(request: NextRequest) {
         screenName: true,
         email: true,
         image: true,
-        industry: true,
+        profile: {
+          select: {
+            industry: true
+          }
+        }
       },
       orderBy: {
         lastName: 'asc',
@@ -26,12 +30,18 @@ export async function GET(request: NextRequest) {
       take: limit,
     });
 
+    // Transform users to include industry from profile
+    const usersWithIndustry = users.map(user => ({
+      ...user,
+      industry: user.profile?.industry || null
+    }));
+
     // Get total count for pagination
     const totalUsers = await prisma.user.count();
     const totalPages = Math.ceil(totalUsers / limit);
 
     return NextResponse.json({ 
-      users,
+      users: usersWithIndustry,
       pagination: {
         currentPage: page,
         totalPages,

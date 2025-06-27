@@ -1,6 +1,5 @@
 import DashboardWithPagination from '../components/Dashboard/DashboardWithPagination';
 import DashDetail from '../components/DashDetail/DashDetail';
-import Spinner from '../components/Spinner/Spinner';
 import styles from './page.module.scss';
 import { prisma } from '../lib/prisma';
 
@@ -14,17 +13,11 @@ interface User {
   industry?: string | null;
 }
 
-export const metadata = {
-  title: 'Admin Dashboard | Biz Nest',
-  description: 'Admin dashboard for managing Biz Nest business applications.'
-};
-
 export default async function AdminPage() {
   let users: User[] = [];
-  let hasUsers = false;
   
   try {
-    users = await prisma.user.findMany({
+    const usersWithProfiles = await prisma.user.findMany({
       select: {
         id: true,
         firstName: true,
@@ -32,21 +25,25 @@ export default async function AdminPage() {
         screenName: true,
         email: true,
         image: true,
-        industry: true,
+        profile: {
+          select: {
+            industry: true
+          }
+        }
       },
       orderBy: {
         lastName: 'asc',
       },
       take: 25, // Limit to first 25 users for performance
     });
-    hasUsers = users.length > 0;
+
+    // Transform users to include industry from profile
+    users = usersWithProfiles.map(user => ({
+      ...user,
+      industry: user.profile?.industry || null
+    }));
   } catch (error) {
     console.error('Error fetching users:', error);
-    hasUsers = false;
-  }
-
-  if (!hasUsers) {
-    return <Spinner />;
   }
 
   return (

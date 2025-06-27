@@ -4,75 +4,39 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import styles from './UserForm.module.scss';
 
-const industries = [
-  'Restaurant',
-  'Retail',
-  'Construction',
-  'Healthcare',
-  'Technology',
-  'Real Estate',
-  'Manufacturing',
-  'Professional Services',
-  'Education',
-  'Transportation',
-  'Other'
-];
-
 export default function UserForm() {
-  const [selectedIndustry, setSelectedIndustry] = useState('');
-  const [otherIndustry, setOtherIndustry] = useState('');
+  const [screenName, setScreenName] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleGoogleSignUp = () => {
-    const industryData = selectedIndustry === 'Other' ? otherIndustry : selectedIndustry;
-    if (!industryData) {
-      alert('Please select an industry');
+    if (!screenName.trim()) {
+      setMessage('Please enter a screen name');
       return;
     }
-    
-    // Store industry data in localStorage before OAuth redirect
-    localStorage.setItem('pendingIndustry', industryData);
+
+    // Store screen name data in localStorage before OAuth redirect
+    localStorage.setItem('pendingScreenName', screenName.trim());
     signIn('google', { callbackUrl: '/admin' });
   };
 
   return (
     <div className={styles.formContainer}>
-      <form className={styles.form}>
+      <h2>Sign Up</h2>
+      <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
         <div className={styles.formGroup}>
-          <label htmlFor="industry" className={styles.label}>
-            Industry *
+          <label htmlFor="screenName" className={styles.label}>
+            Screen Name *
           </label>
-          <select
-            id="industry"
-            value={selectedIndustry}
-            onChange={(e) => setSelectedIndustry(e.target.value)}
-            className={styles.select}
+          <input
+            type="text"
+            id="screenName"
+            value={screenName}
+            onChange={(e) => setScreenName(e.target.value)}
+            className={styles.input}
+            placeholder="Enter your screen name"
             required
-          >
-            <option value="">Select an industry</option>
-            {industries.map((industry) => (
-              <option key={industry} value={industry}>
-                {industry}
-              </option>
-            ))}
-          </select>
+          />
         </div>
-
-        {selectedIndustry === 'Other' && (
-          <div className={styles.formGroup}>
-            <label htmlFor="otherIndustry" className={styles.label}>
-              Specify Industry
-            </label>
-            <input
-              type="text"
-              id="otherIndustry"
-              value={otherIndustry}
-              onChange={(e) => setOtherIndustry(e.target.value)}
-              className={styles.input}
-              placeholder="Enter your industry"
-              required
-            />
-          </div>
-        )}
 
         <div className={styles.buttonGroup}>
           <button
@@ -89,6 +53,12 @@ export default function UserForm() {
             Sign up with Google
           </button>
         </div>
+
+        {message && (
+          <div className={`${styles.message} ${styles.error}`}>
+            {message}
+          </div>
+        )}
       </form>
     </div>
   );

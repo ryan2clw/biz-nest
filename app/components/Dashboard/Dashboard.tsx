@@ -27,13 +27,22 @@ interface PaginationInfo {
 interface DashboardProps {
   users: User[];
   pagination: PaginationInfo | null;
-  currentPage: number;
   onPageChange: (page: number) => void;
 }
 
-export default function Dashboard({ users, pagination, currentPage, onPageChange }: DashboardProps) {
-  const dispatch = useAppDispatch();
+export default function Dashboard({ users, pagination, onPageChange }: DashboardProps) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleRowClick = (user: User) => {
+    dispatch(setCurrentUser(user));
+    // Smooth scroll to top to reveal the DashDetail component
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleViewDetails = (user: User) => {
+    router.push(`/admin/user-detail/${user.id}`);
+  };
 
   const getUserDisplayName = (user: User) => {
     if (user.screenName) return user.screenName;
@@ -43,120 +52,78 @@ export default function Dashboard({ users, pagination, currentPage, onPageChange
     return user.email || 'Unknown User';
   };
 
-  const handleRowClick = (user: User) => {
-    dispatch(setCurrentUser(user));
-    
-    // Scroll to top to show the DashDetail component
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
+  const renderPageNumbers = () => {
+    if (!pagination) return null;
 
-  const handleViewDetails = (user: User, e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent row click from firing
-    router.push(`/admin/user-detail?id=${user.id}`);
-  };
+    const pages = [];
+    const totalPages = pagination.totalPages;
+    const current = pagination.currentPage;
 
-  const renderPagination = () => {
-    if (!pagination) {
-      // Show basic pagination info even without full pagination data
-      return (
-        <div className={styles.pagination}>
-          <span className={styles.pageInfo}>
-            Showing {users.length} users
-          </span>
-        </div>
+    // Always show first page
+    pages.push(
+      <button
+        key={1}
+        onClick={() => onPageChange(1)}
+        className={`${styles.pageButton} ${current === 1 ? styles.active : ''}`}
+      >
+        1
+      </button>
+    );
+
+    // Show ellipsis if there's a gap
+    if (current > 4) {
+      pages.push(<span key="ellipsis1" className={styles.ellipsis}>...</span>);
+    }
+
+    // Show pages around current page
+    for (let i = Math.max(2, current - 1); i <= Math.min(totalPages - 1, current + 1); i++) {
+      if (i > 1 && i < totalPages) {
+        pages.push(
+          <button
+            key={i}
+            onClick={() => onPageChange(i)}
+            className={`${styles.pageButton} ${current === i ? styles.active : ''}`}
+          >
+            {i}
+          </button>
+        );
+      }
+    }
+
+    // Show ellipsis if there's a gap
+    if (current < totalPages - 3) {
+      pages.push(<span key="ellipsis2" className={styles.ellipsis}>...</span>);
+    }
+
+    // Always show last page if there's more than one page
+    if (totalPages > 1) {
+      pages.push(
+        <button
+          key={totalPages}
+          onClick={() => onPageChange(totalPages)}
+          className={`${styles.pageButton} ${current === totalPages ? styles.active : ''}`}
+        >
+          {totalPages}
+        </button>
       );
     }
 
-    const { totalPages, hasNextPage, hasPrevPage } = pagination;
-    
-    // Generate page numbers to show
-    const getPageNumbers = () => {
-      const pages = [];
-      const maxVisiblePages = 5;
-      
-      if (totalPages <= maxVisiblePages) {
-        // Show all pages if total is 5 or less
-        for (let i = 1; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        // Show current page and surrounding pages
-        let start = Math.max(1, currentPage - 2);
-        let end = Math.min(totalPages, currentPage + 2);
-        
-        // Adjust if we're near the beginning or end
-        if (currentPage <= 3) {
-          end = Math.min(totalPages, 5);
-        } else if (currentPage >= totalPages - 2) {
-          start = Math.max(1, totalPages - 4);
-        }
-        
-        for (let i = start; i <= end; i++) {
-          pages.push(i);
-        }
-      }
-      
-      return pages;
-    };
-
-    const pageNumbers = getPageNumbers();
-    
-    return (
-      <div className={styles.pagination}>
-        <button 
-          className={styles.paginationButton}
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={!hasPrevPage}
-          aria-label="Previous page"
-        >
-          ‹
-        </button>
-        
-        {pageNumbers.map((pageNum) => (
-          <button
-            key={pageNum}
-            className={`${styles.pageButton} ${pageNum === currentPage ? styles.activePage : ''}`}
-            onClick={() => onPageChange(pageNum)}
-          >
-            {pageNum}
-          </button>
-        ))}
-        
-        <button 
-          className={styles.paginationButton}
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={!hasNextPage}
-          aria-label="Next page"
-        >
-          ›
-        </button>
-        
-        <span className={styles.pageInfo}>
-          Page {currentPage} of {totalPages} ({pagination.totalUsers} total users)
-        </span>
-      </div>
-    );
+    return pages;
   };
 
   return (
     <div className={styles.dashboard}>
       <div className={styles.header}>
-        <h2 className={styles.title}>User Management</h2>
-        <p className={styles.subtitle}>
-          {pagination ? `Total Users: ${pagination.totalUsers}` : `Users: ${users.length}`}
-        </p>
+        <h1>User Management</h1>
+        <p>Manage and view user accounts</p>
       </div>
-      
+
       <div className={styles.tableContainer}>
         <table className={styles.table}>
           <thead>
             <tr>
               <th>User</th>
               <th>Email</th>
-              <th>Name</th>
               <th>Industry</th>
               <th>Actions</th>
             </tr>
@@ -165,35 +132,32 @@ export default function Dashboard({ users, pagination, currentPage, onPageChange
             {users.map((user) => (
               <tr 
                 key={user.id} 
-                className={styles.clickableRow}
+                className={styles.tableRow}
                 onClick={() => handleRowClick(user)}
               >
                 <td className={styles.userCell}>
                   <div className={styles.userInfo}>
                     {user.image && (
-                      <Image 
-                        src={user.image} 
-                        alt={getUserDisplayName(user)} 
+                      <Image
+                        src={user.image}
+                        alt={getUserDisplayName(user)}
                         width={40}
                         height={40}
-                        className={styles.avatar}
+                        className={styles.userAvatar}
                       />
                     )}
                     <span className={styles.userName}>{getUserDisplayName(user)}</span>
                   </div>
                 </td>
                 <td>{user.email || 'No email'}</td>
-                <td>
-                  {user.firstName && user.lastName 
-                    ? `${user.firstName} ${user.lastName}`
-                    : user.firstName || user.lastName || 'Not provided'
-                  }
-                </td>
                 <td>{user.industry || 'Not specified'}</td>
                 <td>
-                  <button 
+                  <button
                     className={styles.actionButton}
-                    onClick={(e) => handleViewDetails(user, e)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleViewDetails(user);
+                    }}
                   >
                     View Details
                   </button>
@@ -203,8 +167,36 @@ export default function Dashboard({ users, pagination, currentPage, onPageChange
           </tbody>
         </table>
       </div>
-      
-      {renderPagination()}
+
+      {pagination && (
+        <div className={styles.pagination}>
+          <div className={styles.paginationInfo}>
+            <span>
+              Showing {((pagination.currentPage - 1) * 25) + 1} to {Math.min(pagination.currentPage * 25, pagination.totalUsers)} of {pagination.totalUsers} users
+            </span>
+          </div>
+          
+          <div className={styles.paginationControls}>
+            <button
+              onClick={() => onPageChange(pagination.currentPage - 1)}
+              disabled={!pagination.hasPrevPage}
+              className={styles.pageButton}
+            >
+              ←
+            </button>
+            
+            {renderPageNumbers()}
+            
+            <button
+              onClick={() => onPageChange(pagination.currentPage + 1)}
+              disabled={!pagination.hasNextPage}
+              className={styles.pageButton}
+            >
+              →
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

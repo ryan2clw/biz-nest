@@ -47,9 +47,16 @@ model User {
   image         String?
   email         String?  @unique
   emailVerified DateTime?
-  industry      String?
+  profile       Profile?
   accounts      Account[]
   sessions      Session[]
+}
+
+model Profile {
+  id       Int    @id @default(autoincrement())
+  industry String?
+  userId   Int    @unique
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

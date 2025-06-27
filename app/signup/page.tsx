@@ -12,7 +12,7 @@ export default function SignUpPage() {
       <div className={styles.content}>
         <h1 className={styles.title}>New account sign up</h1>
         <p className={styles.subtitle}>
-          Choose your industry and sign up with Google to get started with Biz Nest
+          Choose your screen name and sign up with Google to get started with Biz Nest
         </p>
         <UserForm />
       </div>

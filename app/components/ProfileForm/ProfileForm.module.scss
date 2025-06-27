@@ -1,9 +1,10 @@
 @use '../../../styles/variables.scss' as *;
 
 .formContainer {
-  max-width: 500px;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
-  padding: $spacing-xl;
+  padding: 0;
 }
 
 .form {
@@ -12,6 +13,25 @@
   border-radius: $border-radius-lg;
   box-shadow: $shadow-lg;
   border: 1px solid $border-light;
+}
+
+.formTitle {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-xl;
+  text-align: center;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  :global(.dark) & {
+    background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 .formGroup {
@@ -43,6 +63,52 @@
   outline: none;
   border-color: $primary-blue;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.submitButton {
+  width: 100%;
+  padding: $spacing-md $spacing-lg;
+  background: $primary-blue;
+  color: $text-light;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: $spacing-lg;
+  white-space: nowrap;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: $primary-blue-dark;
+  transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+  background: $text-secondary;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.message {
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
 }
 
 .buttonGroup {
@@ -100,6 +166,27 @@
 :global(html.dark) .input:focus {
   border-color: $primary-blue-dark-theme;
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+:global(html.dark) .submitButton {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+
+:global(html.dark) .submitButton:hover:not(:disabled) {
+  background: $primary-blue-dark-theme-dark;
+}
+
+:global(html.dark) .success {
+  background: #064e3b;
+  color: #6ee7b7;
+  border: 1px solid #065f46;
+}
+
+:global(html.dark) .error {
+  background: #450a0a;
+  color: #fca5a5;
+  border: 1px solid #7f1d1d;
 }
 
 :global(html.dark) .googleButton {

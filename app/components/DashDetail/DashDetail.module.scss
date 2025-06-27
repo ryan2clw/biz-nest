@@ -1,7 +1,8 @@
 @use '../../../styles/variables.scss' as *;
 
 .dashDetail {
-  flex: 0 0 30%;
+  width: 400px;
+  flex-shrink: 0;
   padding: $spacing-xl;
   background: $gradient-blue;
   border-radius: $border-radius-md;
@@ -50,6 +51,7 @@
   padding: $spacing-lg;
   box-shadow: $shadow-md;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
 }
 
 .userHeader {
@@ -88,6 +90,7 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
 }
 
 .detailRow {
@@ -116,6 +119,37 @@
   text-align: right;
   flex: 1;
   margin-left: $spacing-md;
+}
+
+.viewDetailsLink {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-light;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  color: $primary-blue;
+  text-decoration: none;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: $primary-blue;
+    transform: translateX(2px);
+  }
+  
+  &:active {
+    transform: translateX(1px);
+  }
 }
 
 // Dark theme overrides
@@ -153,4 +187,15 @@
 }
 :global(html.dark) .detailValue {
   color: $text-primary-dark-theme;
+}
+:global(html.dark) .viewDetailsLink {
+  border-top: 1px solid $border-dark-theme;
+}
+:global(html.dark) .link {
+  color: $primary-blue-dark-theme;
+  
+  &:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: $primary-blue-dark-theme;
+  }
 } 

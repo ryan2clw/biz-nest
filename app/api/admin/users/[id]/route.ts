@@ -2,78 +2,79 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { prisma } from '../../../../lib/prisma';
 
-export async function GET(
+export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Check authentication
+    // Check authentication - using a simple session check
     const session = await getServerSession();
     if (!session?.user?.email) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const userId = parseInt(params.id);
     if (isNaN(userId)) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid user ID' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
     }
 
-    // Fetch user details
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        screenName: true,
-        email: true,
-        image: true,
-        industry: true,
-        emailVerified: true,
-        createdAt: true,
-        updatedAt: true,
-        accounts: {
-          select: {
-            provider: true,
-            providerAccountId: true,
-            createdAt: true,
-          }
-        },
-        sessions: {
-          select: {
-            expires: true,
-            createdAt: true,
-          },
-          orderBy: {
-            createdAt: 'desc'
-          },
-          take: 5
-        }
+    // Check if user exists
+    const existingUser = await prisma.user.findUnique({
+      where: { id: userId }
+    });
+
+    if (!existingUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    // Check if user has a profile
+    const existingProfile = await prisma.profile.findUnique({
+      where: { userId: userId }
+    });
+
+    // Delete user and related data in a transaction
+    const result = await prisma.$transaction(async (tx) => {
+      // Delete related sessions
+      await tx.session.deleteMany({
+        where: { userId: userId }
+      });
+
+      // Delete related accounts
+      await tx.account.deleteMany({
+        where: { userId: userId }
+      });
+
+      // Delete related profile (if exists)
+      if (existingProfile) {
+        await tx.profile.delete({
+          where: { userId: userId }
+        });
+      }
+
+      // Delete the user
+      const deletedUser = await tx.user.delete({
+        where: { id: userId }
+      });
+
+      return deletedUser;
+    });
+
+    console.log(`User ${userId} and related data deleted successfully`);
+
+    return NextResponse.json({ 
+      message: 'User and related data deleted successfully',
+      deletedUser: {
+        id: result.id,
+        email: result.email,
+        firstName: result.firstName,
+        lastName: result.lastName
       }
     });
 
-    if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'User not found' },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-      user
-    });
-
   } catch (error) {
-    console.error('Error fetching user details:', error);
+    console.error('Error deleting user:', error);
     return NextResponse.json(
-      { success: false, error: 'Internal server error' },
+      { error: 'Failed to delete user' },
       { status: 500 }
     );
   }

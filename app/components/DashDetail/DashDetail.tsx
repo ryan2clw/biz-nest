@@ -3,13 +3,39 @@
 import styles from './DashDetail.module.scss';
 import { useAppSelector } from '../../lib/hooks';
 import Image from 'next/image';
+import Link from 'next/link';
+
+interface User {
+  id: number;
+  firstName?: string | null;
+  lastName?: string | null;
+  screenName?: string | null;
+  email?: string | null;
+  image?: string | null;
+  industry?: string | null;
+  emailVerified?: Date | null;
+  accounts?: Array<{
+    provider: string;
+    providerAccountId: string;
+    type: string;
+    expires_at?: number | null;
+  }>;
+  sessions?: Array<{
+    sessionToken: string;
+    expires: Date;
+  }>;
+}
 
 interface DashDetailProps {
   heading: string;
+  user?: User; // Optional prop for when used in user detail page
 }
 
-export default function DashDetail({ heading }: DashDetailProps) {
-  const currentUser = useAppSelector(state => state.admin.currentUser);
+export default function DashDetail({ heading, user }: DashDetailProps) {
+  // Always call the hook to follow React rules
+  const reduxUser = useAppSelector(state => state.admin.currentUser);
+  // Use provided user prop or fall back to Redux state
+  const currentUser = user || reduxUser;
 
   if (!currentUser) {
     return (
@@ -88,6 +114,15 @@ export default function DashDetail({ heading }: DashDetailProps) {
             </div>
           )}
         </div>
+
+        {/* Only show View Details link if we're not already on the user detail page */}
+        {!user && (
+          <div className={styles.viewDetailsLink}>
+            <Link href={`/admin/user-detail/${currentUser.id}`} className={styles.link}>
+              View Details →
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
