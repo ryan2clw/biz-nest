@@ -41,4 +41,23 @@
 
 .hero button:hover {
   background: $primary-blue-dark;
+}
+
+// Dark theme overrides
+:global(html.dark) .hero {
+  background: $background-dark-theme-light;
+  box-shadow: 0 4px 24px $shadow-dark-theme;
+}
+:global(html.dark) .hero h1 {
+  color: $primary-blue-dark-theme;
+}
+:global(html.dark) .hero p {
+  color: $text-primary-dark-theme;
+}
+:global(html.dark) .hero button {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+:global(html.dark) .hero button:hover {
+  background: $primary-blue-dark-theme-dark;
 } 

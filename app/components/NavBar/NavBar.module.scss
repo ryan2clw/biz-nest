@@ -120,4 +120,99 @@
   font-weight: $font-weight-medium;
   color: $primary-blue;
   margin-right: $spacing-sm;
+}
+
+.themeToggle {
+  margin-right: $spacing-lg;
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.toggleSwitch {
+  width: 48px;
+  height: 28px;
+  background: $secondary-gray-light;
+  border-radius: 14px;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+  outline: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  margin-right: $spacing-sm;
+}
+
+.toggleSlider {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 22px;
+  height: 22px;
+  background: $background-white;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  transition: left 0.3s, background 0.3s;
+}
+
+.toggled {
+  background: $primary-blue;
+}
+.toggled .toggleSlider {
+  left: 23px;
+  background: $primary-blue-dark;
+}
+
+.themeLabel {
+  margin-right: $spacing-sm;
+  font-size: $font-size-base;
+  color: $secondary-gray;
+  font-weight: $font-weight-medium;
+  user-select: none;
+}
+:global(html.dark) .themeLabel {
+  color: $text-secondary-dark-theme;
+}
+
+// Dark theme overrides
+:global(html.dark) .navbar {
+  background: rgba(24, 24, 27, 0.95);
+  border-bottom: 1px solid $border-dark-theme;
+}
+:global(html.dark) .logo h2,
+:global(html.dark) .navLink,
+:global(html.dark) .userName {
+  color: $primary-blue-dark-theme;
+}
+:global(html.dark) .navLink:hover {
+  color: $primary-blue-dark-theme-dark;
+  background: rgba(96, 165, 250, 0.1);
+  border-color: $primary-blue-dark-theme;
+}
+:global(html.dark) .loginBtn {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+:global(html.dark) .loginBtn:hover {
+  background: $primary-blue-dark-theme-dark;
+}
+:global(html.dark) .adminLink {
+  background: #059669;
+  color: $text-light-dark-theme;
+}
+:global(html.dark) .adminLink:hover {
+  background: #047857;
+}
+:global(html.dark) .avatar {
+  box-shadow: $shadow-dark-theme;
+}
+
+:global(html.dark) .themeToggle {
+  flex-direction: row;
+}
+:global(html.dark) .toggleSwitch {
+  margin-right: 0;
+  margin-left: $spacing-sm;
 } 

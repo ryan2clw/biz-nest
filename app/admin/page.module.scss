@@ -13,4 +13,9 @@
     flex-direction: column;
     gap: $spacing-md;
   }
+}
+
+// Dark theme overrides
+:global(html.dark) .admin-layout {
+  background: $background-dark-theme;
 } 

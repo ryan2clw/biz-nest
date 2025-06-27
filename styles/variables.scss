@@ -60,4 +60,24 @@ $shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 $breakpoint-sm: 640px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px; 
+$breakpoint-xl: 1280px;
+
+// Dark Theme Palette
+$primary-blue-dark-theme: #60a5fa;
+$primary-blue-dark-theme-dark: #2563eb;
+$primary-blue-dark-theme-light: #93c5fd;
+
+$secondary-gray-dark-theme: #94a3b8;
+$secondary-gray-dark-theme-dark: #64748b;
+$secondary-gray-dark-theme-light: #cbd5e1;
+
+$background-dark-theme: #18181b;
+$background-dark-theme-light: #27272a;
+$background-dark-theme-dark: #09090b;
+
+$text-primary-dark-theme: #f1f5f9;
+$text-secondary-dark-theme: #a1a1aa;
+$text-light-dark-theme: #18181b;
+
+$border-dark-theme: rgba(255, 255, 255, 0.1);
+$shadow-dark-theme: rgba(0, 0, 0, 0.5); 

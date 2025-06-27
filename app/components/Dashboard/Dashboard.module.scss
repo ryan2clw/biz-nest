@@ -150,4 +150,53 @@
 
 .retryButton:hover {
   background: #b91c1c;
+}
+
+// Dark theme overrides
+:global(html.dark) .dashboard {
+  background: $background-dark-theme-light;
+}
+:global(html.dark) .dashboard h2 {
+  color: #fff;
+}
+:global(html.dark) .header {
+  background: linear-gradient(135deg, #18181b 0%, #764ba2 100%);
+  color: #fff;
+  border-bottom: 1px solid $border-dark-theme;
+}
+:global(html.dark) .table th {
+  color: #000;
+}
+:global(html.dark) .table td {
+  color: #fff;
+}
+:global(html.dark) .table tr:hover {
+  background: $background-dark-theme-light;
+}
+:global(html.dark) .userName {
+  color: $primary-blue-dark-theme;
+}
+:global(html.dark) .actionButton {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+:global(html.dark) .actionButton:hover {
+  background: $primary-blue-dark-theme-dark;
+}
+:global(html.dark) .loading {
+  color: $text-secondary-dark-theme;
+}
+:global(html.dark) .spinner {
+  border: 4px solid $background-dark-theme-light;
+  border-top: 4px solid $primary-blue-dark-theme;
+}
+:global(html.dark) .error {
+  color: #f87171;
+}
+:global(html.dark) .retryButton {
+  background: #f87171;
+  color: $text-light-dark-theme;
+}
+:global(html.dark) .retryButton:hover {
+  background: #dc2626;
 } 
