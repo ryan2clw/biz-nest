@@ -10,13 +10,8 @@ export const metadata = {
   description: 'View detailed user profile and account history.'
 };
 
-interface UserDetailPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function UserDetailPage({ params }: UserDetailPageProps) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function UserDetailPage({ params }: { params: any }) {
   const resolvedParams = await params;
   const userId = parseInt(resolvedParams.id);
   

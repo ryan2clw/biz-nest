@@ -37,7 +37,12 @@ export async function POST(request: NextRequest) {
     // Update the user's industry
     const updatedUser = await prisma.user.update({
       where: { email: session.user.email },
-      data: { industry },
+      data: {
+        profile: {
+          update: { industry }
+        }
+      },
+      include: { profile: true }
     });
 
     console.log('update-industry API: User updated successfully:', updatedUser);

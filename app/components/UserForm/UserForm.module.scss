@@ -1,0 +1,127 @@
+@use '@/styles/variables.scss' as *;
+
+.formContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: $text-primary;
+  
+  :global(.dark) & {
+    color: $text-primary-dark-theme;
+  }
+}
+
+.input {
+  padding: 12px 16px;
+  border: 1px solid $border-light;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: $background-white;
+  color: $text-primary;
+  transition: border-color 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &::placeholder {
+    color: $text-secondary;
+  }
+  
+  :global(.dark) & {
+    background-color: $background-dark-theme-light;
+    border-color: $border-dark-theme;
+    color: $text-primary-dark-theme;
+    
+    &::placeholder {
+      color: $text-secondary-dark-theme;
+    }
+  }
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  background-color: $background-white;
+  border: 1px solid $border-light;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: $text-primary;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: $background-dark;
+    border-color: $secondary-gray-light;
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+  
+  :global(.dark) & {
+    background-color: $background-dark-theme-light;
+    border-color: $border-dark-theme;
+    color: $text-primary-dark-theme;
+    
+    &:hover {
+      background-color: $background-dark-theme;
+      border-color: $secondary-gray-dark-theme;
+    }
+  }
+}
+
+.googleIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  
+  &.error {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    
+    :global(.dark) & {
+      background-color: #450a0a;
+      border-color: #7f1d1d;
+      color: #f87171;
+    }
+  }
+} 
