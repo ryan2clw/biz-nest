@@ -63,6 +63,15 @@
   background: #f9fafb;
 }
 
+.clickableRow {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.clickableRow:hover {
+  background: #f3f4f6 !important;
+}
+
 .userCell {
   min-width: 200px;
 }
@@ -100,6 +109,12 @@
 
 .actionButton:hover {
   background: #2563eb;
+}
+
+.actionText {
+  color: #6b7280;
+  font-size: 12px;
+  font-style: italic;
 }
 
 .loading {
@@ -152,6 +167,73 @@
   background: #b91c1c;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.paginationButton {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.paginationButton:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pageInfo {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.pageButton {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 40px;
+  margin: 0 2px;
+}
+
+.pageButton:hover:not(.activePage) {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.activePage {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.activePage:hover {
+  background: #2563eb;
+}
+
 // Dark theme overrides
 :global(html.dark) .dashboard {
   background: $background-dark-theme-light;
@@ -173,6 +255,9 @@
 :global(html.dark) .table tr:hover {
   background: $background-dark-theme-light;
 }
+:global(html.dark) .clickableRow:hover {
+  background: $background-dark-theme !important;
+}
 :global(html.dark) .userName {
   color: $primary-blue-dark-theme;
 }
@@ -182,6 +267,9 @@
 }
 :global(html.dark) .actionButton:hover {
   background: $primary-blue-dark-theme-dark;
+}
+:global(html.dark) .actionText {
+  color: $text-secondary-dark-theme;
 }
 :global(html.dark) .loading {
   color: $text-secondary-dark-theme;
@@ -198,5 +286,49 @@
   color: $text-light-dark-theme;
 }
 :global(html.dark) .retryButton:hover {
-  background: #dc2626;
+  background: #ef4444;
+}
+
+:global(html.dark) .pagination {
+  background: $background-dark-theme-light;
+  border-top: 1px solid $border-dark-theme;
+}
+
+:global(html.dark) .paginationButton {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+
+:global(html.dark) .paginationButton:hover:not(:disabled) {
+  background: $primary-blue-dark-theme-dark;
+}
+
+:global(html.dark) .paginationButton:disabled {
+  background: #4b5563;
+  color: #9ca3af;
+}
+
+:global(html.dark) .pageInfo {
+  color: $text-secondary-dark-theme;
+}
+
+:global(html.dark) .pageButton {
+  background: $background-dark-theme-light;
+  color: $text-light-dark-theme;
+  border-color: $border-dark-theme;
+}
+
+:global(html.dark) .pageButton:hover:not(.activePage) {
+  background: $background-dark-theme;
+  border-color: #6b7280;
+}
+
+:global(html.dark) .activePage {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+  border-color: $primary-blue-dark-theme;
+}
+
+:global(html.dark) .activePage:hover {
+  background: $primary-blue-dark-theme-dark;
 } 

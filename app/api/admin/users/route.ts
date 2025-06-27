@@ -1,9 +1,14 @@
 import { prisma } from '@/app/lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Fetch all users from the database
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '25');
+    const skip = (page - 1) * limit;
+
+    // Fetch users with pagination and sorting
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -12,15 +17,28 @@ export async function GET() {
         screenName: true,
         email: true,
         image: true,
-        emailVerified: true,
+        industry: true,
       },
       orderBy: {
-        id: 'desc',
+        lastName: 'asc',
       },
+      skip,
+      take: limit,
     });
+
+    // Get total count for pagination
+    const totalUsers = await prisma.user.count();
+    const totalPages = Math.ceil(totalUsers / limit);
 
     return NextResponse.json({ 
       users,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalUsers,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+      },
       success: true 
     });
   } catch (error) {

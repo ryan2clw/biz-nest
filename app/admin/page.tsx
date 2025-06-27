@@ -1,4 +1,4 @@
-import Dashboard from '../components/Dashboard/Dashboard';
+import DashboardWithPagination from '../components/Dashboard/DashboardWithPagination';
 import DashDetail from '../components/DashDetail/DashDetail';
 import Spinner from '../components/Spinner/Spinner';
 import styles from './page.module.scss';
@@ -11,7 +11,7 @@ interface User {
   screenName?: string | null;
   email?: string | null;
   image?: string | null;
-  emailVerified?: Date | null;
+  industry?: string | null;
 }
 
 export const metadata = {
@@ -32,9 +32,12 @@ export default async function AdminPage() {
         screenName: true,
         email: true,
         image: true,
-        emailVerified: true,
+        industry: true,
       },
-      take: 50, // Limit to first 50 users for performance
+      orderBy: {
+        lastName: 'asc',
+      },
+      take: 25, // Limit to first 25 users for performance
     });
     hasUsers = users.length > 0;
   } catch (error) {
@@ -48,7 +51,7 @@ export default async function AdminPage() {
 
   return (
     <div className={styles['admin-layout']}>
-      <Dashboard users={users} />
+      <DashboardWithPagination initialUsers={users} />
       <DashDetail heading="User Details" />
     </div>
   );
