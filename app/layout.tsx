@@ -3,6 +3,8 @@
 import '../styles/globals.css';
 import type { ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
+import { Provider } from 'react-redux';
+import { store } from './lib/store';
 import NavBar from './components/NavBar/NavBar';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -10,10 +12,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <head />
       <body>
-        <SessionProvider>
-          <NavBar />
-          {children}
-        </SessionProvider>
+        <Provider store={store}>
+          <SessionProvider>
+            <NavBar />
+            {children}
+          </SessionProvider>
+        </Provider>
       </body>
     </html>
   );

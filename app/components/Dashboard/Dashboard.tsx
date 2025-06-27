@@ -1,7 +1,9 @@
+"use client";
+
 import Image from 'next/image';
 import styles from './Dashboard.module.scss';
-import Spinner from '../Spinner/Spinner';
-import { prisma } from '../../lib/prisma';
+import { useAppDispatch } from '../../lib/hooks';
+import { setCurrentUser } from '../../lib/slices/adminSlice';
 
 interface User {
   id: number;
@@ -13,32 +15,12 @@ interface User {
   emailVerified?: Date | null;
 }
 
-export default async function Dashboard() {
-  let users: User[] = [];
-  let hasUsers = false;
-  
-  try {
-    users = await prisma.user.findMany({
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        screenName: true,
-        email: true,
-        image: true,
-        emailVerified: true,
-      },
-      take: 50, // Limit to first 50 users for performance
-    });
-    hasUsers = users.length > 0;
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    hasUsers = false;
-  }
+interface DashboardProps {
+  users: User[];
+}
 
-  if (!hasUsers) {
-    return <Spinner />;
-  }
+export default function Dashboard({ users }: DashboardProps) {
+  const dispatch = useAppDispatch();
 
   const getUserDisplayName = (user: User) => {
     if (user.screenName) return user.screenName;
@@ -46,6 +28,10 @@ export default async function Dashboard() {
     if (user.firstName) return user.firstName;
     if (user.lastName) return user.lastName;
     return user.email || 'Unknown User';
+  };
+
+  const handleViewDetails = (user: User) => {
+    dispatch(setCurrentUser(user));
   };
 
   return (
@@ -92,7 +78,10 @@ export default async function Dashboard() {
                 </td>
                 <td>{user.emailVerified ? 'Yes' : 'No'}</td>
                 <td>
-                  <button className={styles.actionButton}>
+                  <button 
+                    className={styles.actionButton}
+                    onClick={() => handleViewDetails(user)}
+                  >
                     View Details
                   </button>
                 </td>

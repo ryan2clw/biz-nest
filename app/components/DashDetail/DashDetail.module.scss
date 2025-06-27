@@ -3,14 +3,117 @@
 .dashDetail {
   flex: 0 0 30%;
   padding: $spacing-xl;
-  background: $background-white;
+  background: $gradient-blue;
   border-radius: $border-radius-md;
   box-shadow: $shadow-sm;
+  margin-right: $spacing-lg;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashDetail::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.dashDetail > * {
+  position: relative;
+  z-index: 2;
 }
 
 .dashDetail h3 {
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
-  margin-bottom: $spacing-md;
+  margin-bottom: $spacing-lg;
   color: $text-primary;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: $text-secondary;
+  font-style: italic;
+}
+
+.userCard {
+  background: $background-white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.userHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-light;
+}
+
+.userAvatar {
+  border-radius: 50%;
+  box-shadow: $shadow-sm;
+  border: 3px solid $background-white;
+}
+
+.userInfo {
+  flex: 1;
+}
+
+.userName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0 0 $spacing-xs 0;
+}
+
+.userEmail {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  margin: 0;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailLabel {
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  min-width: 100px;
+}
+
+.detailValue {
+  font-weight: $font-weight-normal;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  text-align: right;
+  flex: 1;
+  margin-left: $spacing-md;
 } 

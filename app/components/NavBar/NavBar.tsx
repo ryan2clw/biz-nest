@@ -18,6 +18,13 @@ export default function NavBar() {
             <h2>Biz Nest</h2>
           </Link>
         </div>
+        
+        <div className={styles.navigation}>
+          <Link href="/" className={styles.navLink}>
+            Home
+          </Link>
+        </div>
+        
         <div className={styles.actions}>
           {status === 'loading' ? null : user ? (
             <div className={styles.userInfo}>
