@@ -47,6 +47,7 @@ model User {
   image         String?
   email         String?  @unique
   emailVerified DateTime?
+  industry      String?
   accounts      Account[]
   sessions      Session[]
 }

@@ -30,6 +30,9 @@ export default function NavBar() {
         </div>
         
         <div className={styles.navigation}>
+          <Link href="/signup" className={styles.navLink}>
+            Sign Up
+          </Link>
           <Link href="/" className={styles.navLink}>
             Home
           </Link>
