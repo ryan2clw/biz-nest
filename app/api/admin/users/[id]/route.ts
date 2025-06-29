@@ -59,7 +59,7 @@ export async function DELETE(
         where: { id: userId }
       });
 
-      return deletedUser;
+      return { deletedUser, existingProfile };
     });
 
     console.log(`User ${userId} and related data deleted successfully`);
@@ -67,10 +67,10 @@ export async function DELETE(
     return NextResponse.json({ 
       message: 'User and related data deleted successfully',
       deletedUser: {
-        id: result.id,
-        email: result.email,
-        firstName: result.firstName,
-        lastName: result.lastName
+        id: result.deletedUser.id,
+        email: result.deletedUser.email,
+        firstName: result.existingProfile?.firstName || null,
+        lastName: result.existingProfile?.lastName || null
       }
     });
 

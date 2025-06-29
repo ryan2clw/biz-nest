@@ -17,7 +17,7 @@ interface User {
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  emailVerified?: Date | null;
+  emailVerified?: string | null;
   profile?: Profile | null;
   // Include convenience fields at the top level
   firstName?: string | null;
@@ -81,6 +81,7 @@ export default async function AdminPage() {
     // Transform users to include profile fields at the top level
     users = usersWithProfiles.map((user: UserWithProfile) => ({
       ...user,
+      emailVerified: user.emailVerified ? user.emailVerified.toISOString() : null,
       firstName: user.profile?.firstName || null,
       lastName: user.profile?.lastName || null,
       screenName: user.profile?.screenName || null,
@@ -92,8 +93,8 @@ export default async function AdminPage() {
 
   return (
     <div className={styles['admin-layout']}>
-      <DashboardWithPagination initialUsers={users} initialTotalPages={totalPages} />
       <DashDetail heading="User Details" />
+      <DashboardWithPagination initialUsers={users} initialTotalPages={totalPages} />
     </div>
   );
 } 

@@ -9,12 +9,12 @@ interface Profile {
   userId: number;
 }
 
-interface User {
+export interface User {
   id: number;
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  emailVerified?: Date | null;
+  emailVerified?: string | null;
   profile?: Profile | null;
   // Include convenience fields at the top level
   firstName?: string | null;

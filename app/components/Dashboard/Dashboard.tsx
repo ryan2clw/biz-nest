@@ -2,20 +2,30 @@
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 import { setSelectedUser } from '../../lib/slices/adminSlice';
 import styles from './Dashboard.module.scss';
+
+// Import the User type from the admin slice for Redux
+import type { User as ReduxUser } from '../../lib/slices/adminSlice';
 
 interface User {
   id: number;
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  emailVerified?: Date | null;
+  emailVerified?: string | null; // API returns this as string due to JSON serialization
   // Convenience fields from profile
   firstName?: string | null;
   lastName?: string | null;
-  screenName?: string | null;
-  industry?: string | null;
+  profile?: {
+    id: number;
+    userId: number;
+    firstName?: string | null;
+    lastName?: string | null;
+    screenName?: string | null;
+    industry?: string | null;
+  } | null;
 }
 
 interface DashboardProps {
@@ -32,19 +42,27 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
 
   const handleRowClick = (user: User) => {
     setSelectedUserId(user.id);
-    dispatch(setSelectedUser(user));
     
-    // Scroll to top to show DashDetail
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // emailVerified is already a string from the API, no conversion needed
+    const serializedUser: ReduxUser = {
+      ...user,
+      emailVerified: user.emailVerified
+    };
+    
+    dispatch(setSelectedUser(serializedUser));
   };
 
   const handleViewDetails = (e: React.MouseEvent, user: User) => {
     e.stopPropagation(); // Prevent row click
     setSelectedUserId(user.id);
-    dispatch(setSelectedUser(user));
     
-    // Scroll to top to show DashDetail
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // emailVerified is already a string from the API, no conversion needed
+    const serializedUser: ReduxUser = {
+      ...user,
+      emailVerified: user.emailVerified
+    };
+    
+    dispatch(setSelectedUser(serializedUser));
   };
 
   const getDisplayName = (user: User) => {
@@ -78,9 +96,9 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
             <tr>
               <th>Image</th>
               <th>Name</th>
-              <th>Email</th>
-              <th>Screen Name</th>
-              <th>Industry</th>
+              <th className={styles.emailColumn}>Email</th>
+              <th className={styles.screenNameColumn}>Screen Name</th>
+              <th className={styles.industryColumn}>Industry</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -92,19 +110,22 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
                 className={`${styles.tableRow} ${selectedUserId === user.id ? styles.selected : ''}`}
               >
                 <td>
-                  <img
+                  <Image
                     src={user.image || '/user.svg'}
                     alt={`${getDisplayName(user)}'s avatar`}
+                    width={40}
+                    height={40}
                     className={styles.userAvatar}
                     onError={(e) => {
-                      e.currentTarget.src = '/user.svg';
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/user.svg';
                     }}
                   />
                 </td>
                 <td>{getDisplayName(user)}</td>
-                <td>{user.email || 'N/A'}</td>
-                <td>{user.screenName || 'N/A'}</td>
-                <td>{user.industry || 'N/A'}</td>
+                <td className={styles.emailColumn}>{user.email}</td>
+                <td className={styles.screenNameColumn}>{user.profile?.screenName || 'N/A'}</td>
+                <td className={styles.industryColumn}>{user.profile?.industry || 'N/A'}</td>
                 <td>
                   <button
                     onClick={(e) => handleViewDetails(e, user)}

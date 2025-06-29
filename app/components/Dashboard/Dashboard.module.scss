@@ -73,10 +73,26 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
+.table th.emailColumn,
+.table th.screenNameColumn,
+.table th.industryColumn {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
 .table td {
   padding: 16px 24px;
   border-bottom: 1px solid #f3f4f6;
   vertical-align: middle;
+}
+
+.table td.emailColumn,
+.table td.screenNameColumn,
+.table td.industryColumn {
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .userAvatar {
@@ -342,17 +358,20 @@
 }
 
 :global(html.dark) .paginationButton {
-  background: $primary-blue-dark-theme;
-  color: $text-light-dark-theme;
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
 }
 
 :global(html.dark) .paginationButton:hover:not(:disabled) {
-  background: $primary-blue-dark-theme-dark;
+  background: #f3f4f6;
+  border-color: #9ca3af;
 }
 
 :global(html.dark) .paginationButton:disabled {
-  background: #4b5563;
+  background: #6b7280;
   color: #9ca3af;
+  border-color: #6b7280;
 }
 
 :global(html.dark) .pageInfo {
@@ -360,14 +379,18 @@
 }
 
 :global(html.dark) .pageButton {
-  background: $background-dark-theme-light;
-  color: $text-light-dark-theme;
-  border-color: $border-dark-theme;
+  background: #f9fafb;
+  color: #374151;
+  border-color: #d1d5db;
+  transition: all 0.2s ease;
 }
 
 :global(html.dark) .pageButton:hover:not(.activePage) {
-  background: $background-dark-theme;
-  border-color: #6b7280;
+  background: #e5e7eb;
+  color: #1f2937;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 :global(html.dark) .activePage {
