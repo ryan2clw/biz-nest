@@ -14,32 +14,36 @@ export function CustomPrismaAdapter() {
   return {
     ...adapter,
     createUser: async (data: CreateUserData) => {
-      // Split the name if it exists
-      let firstName = null;
-      let lastName = null;
-      
-      if (data.name) {
-        const nameParts = data.name.split(' ');
-        firstName = nameParts[0] || null;
-        lastName = nameParts.slice(1).join(' ') || null;
-      }
-      
-      // Create user with firstName and lastName instead of name
+      // Create user with standard NextAuth fields
       const user = await prisma.user.create({
         data: {
+          name: data.name,
           email: data.email,
-          firstName: firstName,
-          lastName: lastName,
           image: data.image,
           emailVerified: data.emailVerified,
         },
       });
       
-      console.log('CustomPrismaAdapter: User created with split name:', {
-        firstName,
-        lastName,
-        email: data.email
-      });
+      // Create profile with split name if name exists
+      if (data.name) {
+        const nameParts = data.name.split(' ');
+        const firstName = nameParts[0] || null;
+        const lastName = nameParts.slice(1).join(' ') || null;
+        
+        await prisma.profile.create({
+          data: {
+            firstName: firstName,
+            lastName: lastName,
+            userId: user.id,
+          },
+        });
+        
+        console.log('CustomPrismaAdapter: User and profile created with split name:', {
+          firstName,
+          lastName,
+          email: data.email
+        });
+      }
       
       return user;
     },

@@ -20,6 +20,9 @@
   border-bottom: 1px solid #e5e7eb;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
@@ -32,6 +35,23 @@
   font-size: 14px;
   opacity: 0.9;
   margin: 0;
+}
+
+.refreshButton {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: auto;
+}
+
+.refreshButton:hover {
+  background: #2563eb;
 }
 
 .tableContainer {
@@ -59,8 +79,29 @@
   vertical-align: middle;
 }
 
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
 .table tr:hover {
   background: #f9fafb;
+}
+
+.tableRow {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tableRow:hover {
+  background: #f3f4f6;
+}
+
+.selected {
+  background: #dbeafe !important;
 }
 
 .clickableRow {
@@ -255,6 +296,12 @@
 :global(html.dark) .table tr:hover {
   background: $background-dark-theme-light;
 }
+:global(html.dark) .tableRow:hover {
+  background: $background-dark-theme;
+}
+:global(html.dark) .selected {
+  background: $primary-blue-dark-theme !important;
+}
 :global(html.dark) .clickableRow:hover {
   background: $background-dark-theme !important;
 }
@@ -331,4 +378,17 @@
 
 :global(html.dark) .activePage:hover {
   background: $primary-blue-dark-theme-dark;
+}
+
+:global(html.dark) .refreshButton {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+
+:global(html.dark) .refreshButton:hover {
+  background: $primary-blue-dark-theme-dark;
+}
+
+:global(html.dark) .userAvatar {
+  border-color: $border-dark-theme;
 } 

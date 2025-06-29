@@ -2,98 +2,87 @@
 
 import { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
-import Spinner from '../Spinner/Spinner';
 
 interface User {
   id: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  emailVerified?: Date | null;
+  // Convenience fields from profile
   firstName?: string | null;
   lastName?: string | null;
   screenName?: string | null;
-  email?: string | null;
-  image?: string | null;
   industry?: string | null;
-}
-
-interface PaginationInfo {
-  currentPage: number;
-  totalPages: number;
-  totalUsers: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
 }
 
 interface DashboardWithPaginationProps {
   initialUsers: User[];
+  initialTotalPages: number;
 }
 
-export default function DashboardWithPagination({ initialUsers }: DashboardWithPaginationProps) {
+export default function DashboardWithPagination({ initialUsers, initialTotalPages }: DashboardWithPaginationProps) {
   const [users, setUsers] = useState<User[]>(initialUsers);
-  const [pagination, setPagination] = useState<PaginationInfo | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(initialTotalPages);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch total count and set initial pagination on mount
+  const fetchUsers = async (page: number = 1) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/admin/users?page=${page}&limit=25`);
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data.users);
+        setTotalPages(data.totalPages);
+        setCurrentPage(page);
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    fetchUsers(page);
+  };
+
+  const handleRefresh = () => {
+    fetchUsers(currentPage);
+  };
+
+  // Fetch total count on mount to set initial pagination
   useEffect(() => {
     const fetchTotalCount = async () => {
       try {
         const response = await fetch('/api/admin/users?page=1&limit=25');
-        const data = await response.json();
-        
-        if (data.success) {
-          setPagination(data.pagination);
+        if (response.ok) {
+          const data = await response.json();
+          setTotalPages(data.totalPages);
         }
-      } catch (err) {
-        console.error('Error fetching total count:', err);
+      } catch (error) {
+        console.error('Error fetching total count:', error);
       }
     };
 
-    fetchTotalCount();
-  }, []);
-
-  const fetchUsers = async (page: number = 1) => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/admin/users?page=${page}&limit=25`);
-      const data = await response.json();
-      
-      if (data.success) {
-        setUsers(data.users);
-        setPagination(data.pagination);
-        setError(null);
-      } else {
-        setError('Failed to fetch users');
-      }
-    } catch (err) {
-      setError('Error fetching users');
-      console.error('Error fetching users:', err);
-    } finally {
-      setLoading(false);
+    // Only fetch if we don't have the real total pages yet
+    if (initialTotalPages === 1 && initialUsers.length > 0) {
+      fetchTotalCount();
     }
-  };
+  }, [initialUsers.length, initialTotalPages]);
 
-  const handlePageChange = (newPage: number) => {
-    fetchUsers(newPage);
-  };
-
-  if (loading) {
-    return <Spinner />;
-  }
-
-  if (error) {
-    return (
-      <div className="error">
-        <h2>Error</h2>
-        <p>{error}</p>
-        <button onClick={() => fetchUsers(1)}>Retry</button>
-      </div>
-    );
+  if (isLoading && users.length === 0) {
+    return <div>Loading...</div>;
   }
 
   return (
-    <Dashboard 
-      users={users} 
-      pagination={pagination}
+    <Dashboard
+      users={users}
+      currentPage={currentPage}
+      totalPages={totalPages}
       onPageChange={handlePageChange}
+      onRefresh={handleRefresh}
     />
   );
 } 

@@ -1,66 +1,89 @@
-import { prisma } from '@/app/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
+// import { getServerSession } from 'next-auth';
+import { prisma } from '../../../lib/prisma';
+
+// Type for the Prisma query result
+type UserWithProfile = {
+  id: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  emailVerified?: Date | null;
+  profile?: {
+    id: number;
+    firstName?: string | null;
+    lastName?: string | null;
+    screenName?: string | null;
+    industry?: string | null;
+    userId: number;
+  } | null;
+};
 
 export async function GET(request: NextRequest) {
   try {
+    // const session = await getServerSession();
+    
+    // Temporarily comment out authentication for testing
+    // if (!session?.user) {
+    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // }
+
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '25');
     const skip = (page - 1) * limit;
 
-    // Fetch users with pagination and sorting
-    const users = await prisma.user.findMany({
+    // Get total count
+    const totalUsers = await prisma.user.count();
+    const totalPages = Math.ceil(totalUsers / limit);
+
+    // Get users with profiles
+    const usersWithProfiles = await prisma.user.findMany({
       select: {
         id: true,
-        firstName: true,
-        lastName: true,
-        screenName: true,
+        name: true,
         email: true,
         image: true,
+        emailVerified: true,
         profile: {
           select: {
-            industry: true
+            id: true,
+            firstName: true,
+            lastName: true,
+            screenName: true,
+            industry: true,
+            userId: true
           }
         }
       },
       orderBy: {
-        lastName: 'asc',
+        profile: {
+          lastName: 'asc'
+        }
       },
       skip,
       take: limit,
     });
 
-    // Transform users to include industry from profile
-    const usersWithIndustry = users.map(user => ({
+    // Transform users to include profile fields at the top level
+    const users = usersWithProfiles.map((user: UserWithProfile) => ({
       ...user,
+      firstName: user.profile?.firstName || null,
+      lastName: user.profile?.lastName || null,
+      screenName: user.profile?.screenName || null,
       industry: user.profile?.industry || null
     }));
 
-    // Get total count for pagination
-    const totalUsers = await prisma.user.count();
-    const totalPages = Math.ceil(totalUsers / limit);
-
-    return NextResponse.json({ 
-      users: usersWithIndustry,
-      pagination: {
-        currentPage: page,
-        totalPages,
-        totalUsers,
-        hasNextPage: page < totalPages,
-        hasPrevPage: page > 1,
-      },
-      success: true 
+    return NextResponse.json({
+      users,
+      totalPages,
+      currentPage: page,
+      totalUsers,
+      hasNextPage: page < totalPages,
+      hasPrevPage: page > 1
     });
   } catch (error) {
     console.error('Error fetching users:', error);
-    return NextResponse.json(
-      { 
-        error: 'Failed to fetch users',
-        success: false 
-      },
-      { status: 500 }
-    );
-  } finally {
-    await prisma.$disconnect();
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 } 

@@ -1,120 +1,122 @@
 "use client";
 
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../lib/store';
 import styles from './ProfileForm.module.scss';
 
-const industries = [
-  'Technology',
-  'Healthcare',
-  'Finance',
-  'Education',
-  'Retail',
-  'Manufacturing',
-  'Real Estate',
-  'Entertainment',
-  'Food & Beverage',
-  'Transportation',
-  'Other'
-];
+interface ProfileFormProps {
+  onUpdate?: () => void;
+}
 
-export default function ProfileForm() {
-  const { data: session } = useSession();
-  const [selectedIndustry, setSelectedIndustry] = useState('');
-  const [otherIndustry, setOtherIndustry] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export default function ProfileForm({ onUpdate }: ProfileFormProps) {
+  const user = useSelector((state: RootState) => state.admin.selectedUser);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.firstName || '');
+      setLastName(user.lastName || '');
+      setIndustry(user.industry || '');
+    }
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!session?.user?.email) {
-      setMessage('Please sign in to update your profile.');
-      return;
-    }
+    if (!user) return;
 
-    const industry = selectedIndustry === 'Other' ? otherIndustry : selectedIndustry;
-    
-    if (!industry) {
-      setMessage('Please select an industry.');
-      return;
-    }
-
-    setIsSubmitting(true);
+    setIsLoading(true);
     setMessage('');
 
     try {
       const response = await fetch('/api/user/update-profile', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ industry }),
+        body: JSON.stringify({
+          userId: user.id,
+          firstName,
+          lastName,
+          industry,
+        }),
       });
 
       if (response.ok) {
         setMessage('Profile updated successfully!');
-        setSelectedIndustry('');
-        setOtherIndustry('');
+        onUpdate?.();
       } else {
-        const error = await response.text();
-        setMessage(`Error: ${error}`);
+        const error = await response.json();
+        setMessage(error.error || 'Failed to update profile');
       }
     } catch {
-      setMessage('An error occurred while updating your profile.');
+      setMessage('An error occurred while updating profile');
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
+  if (!user) {
+    return <div className={styles.container}>No user selected</div>;
+  }
+
   return (
-    <div className={styles.formContainer}>
+    <div className={styles.container}>
+      <h3 className={styles.heading}>Update Profile</h3>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2 className={styles.formTitle}>Update Profile</h2>
-        
-        <div className={styles.formGroup}>
-          <label htmlFor="industry">Industry</label>
+        <div className={styles.field}>
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className={styles.input}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            type="text"
+            id="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            className={styles.input}
+          />
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor="industry">Industry:</label>
           <select
             id="industry"
-            value={selectedIndustry}
-            onChange={(e) => setSelectedIndustry(e.target.value)}
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
             className={styles.select}
-            required
           >
-            <option value="">Select an industry</option>
-            {industries.map((industry) => (
-              <option key={industry} value={industry}>
-                {industry}
-              </option>
-            ))}
+            <option value="">Select Industry</option>
+            <option value="Technology">Technology</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Finance">Finance</option>
+            <option value="Education">Education</option>
+            <option value="Retail">Retail</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
           </select>
         </div>
 
-        {selectedIndustry === 'Other' && (
-          <div className={styles.formGroup}>
-            <label htmlFor="otherIndustry">Specify Industry</label>
-            <input
-              type="text"
-              id="otherIndustry"
-              value={otherIndustry}
-              onChange={(e) => setOtherIndustry(e.target.value)}
-              className={styles.input}
-              placeholder="Enter your industry"
-              required
-            />
-          </div>
-        )}
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={styles.submitButton}
-        >
-          {isSubmitting ? 'Updating...' : 'Update Profile'}
+        <button type="submit" disabled={isLoading} className={styles.button}>
+          {isLoading ? 'Updating...' : 'Update Profile'}
         </button>
 
         {message && (
-          <div className={`${styles.message} ${message.includes('Error') ? styles.error : styles.success}`}>
+          <div className={`${styles.message} ${message.includes('success') ? styles.success : styles.error}`}>
             {message}
           </div>
         )}

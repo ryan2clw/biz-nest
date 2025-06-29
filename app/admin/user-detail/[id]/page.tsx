@@ -20,20 +20,23 @@ export default async function UserDetailPage({ params }: { params: any }) {
   }
 
   try {
-    // Fetch user details server-side
+    // Fetch user details server-side with profile data
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
-        firstName: true,
-        lastName: true,
-        screenName: true,
+        name: true,
         email: true,
         image: true,
         emailVerified: true,
         profile: {
           select: {
-            industry: true
+            id: true,
+            firstName: true,
+            lastName: true,
+            screenName: true,
+            industry: true,
+            userId: true
           }
         },
         accounts: {
@@ -61,9 +64,12 @@ export default async function UserDetailPage({ params }: { params: any }) {
       notFound();
     }
 
-    // Transform user data to include industry from profile
-    const userWithIndustry = {
+    // Transform user data to include profile fields at the top level
+    const userWithProfile = {
       ...user,
+      firstName: user.profile?.firstName || null,
+      lastName: user.profile?.lastName || null,
+      screenName: user.profile?.screenName || null,
       industry: user.profile?.industry || null
     };
 
@@ -73,7 +79,7 @@ export default async function UserDetailPage({ params }: { params: any }) {
           <h1>User Profile and History</h1>
         </div>
         <div className={styles.content}>
-          <DashDetail heading="User Details" user={userWithIndustry} />
+          <DashDetail heading="User Details" user={userWithProfile} />
           <div className={styles.formsContainer}>
             <ProfileForm />
             <DangerForm userId={user.id} />

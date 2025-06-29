@@ -18,11 +18,20 @@ const lastNames = [
 ];
 
 const screenNames = [
-  'HanSolo', 'LukeSkywalker', 'LeiaOrgana', 'Chewbacca', 'DarthVader', 'ObiWan', 'Yoda', 'BobaFett', 'Lando', 'Rey',
-  'Finn', 'PoeDameron', 'KyloRen', 'MaceWindu', 'Padme', 'Anakin', 'JynErso', 'Cassian', 'Chirrut', 'K2SO',
-  'IndianaJones', 'Rambo', 'Terminator', 'Robocop', 'JohnMcClane', 'Ripley', 'SarahConnor', 'Dutch', 'Maverick', 'Rocky',
+  // 90s Action Heroes
+  'Terminator', 'Robocop', 'Rambo', 'JohnMcClane', 'IndianaJones', 'Ripley', 'SarahConnor', 'Dutch', 'Maverick', 'Rocky',
   'Blade', 'Maximus', 'Wolverine', 'Deadpool', 'Neo', 'Trinity', 'Morpheus', 'Spartan117', 'SnakePlissken', 'JackBurton',
-  'AshWilliams', 'FrankCastle', 'JudgeDredd', 'EllenRipley', 'MadMax', 'V', 'Leon', 'TheBride', 'BeatrixKiddo', 'JohnWick'
+  'AshWilliams', 'FrankCastle', 'JudgeDredd', 'EllenRipley', 'MadMax', 'V', 'Leon', 'TheBride', 'BeatrixKiddo', 'JohnWick',
+  
+  // 90s Cartoons
+  'BugsBunny', 'DaffyDuck', 'TweetyBird', 'Sylvester', 'ElmerFudd', 'YosemiteSam', 'RoadRunner', 'WileECoyote', 'PorkyPig', 'FoghornLeghorn',
+  'TomCat', 'JerryMouse', 'SpikeDog', 'TykePuppy', 'DroopyDog', 'ScoobyDoo', 'Shaggy', 'FredJones', 'Daphne', 'Velma',
+  'Batman', 'Superman', 'SpiderMan', 'XMen', 'TeenageMutantNinjaTurtles', 'PowerRangers', 'Gargoyles', 'DarkwingDuck', 'ChipNDale', 'DuckTales',
+  'TinyToons', 'Animaniacs', 'PinkyBrain', 'Freakazoid', 'BatmanTAS', 'SupermanTAS', 'SpiderManTAS', 'XMenTAS', 'IronMan', 'CaptainAmerica'
+];
+
+const industries = [
+  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing', 'Real Estate', 'Entertainment', 'Other'
 ];
 
 const image = '/user.svg'; // Local user icon
@@ -32,17 +41,36 @@ function getRandom(arr: string[]) {
 }
 
 async function main() {
+  console.log('Starting seed...');
+  
   for (let i = 0; i < 100; i++) {
+    const firstName = getRandom(firstNames);
+    const lastName = getRandom(lastNames);
+    const screenName = getRandom(screenNames);
+    const industry = getRandom(industries);
+    
+    // Create user with standard NextAuth fields
     await prisma.user.create({
       data: {
-        firstName: getRandom(firstNames),
-        lastName: getRandom(lastNames),
-        screenName: getRandom(screenNames),
+        name: `${firstName} ${lastName}`,
+        email: `user${i + 1}@example.com`,
         image,
-        email: `user${i + 1}@example.com`, // Add email for NextAuth compatibility
+        emailVerified: new Date(),
+        profile: {
+          create: {
+            firstName,
+            lastName,
+            screenName,
+            industry,
+          }
+        }
       },
     });
+    
+    console.log(`Created user ${i + 1}: ${firstName} ${lastName} (${screenName}) - ${industry}`);
   }
+  
+  console.log('Seed completed successfully!');
 }
 
 main()

@@ -1,29 +1,22 @@
 "use client";
 
 import styles from './DashDetail.module.scss';
-import { useAppSelector } from '../../lib/hooks';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface User {
   id: number;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  emailVerified?: Date | null;
+  // Convenience fields from profile
   firstName?: string | null;
   lastName?: string | null;
   screenName?: string | null;
-  email?: string | null;
-  image?: string | null;
   industry?: string | null;
-  emailVerified?: Date | null;
-  accounts?: Array<{
-    provider: string;
-    providerAccountId: string;
-    type: string;
-    expires_at?: number | null;
-  }>;
-  sessions?: Array<{
-    sessionToken: string;
-    expires: Date;
-  }>;
 }
 
 interface DashDetailProps {
@@ -32,8 +25,8 @@ interface DashDetailProps {
 }
 
 export default function DashDetail({ heading, user }: DashDetailProps) {
-  // Always call the hook to follow React rules
-  const reduxUser = useAppSelector(state => state.admin.currentUser);
+  // Use the updated Redux state structure
+  const reduxUser = useSelector((state: RootState) => state.admin.selectedUser);
   // Use provided user prop or fall back to Redux state
   const currentUser = user || reduxUser;
 
@@ -49,10 +42,18 @@ export default function DashDetail({ heading, user }: DashDetailProps) {
   }
 
   const getUserDisplayName = () => {
-    if (currentUser.screenName) return currentUser.screenName;
-    if (currentUser.firstName && currentUser.lastName) return `${currentUser.firstName} ${currentUser.lastName}`;
-    if (currentUser.firstName) return currentUser.firstName;
-    if (currentUser.lastName) return currentUser.lastName;
+    if (currentUser.firstName && currentUser.lastName) {
+      return `${currentUser.firstName} ${currentUser.lastName}`;
+    }
+    if (currentUser.firstName) {
+      return currentUser.firstName;
+    }
+    if (currentUser.lastName) {
+      return currentUser.lastName;
+    }
+    if (currentUser.name) {
+      return currentUser.name;
+    }
     return currentUser.email || 'Unknown User';
   };
 
@@ -96,6 +97,11 @@ export default function DashDetail({ heading, user }: DashDetailProps) {
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>Screen Name:</span>
             <span className={styles.detailValue}>{currentUser.screenName || 'Not provided'}</span>
+          </div>
+          
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Industry:</span>
+            <span className={styles.detailValue}>{currentUser.industry || 'Not provided'}</span>
           </div>
           
           <div className={styles.detailRow}>

@@ -41,11 +41,9 @@ model Session {
 
 model User {
   id            Int      @id @default(autoincrement())
-  firstName     String?
-  lastName      String?
-  screenName    String?
-  image         String?
+  name          String?
   email         String?  @unique
+  image         String?
   emailVerified DateTime?
   profile       Profile?
   accounts      Account[]
@@ -53,10 +51,13 @@ model User {
 }
 
 model Profile {
-  id       Int    @id @default(autoincrement())
-  industry String?
-  userId   Int    @unique
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        Int    @id @default(autoincrement())
+  firstName String?
+  lastName  String?
+  screenName String?
+  industry  String?
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
