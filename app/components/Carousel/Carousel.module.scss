@@ -1,0 +1,64 @@
+.carousel {
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+  position: relative;
+  margin: 32px auto;
+}
+
+.track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.slide {
+  min-width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 600;
+  color: #222;
+  background: #f9fafb;
+  padding: 24px 32px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  min-height: 56px;
+  max-width: 600px;
+  width: 80vw;
+  text-align: center;
+  line-height: 1.4;
+  white-space: normal;
+  overflow: visible;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .slide {
+    font-size: 1rem;
+    padding: 16px 12px;
+    min-height: 40px;
+    max-width: 90vw;
+    width: 90vw;
+  }
+}
+
+// Dark theme support
+:global(html.dark) .slide {
+  background: #23272f;
+  color: #fff;
+}
+
+.slideText {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: normal;
+  width: 100%;
+  display: block;
+} 
