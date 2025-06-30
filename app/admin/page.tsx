@@ -93,8 +93,8 @@ export default async function AdminPage() {
 
   return (
     <div className={styles['admin-layout']}>
-      <DashDetail heading="User Details" />
       <DashboardWithPagination initialUsers={users} initialTotalPages={totalPages} />
+      <DashDetail heading="User Details" />
     </div>
   );
 } 

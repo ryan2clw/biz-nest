@@ -8,10 +8,18 @@
   background: $background-dark;
 }
 
+@media (max-width: $breakpoint-lg) {
+  .admin-layout {
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+}
+
 @media (max-width: $breakpoint-md) {
   .admin-layout {
     flex-direction: column;
     gap: $spacing-md;
+    padding: $spacing-md;
   }
 }
 

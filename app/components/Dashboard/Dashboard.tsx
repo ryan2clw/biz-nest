@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { setSelectedUser } from '../../lib/slices/adminSlice';
+import { setSelectedUser, pushPage } from '../../lib/slices/adminSlice';
 import styles from './Dashboard.module.scss';
 
 // Import the User type from the admin slice for Redux
@@ -38,6 +39,8 @@ interface DashboardProps {
 
 export default function Dashboard({ users, currentPage, totalPages, onPageChange, onRefresh }: DashboardProps) {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const pathname = usePathname();
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   const handleRowClick = (user: User) => {
@@ -63,6 +66,10 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
     };
     
     dispatch(setSelectedUser(serializedUser));
+    dispatch(pushPage(pathname || '/'));
+    
+    // Navigate to user detail page
+    router.push(`/admin/user-detail/${user.id}`);
   };
 
   const getDisplayName = (user: User) => {

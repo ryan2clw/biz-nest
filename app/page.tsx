@@ -1,3 +1,5 @@
+console.log('Rendering app/page.tsx');
+
 import styles from './page.module.scss';
 import Hero from './components/Hero/Hero';
 
@@ -7,11 +9,16 @@ export const metadata = {
 };
 
 export default function Home() {
-  return (
-    <div className={styles["tampa-bg"]}>
-      <main className="main">
-        <Hero />
-      </main>
-    </div>
-  );
+  try {
+    return (
+      <div className={styles["tampa-bg"]}>
+        <main className="main">
+          <Hero />
+        </main>
+      </div>
+    );
+  } catch (error) {
+    console.error('Error in app/page.tsx:', error);
+    throw error;
+  }
 } 

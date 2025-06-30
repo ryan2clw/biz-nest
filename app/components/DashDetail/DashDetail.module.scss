@@ -7,9 +7,15 @@
   background: $gradient-blue;
   border-radius: $border-radius-md;
   box-shadow: $shadow-sm;
-  margin: 0 auto $spacing-lg auto;
+  margin: 0 $spacing-lg $spacing-lg 0;
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .dashDetail {
+    margin: 0 auto $spacing-lg auto;
+  }
 }
 
 .dashDetail::before {

@@ -8,6 +8,25 @@
   margin-right: $spacing-md;
 }
 
+@media (max-width: 1400px) {
+  .dashboard {
+    flex: 0 0 60%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard {
+    flex: 0 0 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    flex: 1;
+    margin-right: 0;
+  }
+}
+
 .dashboard h2 {
   font-size: $font-size-2xl;
   font-weight: $font-weight-bold;
@@ -76,7 +95,7 @@
 .table th.emailColumn,
 .table th.screenNameColumn,
 .table th.industryColumn {
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
     display: none;
   }
 }
@@ -90,7 +109,7 @@
 .table td.emailColumn,
 .table td.screenNameColumn,
 .table td.industryColumn {
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
     display: none;
   }
 }

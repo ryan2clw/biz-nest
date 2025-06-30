@@ -215,4 +215,20 @@
 :global(html.dark) .toggleSwitch {
   margin-right: 0;
   margin-left: $spacing-sm;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  padding: 0 $spacing-md 0 0;
+  margin-right: $spacing-md;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: $primary-blue;
+  transition: color 0.2s;
+}
+
+.backButton:hover {
+  color: $primary-blue-dark;
 } 

@@ -4,14 +4,51 @@
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
+  padding: 0 $spacing-lg $spacing-lg $spacing-lg;
+}
+
+.outerContainer {
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  padding: 0 $spacing-lg $spacing-lg $spacing-lg;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  margin: 0 $spacing-lg $spacing-lg 0;
+  overflow: hidden;
+}
+
+.outerContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.outerContainer > * {
+  position: relative;
+  z-index: 2;
+}
+
+.innerContainer {
+  background: $background-white;
+  border-radius: $border-radius-lg;
   padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
 }
 
 .heading {
   color: white;
   font-size: 1.25rem;
   font-weight: $font-weight-bold;
-  margin-bottom: $spacing-lg;
+  margin: $spacing-lg 0 $spacing-lg 0;
   text-align: center;
   background: linear-gradient(135deg, $primary-blue, $secondary-gray);
   -webkit-background-clip: text;
@@ -46,11 +83,7 @@
 }
 
 .form {
-  background: $background-white;
-  padding: $spacing-2xl;
-  border-radius: $border-radius-lg;
-  box-shadow: $shadow-lg;
-  border: 1px solid $border-light;
+  padding: 0;
 }
 
 .formTitle {
@@ -186,10 +219,20 @@
 }
 
 // Dark theme overrides
-:global(html.dark) .form {
+:global(html.dark) .outerContainer {
+  background: $gradient-blue;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+:global(html.dark) .outerContainer::before {
+  background: rgba(24, 24, 27, 0.9);
+}
+
+:global(html.dark) .innerContainer {
   background: $background-dark-theme-light;
+  box-shadow: $shadow-dark-theme;
   border: 1px solid $border-dark-theme;
-  box-shadow: 0 4px 24px $shadow-dark-theme;
 }
 
 :global(html.dark) .label,
@@ -255,5 +298,11 @@
   
   .formGroup {
     margin-bottom: $spacing-md;
+  }
+}
+
+@media (max-width: 1024px) {
+  .outerContainer {
+    margin: 0 auto $spacing-lg auto;
   }
 } 

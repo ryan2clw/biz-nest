@@ -66,61 +66,65 @@ export default function ProfileForm({ onUpdate }: ProfileFormProps) {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.heading}>Update Profile</h3>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.field}>
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            type="text"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className={styles.input}
-          />
+      <div className={styles.outerContainer}>
+        <h3 className={styles.heading}>Update Profile</h3>
+        <div className={styles.innerContainer}>
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.field}>
+              <label htmlFor="firstName">First Name:</label>
+              <input
+                type="text"
+                id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className={styles.input}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="lastName">Last Name:</label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className={styles.input}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="industry">Industry:</label>
+              <select
+                id="industry"
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+                className={styles.select}
+              >
+                <option value="">Select Industry</option>
+                <option value="Technology">Technology</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Finance">Finance</option>
+                <option value="Education">Education</option>
+                <option value="Retail">Retail</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Real Estate">Real Estate</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <button type="submit" disabled={isLoading} className={styles.button}>
+              {isLoading ? 'Updating...' : 'Update Profile'}
+            </button>
+
+            {message && (
+              <div className={`${styles.message} ${message.includes('success') ? styles.success : styles.error}`}>
+                {message}
+              </div>
+            )}
+          </form>
         </div>
-
-        <div className={styles.field}>
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className={styles.input}
-          />
-        </div>
-
-        <div className={styles.field}>
-          <label htmlFor="industry">Industry:</label>
-          <select
-            id="industry"
-            value={industry}
-            onChange={(e) => setIndustry(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">Select Industry</option>
-            <option value="Technology">Technology</option>
-            <option value="Healthcare">Healthcare</option>
-            <option value="Finance">Finance</option>
-            <option value="Education">Education</option>
-            <option value="Retail">Retail</option>
-            <option value="Manufacturing">Manufacturing</option>
-            <option value="Real Estate">Real Estate</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <button type="submit" disabled={isLoading} className={styles.button}>
-          {isLoading ? 'Updating...' : 'Update Profile'}
-        </button>
-
-        {message && (
-          <div className={`${styles.message} ${message.includes('success') ? styles.success : styles.error}`}>
-            {message}
-          </div>
-        )}
-      </form>
+      </div>
     </div>
   );
 } 

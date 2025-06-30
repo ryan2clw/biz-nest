@@ -25,10 +25,12 @@ export interface User {
 
 interface AdminState {
   selectedUser: User | null;
+  pageHistory: string[];
 }
 
 const initialState: AdminState = {
   selectedUser: null,
+  pageHistory: [],
 };
 
 const adminSlice = createSlice({
@@ -41,8 +43,14 @@ const adminSlice = createSlice({
     clearSelectedUser: (state) => {
       state.selectedUser = null;
     },
+    pushPage: (state, action: PayloadAction<string>) => {
+      state.pageHistory.push(action.payload);
+    },
+    popPage: (state) => {
+      state.pageHistory.pop();
+    },
   },
 });
 
-export const { setSelectedUser, clearSelectedUser } = adminSlice.actions;
+export const { setSelectedUser, clearSelectedUser, pushPage, popPage } = adminSlice.actions;
 export default adminSlice.reducer; 

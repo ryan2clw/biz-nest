@@ -5,11 +5,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../lib/store';
+import { popPage } from '../../lib/slices/adminSlice';
 
 export default function NavBar() {
   const { data: session, status } = useSession();
   const user = session?.user;
   const [dark, setDark] = useState(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const pageHistory = useSelector((state: RootState) => state.admin.pageHistory);
 
   useEffect(() => {
     if (dark) {
@@ -19,9 +26,26 @@ export default function NavBar() {
     }
   }, [dark]);
 
+  const handleBack = () => {
+    if (pageHistory.length > 0) {
+      dispatch(popPage());
+      const lastUrl = pageHistory[pageHistory.length - 1];
+      if (lastUrl) {
+        router.push(lastUrl);
+      }
+    }
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
+        {pageHistory.length > 0 && (
+          <button className={styles.backButton} aria-label="Go back" onClick={handleBack}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 19L8 12L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        )}
         <div className={styles.logo}>
           <Link href="/admin">
             <Image src="/biznest-logo.svg" alt="Biz Nest Logo" width={50} height={50} className={styles.logoImage} />
