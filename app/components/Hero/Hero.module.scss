@@ -65,4 +65,11 @@
 }
 :global(html.dark) .hero button:hover {
   background: $primary-blue-dark-theme-dark;
+}
+
+.logoSpan {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 8px;
+  height: 1em;
 } 

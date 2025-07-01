@@ -26,11 +26,13 @@ export interface User {
 interface AdminState {
   selectedUser: User | null;
   pageHistory: string[];
+  menuOpen: boolean;
 }
 
 const initialState: AdminState = {
   selectedUser: null,
   pageHistory: [],
+  menuOpen: false,
 };
 
 const adminSlice = createSlice({
@@ -49,8 +51,14 @@ const adminSlice = createSlice({
     popPage: (state) => {
       state.pageHistory.pop();
     },
+    toggleMenu: (state) => {
+      state.menuOpen = !state.menuOpen;
+    },
+    closeMenu: (state) => {
+      state.menuOpen = false;
+    },
   },
 });
 
-export const { setSelectedUser, clearSelectedUser, pushPage, popPage } = adminSlice.actions;
+export const { setSelectedUser, clearSelectedUser, pushPage, popPage, toggleMenu, closeMenu } = adminSlice.actions;
 export default adminSlice.reducer; 

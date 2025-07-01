@@ -231,4 +231,134 @@
 
 .backButton:hover {
   color: $primary-blue-dark;
+}
+
+// Hamburger Menu
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.hamburgerLine {
+  width: 100%;
+  height: 3px;
+  background: $primary-blue;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburgerLine.open:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburgerLine.open:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburgerLine.open:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+// Mobile Menu
+.mobileMenu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  right: auto;
+  background: $background-white;
+  border-top: 1px solid $border-light;
+  box-shadow: $shadow-lg;
+  z-index: 1000;
+  transform: translate(-50%, -100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  max-width: 320px;
+  width: 90vw;
+  border-radius: $border-radius-lg;
+}
+
+.mobileMenu.open {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileLink {
+  display: block;
+  padding: $spacing-sm $spacing-md;
+  color: $primary-blue;
+  text-decoration: none;
+  border-bottom: 1px solid $border-light;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: $border-radius-sm;
+  width: calc(100% - 2 * #{$spacing-md});
+  margin: $spacing-xs auto;
+  text-align: center;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mobileLink:hover {
+  color: $primary-blue-dark;
+  font-weight: $font-weight-bold;
+  background: rgba(37, 99, 235, 0.1);
+  border-color: $primary-blue;
+}
+
+// Remove last border for last link
+.mobileLink:last-child {
+  border-bottom: none;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .navigation,
+  .actions {
+    display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+  
+  .mobileMenu {
+    display: block;
+  }
+  
+  .container {
+    position: relative;
+  }
+}
+
+// Dark theme overrides for mobile menu
+:global(html.dark) .mobileMenu {
+  background: $background-dark-theme-light;
+  border-top: 1px solid $border-dark-theme;
+}
+
+:global(html.dark) .mobileLink {
+  color: $text-primary-dark-theme;
+  border-bottom: 1px solid $border-dark-theme;
+}
+
+:global(html.dark) .mobileLink:hover {
+  background: $background-dark-theme;
+}
+
+:global(html.dark) .hamburgerLine {
+  background: $primary-blue-dark-theme;
 } 
