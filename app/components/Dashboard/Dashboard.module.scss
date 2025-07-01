@@ -88,7 +88,7 @@
   padding: 16px 24px;
   text-align: left;
   font-weight: 600;
-  color: #374151;
+  color: $text-primary;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -104,6 +104,7 @@
   padding: 16px 24px;
   border-bottom: 1px solid #f3f4f6;
   vertical-align: middle;
+  color: $text-primary;
 }
 
 .table td.emailColumn,
@@ -433,4 +434,10 @@
 
 :global(html.dark) .userAvatar {
   border-color: $border-dark-theme;
+}
+
+@media (max-width: 768px) {
+  .table th, .table td {
+    color: $text-primary;
+  }
 } 
