@@ -4,17 +4,14 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useIsAuthorized } from '../lib/hooks';
 
-interface WithAuthProps {
-  requiredRole?: string;
-  children: React.ReactNode;
-}
+
 
 export default function withAuth<P extends object>(
   WrappedComponent: React.ComponentType<P>,
   requiredRole: string = 'admin'
 ) {
   return function AuthenticatedComponent(props: P) {
-    const { data: session, status } = useSession();
+    const { status } = useSession();
     const isAuthorized = useIsAuthorized(requiredRole);
     const router = useRouter();
 

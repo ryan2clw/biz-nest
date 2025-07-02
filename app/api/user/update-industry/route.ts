@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { prisma } from '@/app/lib/prisma';
+import { prisma } from '../../../../src/lib/prisma';
 
 export async function POST(request: NextRequest) {
   console.log('update-industry API: Request received');

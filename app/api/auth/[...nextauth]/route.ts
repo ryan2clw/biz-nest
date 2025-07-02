@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { CustomPrismaAdapter } from '../../../lib/custom-prisma-adapter';
-import { prisma } from '../../../lib/prisma';
+import { CustomPrismaAdapter } from '../../../../src/lib/custom-prisma-adapter';
+import { prisma } from '../../../../src/lib/prisma';
 
 const handler = NextAuth({
   adapter: CustomPrismaAdapter(),
@@ -25,7 +25,7 @@ const handler = NextAuth({
         (session.user as { id?: string | number; profile?: { role: string } }).id = user.id;
         // Fetch profile and role
         const profile = await prisma.profile.findUnique({
-          where: { userId: user.id },
+          where: { userId: Number(user.id) },
           select: { role: true },
         });
         (session.user as { id?: string | number; profile?: { role: string } }).profile = { role: profile?.role || 'user' };

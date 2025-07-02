@@ -1,4 +1,4 @@
-import UserForm from '../components/UserForm/UserForm';
+import UserForm from '../../src/components/UserForm/UserForm';
 import styles from './page.module.scss';
 
 export const metadata = {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 // import { getServerSession } from 'next-auth';
-import { prisma } from '../../../lib/prisma';
+import { prisma } from '../../../../src/lib/prisma';
 
 // Type for the Prisma query result
 type UserWithProfile = {

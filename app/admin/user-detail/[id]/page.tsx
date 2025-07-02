@@ -1,13 +1,13 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import DashDetail from '../../../components/DashDetail/DashDetail';
-import ProfileForm from '../../../components/ProfileForm/ProfileForm';
-import DangerForm from '../../../components/DangerForm/DangerForm';
+import DashDetail from '../../../../src/components/DashDetail/DashDetail';
+import ProfileForm from '../../../../src/components/ProfileForm/ProfileForm';
+import DangerForm from '../../../../src/components/DangerForm/DangerForm';
 import styles from '../page.module.scss';
 import UserDetailReduxSync from './UserDetailReduxSync';
-import withAuth from '../../../components/withAuth';
-import type { User } from '../../../lib/slices/adminSlice';
+import withAuth from '../../../../src/components/withAuth';
+import type { User } from '../../../../src/interfaces/admin';
 
 function UserDetailPage() {
   const params = useParams();

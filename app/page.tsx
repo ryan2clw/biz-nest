@@ -1,7 +1,7 @@
 console.log('Rendering app/page.tsx');
 
 import styles from './page.module.scss';
-import Hero from './components/Hero/Hero';
+import Hero from '../src/components/Hero/Hero';
 
 export const metadata = {
   title: 'Biz Nest | Build Your Business Nest Egg',

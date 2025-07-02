@@ -7,8 +7,8 @@ import Image from 'next/image';
 import { setSelectedUser, pushPage } from '../../lib/slices/adminSlice';
 import styles from './Dashboard.module.scss';
 
-// Import the User type from the admin slice for Redux
-import type { User as ReduxUser } from '../../lib/slices/adminSlice';
+// Import the User type from the interfaces
+import type { User as ReduxUser } from '../../interfaces/admin';
 
 interface User {
   id: number;

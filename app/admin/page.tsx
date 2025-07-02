@@ -1,8 +1,8 @@
 "use client";
-import DashboardWithPagination from '../components/Dashboard/DashboardWithPagination';
-import DashDetail from '../components/DashDetail/DashDetail';
+import DashboardWithPagination from '../../src/components/Dashboard/DashboardWithPagination';
+import DashDetail from '../../src/components/DashDetail/DashDetail';
 import styles from './page.module.scss';
-import withAuth from '../components/withAuth';
+import withAuth from '../../src/components/withAuth';
 
 function AdminPage() {
   return (
