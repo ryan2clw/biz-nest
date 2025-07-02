@@ -11,7 +11,7 @@ export async function PUT(request: NextRequest) {
     //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     // }
 
-    const { userId, firstName, lastName, industry } = await request.json();
+    const { userId, firstName, lastName, screenName, industry } = await request.json();
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
@@ -25,11 +25,13 @@ export async function PUT(request: NextRequest) {
       update: {
         firstName: firstName || null,
         lastName: lastName || null,
+        screenName: screenName || null,
         industry: industry || null,
       },
       create: {
         firstName: firstName || null,
         lastName: lastName || null,
+        screenName: screenName || null,
         industry: industry || null,
         userId: parseInt(userId),
       },

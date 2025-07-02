@@ -26,6 +26,7 @@ interface User {
     lastName?: string | null;
     screenName?: string | null;
     industry?: string | null;
+    role: 'admin' | 'customer' | 'user';
   } | null;
 }
 
@@ -46,10 +47,9 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
   const handleRowClick = (user: User) => {
     setSelectedUserId(user.id);
     
-    // emailVerified is already a string from the API, no conversion needed
     const serializedUser: ReduxUser = {
       ...user,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified || null
     };
     
     dispatch(setSelectedUser(serializedUser));
@@ -59,10 +59,9 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
     e.stopPropagation(); // Prevent row click
     setSelectedUserId(user.id);
     
-    // emailVerified is already a string from the API, no conversion needed
     const serializedUser: ReduxUser = {
       ...user,
-      emailVerified: user.emailVerified
+      emailVerified: user.emailVerified || null
     };
     
     dispatch(setSelectedUser(serializedUser));

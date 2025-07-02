@@ -11,12 +11,21 @@ interface User {
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  emailVerified?: Date | null;
+  emailVerified?: string | null;
   // Convenience fields from profile
   firstName?: string | null;
   lastName?: string | null;
   screenName?: string | null;
   industry?: string | null;
+  profile?: {
+    id: number;
+    firstName?: string | null;
+    lastName?: string | null;
+    screenName?: string | null;
+    industry?: string | null;
+    userId: number;
+    role: 'admin' | 'customer' | 'user';
+  } | null;
 }
 
 interface DashDetailProps {
@@ -102,6 +111,11 @@ export default function DashDetail({ heading, user }: DashDetailProps) {
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>Industry:</span>
             <span className={styles.detailValue}>{currentUser.industry || 'Not provided'}</span>
+          </div>
+          
+          <div className={styles.detailRow}>
+            <span className={styles.detailLabel}>Role:</span>
+            <span className={styles.detailValue}>{currentUser.profile?.role || 'Not assigned'}</span>
           </div>
           
           <div className={styles.detailRow}>

@@ -43,12 +43,18 @@ function getRandom(arr: string[]) {
 async function main() {
   console.log('Starting seed...');
   
+  // Delete all users and profiles first
+  await prisma.profile.deleteMany({});
+  await prisma.user.deleteMany({});
+  
   for (let i = 0; i < 100; i++) {
     const firstName = getRandom(firstNames);
     const lastName = getRandom(lastNames);
     const screenName = getRandom(screenNames);
     const industry = getRandom(industries);
-    
+    let role: 'admin' | 'customer' | 'user' = 'user';
+    if (i === 0) role = 'admin';
+    else if (i < 11) role = 'customer';
     // Create user with standard NextAuth fields
     await prisma.user.create({
       data: {
@@ -62,6 +68,7 @@ async function main() {
             lastName,
             screenName,
             industry,
+            role,
           }
         }
       },

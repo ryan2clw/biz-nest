@@ -14,6 +14,15 @@ interface User {
   lastName?: string | null;
   screenName?: string | null;
   industry?: string | null;
+  profile?: {
+    id: number;
+    firstName?: string | null;
+    lastName?: string | null;
+    screenName?: string | null;
+    industry?: string | null;
+    userId: number;
+    role: 'admin' | 'customer' | 'user';
+  } | null;
 }
 
 interface DashboardWithPaginationProps {

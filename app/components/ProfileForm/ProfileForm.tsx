@@ -1,20 +1,15 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../lib/store';
-import { setSelectedUser } from '../../lib/slices/adminSlice';
 import styles from './ProfileForm.module.scss';
 
-interface ProfileFormProps {
-  onUpdate?: () => void;
-}
-
-export default function ProfileForm({ onUpdate }: ProfileFormProps) {
+export default function ProfileForm() {
   const user = useSelector((state: RootState) => state.admin.selectedUser);
-  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [screenName, setScreenName] = useState('');
   const [industry, setIndustry] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -23,6 +18,7 @@ export default function ProfileForm({ onUpdate }: ProfileFormProps) {
     if (user) {
       setFirstName(user.firstName || '');
       setLastName(user.lastName || '');
+      setScreenName(user.screenName || '');
       setIndustry(user.industry || '');
     }
   }, [user]);
@@ -44,19 +40,15 @@ export default function ProfileForm({ onUpdate }: ProfileFormProps) {
           userId: user.id,
           firstName,
           lastName,
+          screenName,
           industry,
         }),
       });
 
       if (response.ok) {
         setMessage('Profile updated successfully!');
-        dispatch(setSelectedUser({
-          ...user,
-          firstName,
-          lastName,
-          industry,
-        }));
-        onUpdate?.();
+        // Reload the page to get fresh data
+        window.location.reload();
       } else {
         const error = await response.json();
         setMessage(error.error || 'Failed to update profile');
@@ -96,6 +88,17 @@ export default function ProfileForm({ onUpdate }: ProfileFormProps) {
                 id="lastName"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                className={styles.input}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="screenName">Screen Name:</label>
+              <input
+                type="text"
+                id="screenName"
+                value={screenName}
+                onChange={(e) => setScreenName(e.target.value)}
                 className={styles.input}
               />
             </div>

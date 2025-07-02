@@ -7,6 +7,7 @@ interface Profile {
   screenName?: string | null;
   industry?: string | null;
   userId: number;
+  role: 'admin' | 'customer' | 'user';
 }
 
 export interface User {
@@ -14,7 +15,7 @@ export interface User {
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  emailVerified?: string | null;
+  emailVerified?: string | null; // Keep as string for Redux serialization
   profile?: Profile | null;
   // Include convenience fields at the top level
   firstName?: string | null;

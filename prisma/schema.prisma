@@ -50,6 +50,12 @@ model User {
   sessions      Session[]
 }
 
+enum Role {
+  admin
+  customer
+  user
+}
+
 model Profile {
   id        Int    @id @default(autoincrement())
   firstName String?
@@ -58,6 +64,7 @@ model Profile {
   industry  String?
   userId    Int    @unique
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role   @default(user)
 }
 
 model VerificationToken {
