@@ -4,6 +4,7 @@ import DashDetail from '../../../components/DashDetail/DashDetail';
 import ProfileForm from '../../../components/ProfileForm/ProfileForm';
 import DangerForm from '../../../components/DangerForm/DangerForm';
 import styles from '../page.module.scss';
+import UserDetailReduxSync from './UserDetailReduxSync';
 
 export const metadata = {
   title: 'User Profile and History | Biz Nest',
@@ -75,6 +76,7 @@ export default async function UserDetailPage({ params }: { params: any }) {
 
     return (
       <div className={styles.container}>
+        <UserDetailReduxSync user={userWithProfile} />
         <div className={styles.header}>
           <h1>User Profile and History</h1>
         </div>

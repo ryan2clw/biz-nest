@@ -3,12 +3,12 @@
 .dangerForm {
   width: 100%;
   max-width: 600px;
-  margin: 0 $spacing-lg $spacing-lg 0;
+  margin: 0 $spacing-lg 7.5rem 0;
 }
 
 @media (max-width: 1024px) {
   .dangerForm {
-    margin: 0 auto $spacing-lg auto;
+    margin: 0 auto 7.5rem auto;
   }
 }
 

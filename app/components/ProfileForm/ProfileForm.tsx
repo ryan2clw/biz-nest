@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../lib/store';
+import { setSelectedUser } from '../../lib/slices/adminSlice';
 import styles from './ProfileForm.module.scss';
 
 interface ProfileFormProps {
@@ -11,6 +12,7 @@ interface ProfileFormProps {
 
 export default function ProfileForm({ onUpdate }: ProfileFormProps) {
   const user = useSelector((state: RootState) => state.admin.selectedUser);
+  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [industry, setIndustry] = useState('');
@@ -48,6 +50,12 @@ export default function ProfileForm({ onUpdate }: ProfileFormProps) {
 
       if (response.ok) {
         setMessage('Profile updated successfully!');
+        dispatch(setSelectedUser({
+          ...user,
+          firstName,
+          lastName,
+          industry,
+        }));
         onUpdate?.();
       } else {
         const error = await response.json();
