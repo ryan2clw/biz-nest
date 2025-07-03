@@ -62,120 +62,135 @@ export default function NavBar() {
     dispatch(updateThemePreference(dark ? 'light' : 'dark'));
   };
 
+  const handleBodyClick = () => {
+    console.log('Body clicked. menuOpen before:', menuOpen);
+    dispatch(closeMenu());
+    setTimeout(() => {
+      const state = (window as any).store?.getState?.();
+      if (state) {
+        console.log('menuOpen after:', state.app.menuOpen);
+      }
+    }, 100);
+  };
+
+  console.log('NavBar render, menuOpen:', menuOpen);
+
   return (
-    <nav className={styles.navbar}>
-      <div className={styles.container}>
-        {pageHistory.length > 0 && (
-          <button className={styles.backButton} aria-label="Go back" onClick={handleBack}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 19L8 12L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        )}
-        <UserInfoOrLogo
-          isLoggedIn={!!user}
-          user={user}
-        />
-        
-        <div className={styles.navigation}>
-          {user ? (
-            <>
-              <Link href="/admin" className={styles.navLink}>
-                Admin
-              </Link>
-              <Link href="/" className={styles.navLink}>
-                Home
-              </Link>
-            </>
-          ) : (
-            <Link href="/signup" className={styles.navLink}>
-              Sign Up
-            </Link>
-          )}
-        </div>
-        
-        <div className={styles.actions}>
-          <div className={styles.themeToggle}>
-            <span className={styles.themeLabel}>{dark ? 'Dark' : 'Light'}</span>
-            <button
-              className={styles.toggleSwitch + (dark ? ' ' + styles.toggled : '')}
-              aria-label="Toggle dark mode"
-              onClick={(e) => { e.preventDefault(); handleThemeToggle(); }}
-            >
-              <span className={styles.toggleSlider}></span>
+    <div onClick={handleBodyClick} style={{ width: '100%' }}>
+      <nav className={styles.navbar} onClick={e => e.stopPropagation()}>
+        <div className={styles.container} onClick={e => e.stopPropagation()}>
+          {pageHistory.length > 0 && (
+            <button className={styles.backButton} aria-label="Go back" onClick={handleBack}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 19L8 12L15 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
-          </div>
-          {status === 'loading' ? null : user ? (
-            <button className={styles.loginBtn} onClick={() => signOut()}>Sign out</button>
-          ) : (
-            <button className={styles.loginBtn} onClick={() => signIn('google')}>Login</button>
           )}
-        </div>
-
-        {/* Hamburger Menu Button */}
-        <div 
-          className={styles.hamburger} 
-          onClick={handleMenuToggle} 
-          onMouseDown={handleMenuToggleMouseDown}
-          role="button"
-          tabIndex={0}
-          aria-label="Toggle menu"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              dispatch(toggleMenu());
-            }
-          }}
-        >
-          <span className={`${styles.hamburgerLine} ${menuOpen ? styles.open : ''}`}></span>
-          <span className={`${styles.hamburgerLine} ${menuOpen ? styles.open : ''}`}></span>
-          <span className={`${styles.hamburgerLine} ${menuOpen ? styles.open : ''}`}></span>
-        </div>
-
-        {/* Mobile Menu Dropdown */}
-        <div className={`${styles.mobileMenu} ${menuOpen ? styles.open : ''}`}>
-          {user ? (
-            <>
-              <Link href="/admin" className={styles.mobileLink} onClick={handleMenuClose}>
-                Admin
-              </Link>
-              <Link href="/" className={styles.mobileLink} onClick={handleMenuClose}>
-                Home
-              </Link>
-            </>
-          ) : (
-            <Link href="/signup" className={styles.mobileLink} onClick={handleMenuClose}>
-              Sign Up
-            </Link>
-          )}
+          <UserInfoOrLogo
+            isLoggedIn={!!user}
+            user={user}
+          />
           
-          {/* Mobile Theme Toggle */}
-          <div className={styles.mobileThemeToggle}>
-            <span className={styles.mobileThemeLabel}>{dark ? 'Dark Mode' : 'Light Mode'}</span>
-            <button
-              className={styles.mobileToggleSwitch + (dark ? ' ' + styles.mobileToggled : '')}
-              aria-label="Toggle dark mode"
-              onClick={(e) => { 
-                e.preventDefault(); 
-                e.stopPropagation();
-                handleThemeToggle();
-              }}
-            >
-              <span className={styles.mobileToggleSlider}></span>
-            </button>
+          <div className={styles.navigation}>
+            {user ? (
+              <>
+                <Link href="/admin" className={styles.navLink}>
+                  Admin
+                </Link>
+                <Link href="/" className={styles.navLink}>
+                  Home
+                </Link>
+              </>
+            ) : (
+              <Link href="/signup" className={styles.navLink}>
+                Sign Up
+              </Link>
+            )}
           </div>
           
-          {status === 'loading' ? null : user ? (
-            <button className={styles.mobileLink} onClick={(e) => { console.log('Mobile Sign Out clicked'); handleMenuLinkClick(e, () => signOut()); }}>
-              Sign Out
-            </button>
-          ) : (
-            <button className={styles.mobileLink} onClick={(e) => { console.log('Mobile Login clicked'); handleMenuLinkClick(e, () => signIn('google')); }}>
-              Login
-            </button>
-          )}
+          <div className={styles.actions}>
+            <div className={styles.themeToggle}>
+              <span className={styles.themeLabel}>{dark ? 'Dark' : 'Light'}</span>
+              <button
+                className={styles.toggleSwitch + (dark ? ' ' + styles.toggled : '')}
+                aria-label="Toggle dark mode"
+                onClick={(e) => { e.preventDefault(); handleThemeToggle(); }}
+              >
+                <span className={styles.toggleSlider}></span>
+              </button>
+            </div>
+            {status === 'loading' ? null : user ? (
+              <button className={styles.loginBtn} onClick={() => signOut()}>Sign out</button>
+            ) : (
+              <button className={styles.loginBtn} onClick={() => signIn('google')}>Login</button>
+            )}
+          </div>
+
+          {/* Hamburger Menu Button */}
+          <div 
+            className={styles.hamburger} 
+            onClick={e => { handleMenuToggle(e); e.stopPropagation(); }} 
+            onMouseDown={handleMenuToggleMouseDown}
+            role="button"
+            tabIndex={0}
+            aria-label="Toggle menu"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                dispatch(toggleMenu());
+              }
+            }}
+          >
+            <span className={`${styles.hamburgerLine} ${menuOpen ? styles.open : ''}`}></span>
+            <span className={`${styles.hamburgerLine} ${menuOpen ? styles.open : ''}`}></span>
+            <span className={`${styles.hamburgerLine} ${menuOpen ? styles.open : ''}`}></span>
+          </div>
+
+          {/* Mobile Menu Dropdown */}
+          <div className={`${styles.mobileMenu} ${menuOpen ? styles.open : ''}`} onClick={e => e.stopPropagation()}>
+            {user ? (
+              <>
+                <Link href="/admin" className={styles.mobileLink} onClick={handleMenuClose}>
+                  Admin
+                </Link>
+                <Link href="/" className={styles.mobileLink} onClick={handleMenuClose}>
+                  Home
+                </Link>
+              </>
+            ) : (
+              <Link href="/signup" className={styles.mobileLink} onClick={handleMenuClose}>
+                Sign Up
+              </Link>
+            )}
+            
+            {/* Mobile Theme Toggle */}
+            <div className={styles.mobileThemeToggle}>
+              <span className={styles.mobileThemeLabel}>{dark ? 'Dark Mode' : 'Light Mode'}</span>
+              <button
+                className={styles.mobileToggleSwitch + (dark ? ' ' + styles.mobileToggled : '')}
+                aria-label="Toggle dark mode"
+                onClick={(e) => { 
+                  e.preventDefault(); 
+                  e.stopPropagation();
+                  handleThemeToggle();
+                }}
+              >
+                <span className={styles.mobileToggleSlider}></span>
+              </button>
+            </div>
+            
+            {status === 'loading' ? null : user ? (
+              <button className={styles.mobileLink} onClick={(e) => { console.log('Mobile Sign Out clicked'); handleMenuLinkClick(e, () => signOut()); }}>
+                Sign Out
+              </button>
+            ) : (
+              <button className={styles.mobileLink} onClick={(e) => { console.log('Mobile Login clicked'); handleMenuLinkClick(e, () => signIn('google')); }}>
+                Login
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 } 

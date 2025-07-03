@@ -22,7 +22,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 80px; /* Account for fixed NavBar */
+  padding-top: 70px; /* Account for fixed NavBar */
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 66px;
+  }
 }
 
 * {

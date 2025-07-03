@@ -1,9 +1,10 @@
 @use '../../../styles/variables.scss' as *;
+@use "sass:color";
 
 .container {
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: $spacing-xl;
   background: $background-light;
@@ -13,7 +14,6 @@
   width: 100%;
   max-width: 600px;
   text-align: center;
-  margin-bottom: 7rem;
 }
 
 .title {
@@ -44,6 +44,13 @@
   color: $text-secondary-dark-theme;
 }
 
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+}
+
 .googleButton {
   display: flex;
   align-items: center;
@@ -60,7 +67,7 @@
   color: #374151;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin: $spacing-xl 0;
+  margin: $spacing-md 0;
 
   &:hover {
     background: #f9fafb;
@@ -117,7 +124,7 @@
 }
 
 :global(html.dark) .loginLink {
-  color: $primary-blue-dark-theme;
+  color: color.adjust($primary-blue-dark-theme, $lightness: 10%);
 
   &:hover {
     color: lighten($primary-blue-dark-theme, 10%);

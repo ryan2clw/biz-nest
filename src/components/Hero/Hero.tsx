@@ -5,7 +5,7 @@ export default function Hero() {
   return (
     <div className={styles.hero}>
       <h1>
-        Biz
+        <span className={styles.biz}>Biz</span>
         <span className={styles.logoSpan} aria-label="Biz Nest Logo">
           <svg width="60" height="60" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ verticalAlign: 'middle', margin: '0 8px' }}>
             <rect x="30" y="20" width="20" height="40" rx="3" fill="#2563eb" stroke="#1e40af" strokeWidth="2"/>
@@ -17,7 +17,7 @@ export default function Hero() {
             <circle cx="60" cy="20" r="6" fill="#fbbf24" opacity="0.7"/>
           </svg>
         </span>
-        Nest
+        <span className={styles.nest}>Nest</span>
       </h1>
       <Carousel items={[
         "Build your business nest egg with confidence.",

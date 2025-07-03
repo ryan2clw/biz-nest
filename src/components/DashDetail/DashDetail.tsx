@@ -4,40 +4,16 @@ import styles from './DashDetail.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../lib/store';
 import Image from 'next/image';
-import Link from 'next/link';
+// import Link from 'next/link';
 
-interface User {
-  id: number;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-  emailVerified?: string | null;
-  // Convenience fields from profile
-  firstName?: string | null;
-  lastName?: string | null;
-  screenName?: string | null;
-  industry?: string | null;
-  profile?: {
-    id: number;
-    firstName?: string | null;
-    lastName?: string | null;
-    screenName?: string | null;
-    industry?: string | null;
-    userId: number;
-    role: 'admin' | 'customer' | 'user';
-  } | null;
-}
 
 interface DashDetailProps {
   heading: string;
-  user?: User; // Optional prop for when used in user detail page
 }
 
-export default function DashDetail({ heading, user }: DashDetailProps) {
+export default function DashDetail({ heading }: DashDetailProps) {
   // Use the updated Redux state structure
-  const reduxUser = useSelector((state: RootState) => state.app.selectedUser);
-  // Use provided user prop or fall back to Redux state
-  const currentUser = user || reduxUser;
+  const currentUser = useSelector((state: RootState) => state.app.selectedUser);
 
   if (!currentUser) {
     return (
@@ -136,13 +112,7 @@ export default function DashDetail({ heading, user }: DashDetailProps) {
         </div>
 
         {/* Only show View Details link if we're not already on the user detail page */}
-        {!user && (
-          <div className={styles.viewDetailsLink}>
-            <Link href={`/admin/user-detail/${currentUser.id}`} className={styles.link}>
-              View Details →
-            </Link>
-          </div>
-        )}
+        {/* This is now always false since we only use Redux for user */}
       </div>
     </div>
   );

@@ -95,11 +95,9 @@ export default function UserDetailPage() {
         <h1>User Profile and History</h1>
       </div>
       <div className={styles.content}>
-        <DashDetail heading="User Details" user={user} />
-        <div className={styles.formsContainer}>
-          <ProfileForm />
-          <DangerForm userId={user.id} />
-        </div>
+        <DashDetail heading="User Details" />
+        <ProfileForm />
+        <DangerForm userId={user.id} />
       </div>
     </div>
   );

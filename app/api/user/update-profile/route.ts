@@ -37,12 +37,21 @@ export async function PUT(request: NextRequest) {
       },
     });
 
-    console.log('Profile updated successfully:', profile);
-
-    return NextResponse.json({ 
-      message: 'Profile updated successfully',
-      profile 
+    // Fetch the full user with profile
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(userId) },
+      include: { profile: true },
     });
+
+    const userWithProfileFields = {
+      ...user,
+      firstName: user?.profile?.firstName || null,
+      lastName: user?.profile?.lastName || null,
+      screenName: user?.profile?.screenName || null,
+      industry: user?.profile?.industry || null,
+    };
+
+    return NextResponse.json(userWithProfileFields);
   } catch (error) {
     console.error('Error updating profile:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

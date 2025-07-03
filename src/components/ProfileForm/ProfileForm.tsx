@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../lib/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../lib/store';
+import { setSelectedUser } from '../../lib/slices/appSlice';
 import styles from './ProfileForm.module.scss';
 
 export default function ProfileForm() {
   const user = useSelector((state: RootState) => state.app.selectedUser);
+  const dispatch = useDispatch<AppDispatch>();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [screenName, setScreenName] = useState('');
@@ -46,9 +48,9 @@ export default function ProfileForm() {
       });
 
       if (response.ok) {
+        const updatedUser = await response.json();
+        dispatch(setSelectedUser(updatedUser));
         setMessage('Profile updated successfully!');
-        // Reload the page to get fresh data
-        window.location.reload();
       } else {
         const error = await response.json();
         setMessage(error.error || 'Failed to update profile');

@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../src/lib/prisma";
 
 const firstNames = [
   'Jason', 'Jennifer', 'Michael', 'Heather', 'Christopher', 'Amy', 'Matthew', 'Melissa', 'Joshua', 'Stephanie',
@@ -52,14 +51,19 @@ async function main() {
     const lastName = getRandom(lastNames);
     const screenName = getRandom(screenNames);
     const industry = getRandom(industries);
-    let role: 'admin' | 'customer' | 'user' = 'user';
-    if (i === 0) role = 'admin';
-    else if (i < 11) role = 'customer';
+    let role: 'admin' | 'user' | 'customer' = 'customer';
+    if (i === 0){
+      role = 'admin'; 
+    } else if (i < 11) {
+      role = 'user';
+    }else{
+      role = 'customer';
+    }
     // Create user with standard NextAuth fields
     await prisma.user.create({
       data: {
         name: `${firstName} ${lastName}`,
-        email: `user${i + 1}@example.com`,
+        email: `${role}${i + 1}@${industry}.com`,
         image,
         emailVerified: new Date(),
         profile: {
@@ -73,7 +77,7 @@ async function main() {
         }
       },
     });
-    
+  
     console.log(`Created user ${i + 1}: ${firstName} ${lastName} (${screenName}) - ${industry}`);
   }
   

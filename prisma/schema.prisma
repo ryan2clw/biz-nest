@@ -66,6 +66,7 @@ model Profile {
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   role      Role   @default(user)
   themePreference String @default("dark")
+  orders          Order[]  // 1-to-many: Profile to Order
 }
 
 model VerificationToken {
@@ -74,4 +75,23 @@ model VerificationToken {
   expires   DateTime
 
   @@unique([identifier, token])
+}
+model Order {
+  id         Int         @id @default(autoincrement())
+  profile    Profile     @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId  Int
+  orderDate  DateTime
+  total      Float
+  items      OrderItem[]
+}
+
+model OrderItem {
+  id          Int     @id @default(autoincrement())
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     Int
+  description String
+  type        String
+  unitPrice   Float
+  quantity    Int
+  total       Float
 }

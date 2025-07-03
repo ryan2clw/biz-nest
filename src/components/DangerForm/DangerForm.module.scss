@@ -3,14 +3,20 @@
 .dangerForm {
   width: 100%;
   max-width: 600px;
-  margin: 0 $spacing-lg 7.5rem 0;
-}
+  margin: 0 auto;
 
-@media (max-width: 1024px) {
-  .dangerForm {
-    margin: 0 auto 7.5rem auto;
+  @media (max-width: 768px) {
+    max-width: 90%;
+    margin-bottom: 2rem;
+    padding-bottom: 8rem;
   }
 }
+
+// @media (max-width: 1024px) {
+//   .dangerForm {
+//     margin: 0 auto 7.5rem auto;
+//   }
+// }
 
 .accordion {
   border: 1px solid #e5e7eb;

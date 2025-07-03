@@ -15,7 +15,7 @@ export default function SignUpPage() {
         <p className={styles.subtitle}>
           Sign up with Google to get started with Biz Nest
         </p>
-        
+        <div className={styles.buttonGroup}>
         <button 
           onClick={handleGoogleSignIn}
           className={styles.googleButton}
@@ -28,7 +28,7 @@ export default function SignUpPage() {
           </svg>
           Sign up with Google
         </button>
-        
+        </div>
         <p className={styles.loginText}>
           Already have an account?{' '}
           <button 

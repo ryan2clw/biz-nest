@@ -1,6 +1,7 @@
 import GoogleProvider from 'next-auth/providers/google';
 import { CustomPrismaAdapter } from './custom-prisma-adapter';
 import { prisma } from './prisma';
+import { Session, User, Account } from 'next-auth';
 
 export const authOptions = {
   adapter: CustomPrismaAdapter(),
@@ -18,7 +19,7 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
   },
   callbacks: {
-    async session({ session, user }) {
+    async session({ session, user }: { session: Session; user: User }) {
       console.log('NextAuth: Session callback - User:', user);
       if (session.user) {
         (session.user as { id?: string | number; profile?: { role: string, themePreference?: string } }).id = user.id;
@@ -36,10 +37,12 @@ export const authOptions = {
     },
   },
   events: {
-    async createUser({ user }) {
+    async createUser(message: { user: User }) {
+      const { user } = message;
       console.log('NextAuth: New user created:', user);
     },
-    async signIn({ user, account, isNewUser }) {
+    async signIn(message: { user: User; account: Account | null; profile?: any; isNewUser?: boolean }) {
+      const { user, account, isNewUser } = message;
       console.log('NextAuth: Sign in event - User:', user);
       console.log('NextAuth: Sign in event - Is new user:', isNewUser);
       console.log('NextAuth: Sign in event - Account:', account);
