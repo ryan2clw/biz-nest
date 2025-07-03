@@ -81,6 +81,14 @@ export default function DashboardWithPagination({ initialUsers, initialTotalPage
     }
   }, [initialUsers.length, initialTotalPages]);
 
+  // Fetch users if initialUsers is empty on mount
+  useEffect(() => {
+    if (initialUsers.length === 0) {
+      fetchUsers(1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (isLoading && users.length === 0) {
     return <div>Loading...</div>;
   }
@@ -92,6 +100,7 @@ export default function DashboardWithPagination({ initialUsers, initialTotalPage
       totalPages={totalPages}
       onPageChange={handlePageChange}
       onRefresh={handleRefresh}
+      isLoading={isLoading}
     />
   );
 } 

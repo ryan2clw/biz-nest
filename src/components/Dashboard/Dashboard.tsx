@@ -36,9 +36,10 @@ interface DashboardProps {
   totalPages: number;
   onPageChange: (page: number) => void;
   onRefresh: () => void;
+  isLoading?: boolean;
 }
 
-export default function Dashboard({ users, currentPage, totalPages, onPageChange, onRefresh }: DashboardProps) {
+export default function Dashboard({ users, currentPage, totalPages, onPageChange, onRefresh, isLoading }: DashboardProps) {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -147,39 +148,47 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr
-                key={user.id}
-                onClick={() => handleRowClick(user)}
-                className={`${styles.tableRow} ${selectedUserId === user.id ? styles.selected : ''}`}
-              >
-                <td>
-                  <Image
-                    src={user.image || '/user.svg'}
-                    alt={`${getDisplayName(user)}'s avatar`}
-                    width={40}
-                    height={40}
-                    className={styles.userAvatar}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = '/user.svg';
-                    }}
-                  />
-                </td>
-                <td>{getDisplayName(user)}</td>
-                <td className={styles.emailColumn}>{user.email}</td>
-                <td className={styles.screenNameColumn}>{user.profile?.screenName || 'N/A'}</td>
-                <td className={styles.industryColumn}>{user.profile?.industry || 'N/A'}</td>
-                <td>
-                  <button
-                    onClick={(e) => handleViewDetails(e, user)}
-                    className={styles.actionButton}
-                  >
-                    View Details
-                  </button>
+            {isLoading ? (
+              <tr>
+                <td colSpan={6} style={{ textAlign: 'center', padding: '2rem' }}>
+                  <div className={styles.spinner}></div>
                 </td>
               </tr>
-            ))}
+            ) : (
+              users.map((user) => (
+                <tr
+                  key={user.id}
+                  onClick={() => handleRowClick(user)}
+                  className={`${styles.tableRow} ${selectedUserId === user.id ? styles.selected : ''}`}
+                >
+                  <td>
+                    <Image
+                      src={user.image || '/user.svg'}
+                      alt={`${getDisplayName(user)}'s avatar`}
+                      width={40}
+                      height={40}
+                      className={styles.userAvatar}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/user.svg';
+                      }}
+                    />
+                  </td>
+                  <td>{getDisplayName(user)}</td>
+                  <td className={styles.emailColumn}>{user.email}</td>
+                  <td className={styles.screenNameColumn}>{user.profile?.screenName || 'N/A'}</td>
+                  <td className={styles.industryColumn}>{user.profile?.industry || 'N/A'}</td>
+                  <td>
+                    <button
+                      onClick={(e) => handleViewDetails(e, user)}
+                      className={styles.actionButton}
+                    >
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

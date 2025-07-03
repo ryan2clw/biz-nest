@@ -8,6 +8,7 @@ import { store } from '../src/lib/store';
 import NavBar from '../src/components/NavBar/NavBar';
 import ScreenNameUpdater from '../src/components/ScreenNameUpdater/ScreenNameUpdater';
 import ThemeProvider from '../src/components/ThemeProvider/ThemeProvider';
+import ThemeSync from '../src/components/ThemeProvider/ThemeSync';
 
 console.log('Rendering app/layout.tsx');
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <body>
           <Provider store={store}>
             <SessionProvider>
+              <ThemeSync />
               <ThemeProvider />
               <ScreenNameUpdater />
               <NavBar />

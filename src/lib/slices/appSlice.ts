@@ -1,5 +1,24 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import type { User, AppState } from '../../interfaces/app';
+
+export const updateThemePreference = createAsyncThunk(
+  'app/updateThemePreference',
+  async (theme: 'light' | 'dark', { dispatch }) => {
+    dispatch(setTheme(theme)); // Optimistic update
+    try {
+      const res = await fetch('/api/user/update-theme', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ themePreference: theme }),
+      });
+      if (!res.ok) throw new Error('Failed to update theme preference');
+      // Optionally, you could use the returned profile here
+    } catch (e) {
+      // Optionally, revert theme or show error
+      // dispatch(setTheme(theme === 'dark' ? 'light' : 'dark'));
+    }
+  }
+);
 
 const initialState: AppState = {
   selectedUser: null,

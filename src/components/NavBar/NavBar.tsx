@@ -6,15 +6,15 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../lib/store';
-import { popPage, toggleMenu, closeMenu, toggleTheme } from '../../lib/slices/appSlice';
+import { RootState, AppDispatch } from '../../lib/store';
+import { popPage, toggleMenu, closeMenu, updateThemePreference } from '../../lib/slices/appSlice';
 import UserInfoOrLogo from './UserInfoOrLogo';
 
 export default function NavBar() {
   const { data: session, status } = useSession();
   const user = session?.user;
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const pageHistory = useSelector((state: RootState) => state.app.pageHistory);
   const menuOpen = useSelector((state: RootState) => state.app.menuOpen);
   const theme = useSelector((state: RootState) => state.app.theme);
@@ -58,6 +58,10 @@ export default function NavBar() {
     }
   };
 
+  const handleThemeToggle = () => {
+    dispatch(updateThemePreference(dark ? 'light' : 'dark'));
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
@@ -96,7 +100,7 @@ export default function NavBar() {
             <button
               className={styles.toggleSwitch + (dark ? ' ' + styles.toggled : '')}
               aria-label="Toggle dark mode"
-              onClick={(e) => { e.preventDefault(); dispatch(toggleTheme()); }}
+              onClick={(e) => { e.preventDefault(); handleThemeToggle(); }}
             >
               <span className={styles.toggleSlider}></span>
             </button>
@@ -154,7 +158,7 @@ export default function NavBar() {
               onClick={(e) => { 
                 e.preventDefault(); 
                 e.stopPropagation();
-                dispatch(toggleTheme()); 
+                handleThemeToggle();
               }}
             >
               <span className={styles.mobileToggleSlider}></span>

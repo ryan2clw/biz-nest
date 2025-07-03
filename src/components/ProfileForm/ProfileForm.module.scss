@@ -4,7 +4,6 @@
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  padding: 0 $spacing-lg;
 }
 
 .outerContainer {
@@ -14,7 +13,7 @@
   box-shadow: $shadow-sm;
   border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
-  margin: 0 $spacing-lg $spacing-lg 0;
+  margin: 0 0 $spacing-lg 0;
   overflow: hidden;
 }
 

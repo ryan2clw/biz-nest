@@ -65,6 +65,7 @@ model Profile {
   userId    Int    @unique
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   role      Role   @default(user)
+  themePreference String @default("dark")
 }
 
 model VerificationToken {

@@ -6,6 +6,8 @@
   padding: $spacing-xl;
   min-height: 100vh;
   background: $background-dark;
+  justify-content: center;
+  gap: 0;
 }
 
 @media (max-width: $breakpoint-lg) {
