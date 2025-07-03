@@ -35,7 +35,7 @@ interface DashDetailProps {
 
 export default function DashDetail({ heading, user }: DashDetailProps) {
   // Use the updated Redux state structure
-  const reduxUser = useSelector((state: RootState) => state.admin.selectedUser);
+  const reduxUser = useSelector((state: RootState) => state.app.selectedUser);
   // Use provided user prop or fall back to Redux state
   const currentUser = user || reduxUser;
 

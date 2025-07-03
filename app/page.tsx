@@ -1,7 +1,4 @@
-console.log('Rendering app/page.tsx');
-
-import styles from './page.module.scss';
-import Hero from '../src/components/Hero/Hero';
+import HomePage from '../src/pageTemplates/HomePage/HomePage';
 
 export const metadata = {
   title: 'Biz Nest | Build Your Business Nest Egg',
@@ -9,16 +6,5 @@ export const metadata = {
 };
 
 export default function Home() {
-  try {
-    return (
-      <div className={styles["tampa-bg"]}>
-        <main className="main">
-          <Hero />
-        </main>
-      </div>
-    );
-  } catch (error) {
-    console.error('Error in app/page.tsx:', error);
-    throw error;
-  }
+  return <HomePage />;
 } 

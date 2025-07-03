@@ -1,0 +1,146 @@
+@use '../../../styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl;
+  background: $background-light;
+}
+
+.content {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  margin-bottom: 7rem;
+}
+
+.title {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $primary-blue;
+  margin-bottom: $spacing-md;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: $font-size-lg;
+  color: $text-secondary;
+  margin-bottom: $spacing-2xl;
+  line-height: 1.5;
+}
+
+// Dark theme overrides
+:global(html.dark) .container {
+  background: $background-dark-theme;
+}
+
+:global(html.dark) .title {
+  color: $primary-blue-dark-theme;
+}
+
+:global(html.dark) .subtitle {
+  color: $text-secondary-dark-theme;
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  width: 100%;
+  max-width: 300px;
+  padding: $spacing-md $spacing-lg;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: $spacing-xl 0;
+
+  &:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.googleIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.loginText {
+  margin-top: $spacing-xl;
+  font-size: $font-size-base;
+  color: $text-secondary;
+}
+
+.loginLink {
+  background: none;
+  border: none;
+  color: $primary-blue;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin: 0;
+
+  &:hover {
+    color: darken($primary-blue, 10%);
+  }
+}
+
+// Dark theme overrides
+:global(html.dark) .googleButton {
+  background: #374151;
+  border-color: #4b5563;
+  color: white;
+
+  &:hover {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+}
+
+:global(html.dark) .loginText {
+  color: $text-secondary-dark-theme;
+}
+
+:global(html.dark) .loginLink {
+  color: $primary-blue-dark-theme;
+
+  &:hover {
+    color: lighten($primary-blue-dark-theme, 10%);
+  }
+}
+
+// Mobile responsiveness
+@media (max-width: $breakpoint-md) {
+  .container {
+    padding: $spacing-md;
+  }
+  
+  .title {
+    font-size: $font-size-2xl;
+  }
+  
+  .subtitle {
+    font-size: $font-size-base;
+  }
+
+  .googleButton {
+    max-width: 280px;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-base;
+  }
+} 

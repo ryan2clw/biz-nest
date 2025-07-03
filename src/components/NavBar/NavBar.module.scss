@@ -305,7 +305,7 @@
   border-radius: $border-radius-sm;
   width: calc(100% - 2 * #{$spacing-md});
   margin: $spacing-xs auto;
-  text-align: center;
+  text-align: left;
   font-size: $font-size-base;
   font-weight: $font-weight-medium;
   cursor: pointer;
@@ -360,5 +360,74 @@
 }
 
 :global(html.dark) .hamburgerLine {
+  background: $primary-blue-dark-theme;
+}
+
+// Mobile Theme Toggle
+.mobileThemeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-sm $spacing-md;
+  border-bottom: 1px solid $border-light;
+  background: none;
+  width: calc(100% - 2 * #{$spacing-md});
+  margin: $spacing-xs auto;
+  text-align: left;
+}
+
+.mobileThemeLabel {
+  font-size: $font-size-base;
+  color: $primary-blue;
+  font-weight: $font-weight-medium;
+  user-select: none;
+}
+
+.mobileToggleSwitch {
+  position: relative;
+  width: 50px;
+  height: 24px;
+  background: $secondary-gray;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+  padding: 0;
+}
+
+.mobileToggleSwitch.mobileToggled {
+  background: $primary-blue;
+}
+
+.mobileToggleSlider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mobileToggleSwitch.mobileToggled .mobileToggleSlider {
+  transform: translateX(26px);
+}
+
+// Dark theme overrides for mobile theme toggle
+:global(html.dark) .mobileThemeToggle {
+  border-bottom: 1px solid $border-dark-theme;
+}
+
+:global(html.dark) .mobileThemeLabel {
+  color: $text-primary-dark-theme;
+}
+
+:global(html.dark) .mobileToggleSwitch {
+  background: $secondary-gray-dark;
+}
+
+:global(html.dark) .mobileToggleSwitch.mobileToggled {
   background: $primary-blue-dark-theme;
 } 

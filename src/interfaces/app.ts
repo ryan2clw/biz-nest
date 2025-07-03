@@ -22,8 +22,9 @@ export interface User {
   industry?: string | null;
 }
 
-export interface AdminState {
+export interface AppState {
   selectedUser: User | null;
   pageHistory: string[];
   menuOpen: boolean;
+  theme: 'light' | 'dark';
 } 

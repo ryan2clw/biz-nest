@@ -6,7 +6,7 @@ import { RootState } from '../../lib/store';
 import styles from './ProfileForm.module.scss';
 
 export default function ProfileForm() {
-  const user = useSelector((state: RootState) => state.admin.selectedUser);
+  const user = useSelector((state: RootState) => state.app.selectedUser);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [screenName, setScreenName] = useState('');

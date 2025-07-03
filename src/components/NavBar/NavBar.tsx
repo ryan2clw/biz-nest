@@ -3,29 +3,24 @@
 import styles from './NavBar.module.scss';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../lib/store';
-import { popPage, toggleMenu, closeMenu } from '../../lib/slices/adminSlice';
+import { popPage, toggleMenu, closeMenu, toggleTheme } from '../../lib/slices/appSlice';
 import UserInfoOrLogo from './UserInfoOrLogo';
 
 export default function NavBar() {
   const { data: session, status } = useSession();
   const user = session?.user;
-  const [dark, setDark] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const pageHistory = useSelector((state: RootState) => state.admin.pageHistory);
-  const menuOpen = useSelector((state: RootState) => state.admin.menuOpen);
+  const pageHistory = useSelector((state: RootState) => state.app.pageHistory);
+  const menuOpen = useSelector((state: RootState) => state.app.menuOpen);
+  const theme = useSelector((state: RootState) => state.app.theme);
+  const dark = theme === 'dark';
 
-  useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [dark]);
+
 
   const handleBack = () => {
     if (pageHistory.length > 0) {
@@ -97,11 +92,11 @@ export default function NavBar() {
         
         <div className={styles.actions}>
           <div className={styles.themeToggle}>
-            <span className={styles.themeLabel}>{dark ? 'Light' : 'Dark'}</span>
+            <span className={styles.themeLabel}>{dark ? 'Dark' : 'Light'}</span>
             <button
               className={styles.toggleSwitch + (dark ? ' ' + styles.toggled : '')}
               aria-label="Toggle dark mode"
-              onClick={(e) => { e.preventDefault(); setDark((d) => !d); }}
+              onClick={(e) => { e.preventDefault(); dispatch(toggleTheme()); }}
             >
               <span className={styles.toggleSlider}></span>
             </button>
@@ -149,6 +144,23 @@ export default function NavBar() {
               Sign Up
             </Link>
           )}
+          
+          {/* Mobile Theme Toggle */}
+          <div className={styles.mobileThemeToggle}>
+            <span className={styles.mobileThemeLabel}>{dark ? 'Dark Mode' : 'Light Mode'}</span>
+            <button
+              className={styles.mobileToggleSwitch + (dark ? ' ' + styles.mobileToggled : '')}
+              aria-label="Toggle dark mode"
+              onClick={(e) => { 
+                e.preventDefault(); 
+                e.stopPropagation();
+                dispatch(toggleTheme()); 
+              }}
+            >
+              <span className={styles.mobileToggleSlider}></span>
+            </button>
+          </div>
+          
           {status === 'loading' ? null : user ? (
             <button className={styles.mobileLink} onClick={(e) => { console.log('Mobile Sign Out clicked'); handleMenuLinkClick(e, () => signOut()); }}>
               Sign Out

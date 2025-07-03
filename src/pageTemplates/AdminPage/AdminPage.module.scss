@@ -1,0 +1,29 @@
+@use '../../../styles/variables.scss' as *;
+
+.admin-layout {
+  display: flex;
+  gap: $spacing-xl;
+  padding: $spacing-xl;
+  min-height: 100vh;
+  background: $background-dark;
+}
+
+@media (max-width: $breakpoint-lg) {
+  .admin-layout {
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .admin-layout {
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
+}
+
+// Dark theme overrides
+:global(html.dark) .admin-layout {
+  background: $background-dark-theme;
+} 

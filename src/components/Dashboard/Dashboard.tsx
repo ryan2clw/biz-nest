@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { setSelectedUser, pushPage } from '../../lib/slices/adminSlice';
+import { setSelectedUser, pushPage } from '../../lib/slices/appSlice';
 import styles from './Dashboard.module.scss';
 
 // Import the User type from the interfaces
-import type { User as ReduxUser } from '../../interfaces/admin';
+import type { User as ReduxUser } from '../../interfaces/app';
 
 interface User {
   id: number;
@@ -43,6 +43,17 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
   const router = useRouter();
   const pathname = usePathname();
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth <= 768); // iPhone and small mobile devices
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const handleRowClick = (user: User) => {
     setSelectedUserId(user.id);
@@ -85,6 +96,33 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
       return user.name;
     }
     return 'Unknown';
+  };
+
+  const getPaginationButtons = () => {
+    const maxButtons = isMobile ? 3 : 5;
+    const buttons = [];
+    
+    if (totalPages <= maxButtons) {
+      // Show all buttons if total pages is less than or equal to max
+      for (let i = 1; i <= totalPages; i++) {
+        buttons.push(i);
+      }
+    } else {
+      // Show limited buttons with current page in the middle when possible
+      let start = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+      const end = Math.min(totalPages, start + maxButtons - 1);
+      
+      // Adjust start if we're near the end
+      if (end === totalPages) {
+        start = Math.max(1, totalPages - maxButtons + 1);
+      }
+      
+      for (let i = start; i <= end; i++) {
+        buttons.push(i);
+      }
+    }
+    
+    return buttons;
   };
 
   return (
@@ -156,7 +194,7 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
             ←
           </button>
           
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          {getPaginationButtons().map((page) => (
             <button
               key={page}
               onClick={() => onPageChange(page)}

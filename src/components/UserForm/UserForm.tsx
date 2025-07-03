@@ -10,7 +10,7 @@ interface UserFormProps {
 }
 
 export default function UserForm({ onUpdate }: UserFormProps) {
-  const user = useSelector((state: RootState) => state.admin.selectedUser);
+  const user = useSelector((state: RootState) => state.app.selectedUser);
   const [screenName, setScreenName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');

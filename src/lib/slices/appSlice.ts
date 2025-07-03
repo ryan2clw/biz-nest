@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { User, AdminState } from '../../interfaces/admin';
+import type { User, AppState } from '../../interfaces/app';
 
-const initialState: AdminState = {
+const initialState: AppState = {
   selectedUser: null,
   pageHistory: [],
   menuOpen: false,
+  theme: 'dark',
 };
 
-const adminSlice = createSlice({
-  name: 'admin',
+const appSlice = createSlice({
+  name: 'app',
   initialState,
   reducers: {
     setSelectedUser: (state, action: PayloadAction<User | null>) => {
@@ -29,8 +30,14 @@ const adminSlice = createSlice({
     closeMenu: (state) => {
       state.menuOpen = false;
     },
+    setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
+      state.theme = action.payload;
+    },
+    toggleTheme: (state) => {
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    },
   },
 });
 
-export const { setSelectedUser, clearSelectedUser, pushPage, popPage, toggleMenu, closeMenu } = adminSlice.actions;
-export default adminSlice.reducer; 
+export const { setSelectedUser, clearSelectedUser, pushPage, popPage, toggleMenu, closeMenu, setTheme, toggleTheme } = appSlice.actions;
+export default appSlice.reducer; 
