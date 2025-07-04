@@ -100,6 +100,9 @@ export default function NavBar() {
                 <Link href="/admin" className={styles.navLink}>
                   Admin
                 </Link>
+                <Link href="/api-docs" className={styles.navLink}>
+                  API Docs
+                </Link>
                 <Link href="/" className={styles.navLink}>
                   Home
                 </Link>
@@ -155,6 +158,9 @@ export default function NavBar() {
               <>
                 <Link href="/admin" className={styles.mobileLink} onClick={handleMenuClose}>
                   Admin
+                </Link>
+                <Link href="/api-docs" className={styles.mobileLink} onClick={handleMenuClose}>
+                  API Docs
                 </Link>
                 <Link href="/" className={styles.mobileLink} onClick={handleMenuClose}>
                   Home

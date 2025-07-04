@@ -4,7 +4,7 @@ import UserDetailPage from "../../../../src/pageTemplates/UserDetailPage/UserDet
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../src/lib/prisma";
 
-export default async function Page({ params }: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -19,6 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (dbUser?.profile?.role !== "admin") {
     redirect("/");
   }
+
   const { id } = await params;
 
   return <UserDetailPage id={id} />;

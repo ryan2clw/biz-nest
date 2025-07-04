@@ -10,8 +10,11 @@ import ScreenNameUpdater from '../src/components/ScreenNameUpdater/ScreenNameUpd
 import ThemeProvider from '../src/components/ThemeProvider/ThemeProvider';
 import ThemeSync from '../src/components/ThemeProvider/ThemeSync';
 import { closeMenu } from '../src/lib/slices/appSlice';
+import { Inter } from 'next/font/google';
 
 console.log('Rendering app/layout.tsx');
+
+const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   const handleBodyClick = () => {
@@ -21,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     return (
       <html lang="en">
         <head />
-        <body>
+        <body className={inter.className}>
           <Provider store={store}>
             <SessionProvider>
               <ThemeSync />

@@ -19,6 +19,52 @@ type UserWithProfile = {
   } | null;
 };
 
+/**
+ * @openapi
+ * /api/admin/users:
+ *   get:
+ *     summary: Get paginated list of users for admin dashboard
+ *     description: Retrieve a paginated list of users with their profile information for display in the admin dashboard. Only accessible by admin users.
+ *     tags:
+ *       - Admin Dashboard
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *           minimum: 1
+ *         description: Page number for pagination
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 25
+ *           minimum: 1
+ *           maximum: 100
+ *         description: Number of users per page
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved users for admin dashboard
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PaginatedUsers'
+ *       401:
+ *         description: Unauthorized - User not authenticated or not admin
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *     security:
+ *       - bearerAuth: []
+ */
 export async function GET(request: NextRequest) {
   try {
     // const session = await getServerSession();

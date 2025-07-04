@@ -4,7 +4,7 @@ import AdminPage from "../../src/pageTemplates/AdminPage/AdminPage";
 import { redirect } from "next/navigation";
 import { prisma } from "../../src/lib/prisma";
 
-export default async function Page({ searchParams }: { searchParams: { page?: string } }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -20,9 +20,10 @@ export default async function Page({ searchParams }: { searchParams: { page?: st
     redirect("/");
   }
 
-  const page = parseInt(searchParams.page || "1");
+  const { page } = await searchParams;
+  const pageNumber = parseInt(page || "1");
   const limit = 25;
-  const skip = (page - 1) * limit;
+  const skip = (pageNumber - 1) * limit;
 
   // Get total count
   const totalUsers = await prisma.user.count();
