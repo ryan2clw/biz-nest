@@ -172,30 +172,30 @@
   font-weight: $font-weight-medium;
   user-select: none;
 }
-:global(html.dark) .themeLabel {
+:global(body.dark) .themeLabel {
   color: $text-secondary-dark-theme;
 }
 
 // Dark theme overrides
-:global(html.dark) .navbar {
+:global(body.dark) .navbar {
   background: rgba(24, 24, 27, 0.95);
   border-bottom: 1px solid $border-dark-theme;
 }
-:global(html.dark) .logo h2,
-:global(html.dark) .navLink,
-:global(html.dark) .userName {
+:global(body.dark) .logo h2,
+:global(body.dark) .navLink,
+:global(body.dark) .userName {
   color: $primary-blue-dark-theme;
 }
-:global(html.dark) .navLink:hover {
+:global(body.dark) .navLink:hover {
   color: $primary-blue-dark-theme-dark;
   background: rgba(96, 165, 250, 0.1);
   border-color: $primary-blue-dark-theme;
 }
-:global(html.dark) .loginBtn {
+:global(body.dark) .loginBtn {
   background: $primary-blue-dark-theme;
   color: $text-light-dark-theme;
 }
-:global(html.dark) .loginBtn:hover {
+:global(body.dark) .loginBtn:hover {
   background: $primary-blue-dark-theme-dark;
 }
 :global(html.dark) .adminLink {

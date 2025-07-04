@@ -1,9 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
 .dashDetail {
-  width: 400px;
+  width: auto;
   flex-shrink: 0;
-  padding: $spacing-xl;
+  padding: $spacing-md;
   background: $gradient-blue;
   border-radius: $border-radius-md;
   box-shadow: $shadow-sm;
@@ -14,7 +14,7 @@
 
 @media (max-width: 1024px) {
   .dashDetail {
-    margin: 0 auto $spacing-lg auto;
+    margin: 0 auto $spacing-sm auto;
   }
 }
 
@@ -39,7 +39,10 @@
   font-size: $font-size-xl;
   font-weight: $font-weight-bold;
   margin-bottom: $spacing-lg;
-  color: $text-primary;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .emptyState {
@@ -159,42 +162,46 @@
 }
 
 // Dark theme overrides
-:global(html.dark) .dashDetail {
+:global(body.dark) .dashDetail {
   background: $gradient-blue;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
-:global(html.dark) .dashDetail::before {
+:global(body.dark) .dashDetail::before {
   background: rgba(24, 24, 27, 0.9);
 }
-:global(html.dark) .dashDetail h3 {
-  color: $primary-blue-dark-theme;
+:global(body.dark) .dashDetail h3 {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-:global(html.dark) .emptyState {
+:global(body.dark) .emptyState {
   color: $text-secondary-dark-theme;
 }
-:global(html.dark) .userCard {
+:global(body.dark) .userCard {
   background: $background-dark-theme-light;
   box-shadow: $shadow-dark-theme;
   border: 1px solid $border-dark-theme;
 }
-:global(html.dark) .userHeader {
+:global(body.dark) .userHeader {
   border-bottom: 1px solid $border-dark-theme;
 }
-:global(html.dark) .userAvatar {
+:global(body.dark) .userAvatar {
   border: 3px solid $background-dark-theme-light;
 }
-:global(html.dark) .userName {
+:global(body.dark) .userName {
   color: $primary-blue-dark-theme;
 }
-:global(html.dark) .userEmail {
+:global(body.dark) .userEmail {
   color: $text-secondary-dark-theme;
 }
-:global(html.dark) .detailLabel {
+:global(body.dark) .detailLabel {
   color: $text-secondary-dark-theme;
 }
-:global(html.dark) .detailValue {
+:global(body.dark) .detailValue {
   color: $text-primary-dark-theme;
 }
-:global(html.dark) .viewDetailsLink {
+:global(body.dark) .viewDetailsLink {
   border-top: 1px solid $border-dark-theme;
 }
 :global(html.dark) .link {

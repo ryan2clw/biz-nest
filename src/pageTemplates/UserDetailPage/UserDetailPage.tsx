@@ -92,7 +92,7 @@ export default function UserDetailPage() {
     <div className={styles.container}>
       <UserDetailReduxSync user={user} />
       <div className={styles.header}>
-        <h1>User Profile and History</h1>
+        <h1>Update or Delete User</h1>
       </div>
       <div className={styles.content}>
         <DashDetail heading="User Details" />

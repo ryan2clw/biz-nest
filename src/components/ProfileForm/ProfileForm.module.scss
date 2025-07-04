@@ -57,7 +57,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   
-  :global(.dark) & {
+  :global(body.dark) & {
     background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -99,7 +99,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   
-  :global(.dark) & {
+  :global(body.dark) & {
     background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -221,81 +221,81 @@
 }
 
 // Dark theme overrides
-:global(html.dark) .outerContainer {
+:global(body.dark) .outerContainer {
   background: $gradient-blue;
   box-shadow: $shadow-sm;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-:global(html.dark) .outerContainer::before {
+:global(body.dark) .outerContainer::before {
   background: rgba(24, 24, 27, 0.9);
 }
 
-:global(html.dark) .innerContainer {
+:global(body.dark) .innerContainer {
   background: $background-dark-theme-light;
   box-shadow: $shadow-dark-theme;
   border: 1px solid $border-dark-theme;
 }
 
-:global(html.dark) .label,
-:global(html.dark) .field label {
+:global(body.dark) .label,
+:global(body.dark) .field label {
   color: $text-primary-dark-theme;
 }
 
-:global(html.dark) .select,
-:global(html.dark) .input {
+:global(body.dark) .select,
+:global(body.dark) .input {
   background: $background-dark-theme;
   border: 1px solid $border-dark-theme;
   color: $text-primary-dark-theme;
 }
 
-:global(html.dark) .select:focus,
-:global(html.dark) .input:focus {
+:global(body.dark) .select:focus,
+:global(body.dark) .input:focus {
   border-color: $primary-blue-dark-theme;
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
 }
 
-:global(html.dark) .button,
-:global(html.dark) .submitButton {
+:global(body.dark) .button,
+:global(body.dark) .submitButton {
   background: $primary-blue-dark-theme;
   color: $text-light-dark-theme;
 }
 
-:global(html.dark) .button:hover:not(:disabled),
-:global(html.dark) .submitButton:hover:not(:disabled) {
+:global(body.dark) .button:hover:not(:disabled),
+:global(body.dark) .submitButton:hover:not(:disabled) {
   background: $primary-blue-dark-theme-dark;
 }
 
-:global(html.dark) .success {
+:global(body.dark) .success {
   background: #064e3b;
   color: #6ee7b7;
   border: 1px solid #065f46;
 }
 
-:global(html.dark) .error {
+:global(body.dark) .error {
   background: #450a0a;
   color: #fca5a5;
   border: 1px solid #7f1d1d;
 }
 
-:global(html.dark) .googleButton {
+:global(body.dark) .googleButton {
   background: $background-dark-theme-light;
   color: $text-primary-dark-theme;
   border: 1px solid $border-dark-theme;
 }
 
-:global(html.dark) .googleButton:hover {
+:global(body.dark) .googleButton:hover {
   background: $background-dark-theme;
 }
 
 // Mobile responsiveness
 @media (max-width: $breakpoint-md) {
   .formContainer {
-    padding: $spacing-md;
+    padding: 0;
   }
   
   .form {
-    padding: $spacing-xl;
+    padding: 0;
   }
   
   .formGroup {
@@ -305,6 +305,9 @@
 
 @media (max-width: 1024px) {
   .outerContainer {
-    margin: 0 auto $spacing-lg auto;
+    margin: 0 10px;
+  }
+  .heading {
+    margin: $spacing-md 0;
   }
 } 

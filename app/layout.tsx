@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   };
   try {
     return (
-      <html lang="en" className="dark">
+      <html lang="en">
         <head />
         <body>
           <Provider store={store}>
