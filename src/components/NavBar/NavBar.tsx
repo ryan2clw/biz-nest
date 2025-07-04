@@ -10,6 +10,8 @@ import { RootState, AppDispatch } from '../../lib/store';
 import { popPage, toggleMenu, closeMenu, updateThemePreference } from '../../lib/slices/appSlice';
 import UserInfoOrLogo from './UserInfoOrLogo';
 
+type AppState = { app: { menuOpen: boolean } };
+
 export default function NavBar() {
   const { data: session, status } = useSession();
   const user = session?.user;
@@ -66,9 +68,10 @@ export default function NavBar() {
     console.log('Body clicked. menuOpen before:', menuOpen);
     dispatch(closeMenu());
     setTimeout(() => {
-      const state = (window as any).store?.getState?.();
-      if (state) {
-        console.log('menuOpen after:', state.app.menuOpen);
+      const win = window as typeof window & { store?: { getState?: () => unknown } };
+      const state = win.store?.getState?.();
+      if (state && typeof state === 'object' && state !== null && 'app' in state && typeof (state as AppState).app === 'object' && (state as AppState).app !== null && 'menuOpen' in (state as AppState).app) {
+        console.log('menuOpen after:', (state as AppState).app.menuOpen);
       }
     }, 100);
   };

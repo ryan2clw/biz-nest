@@ -41,7 +41,7 @@ export const authOptions = {
       const { user } = message;
       console.log('NextAuth: New user created:', user);
     },
-    async signIn(message: { user: User; account: Account | null; profile?: any; isNewUser?: boolean }) {
+    async signIn(message: { user: User; account: Account | null; profile?: unknown; isNewUser?: boolean }) {
       const { user, account, isNewUser } = message;
       console.log('NextAuth: Sign in event - User:', user);
       console.log('NextAuth: Sign in event - Is new user:', isNewUser);

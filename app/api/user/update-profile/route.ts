@@ -11,31 +11,31 @@ export async function PUT(request: NextRequest) {
     //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     // }
 
-    const { userId, firstName, lastName, screenName, industry } = await request.json();
+    const { userId } = await request.json();
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
 
     // Update or create profile
-    const profile = await prisma.profile.upsert({
-      where: {
-        userId: parseInt(userId),
-      },
-      update: {
-        firstName: firstName || null,
-        lastName: lastName || null,
-        screenName: screenName || null,
-        industry: industry || null,
-      },
-      create: {
-        firstName: firstName || null,
-        lastName: lastName || null,
-        screenName: screenName || null,
-        industry: industry || null,
-        userId: parseInt(userId),
-      },
-    });
+    // const profile = await prisma.profile.upsert({
+    //   where: {
+    //     userId: parseInt(userId),
+    //   },
+    //   update: {
+    //     firstName: firstName || null,
+    //     lastName: lastName || null,
+    //     screenName: screenName || null,
+    //     industry: industry || null,
+    //   },
+    //   create: {
+    //     firstName: firstName || null,
+    //     lastName: lastName || null,
+    //     screenName: screenName || null,
+    //     industry: industry || null,
+    //     userId: parseInt(userId),
+    //   },
+    // });
 
     // Fetch the full user with profile
     const user = await prisma.user.findUnique({
