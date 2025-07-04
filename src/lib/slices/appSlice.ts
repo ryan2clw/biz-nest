@@ -13,7 +13,8 @@ export const updateThemePreference = createAsyncThunk(
       });
       if (!res.ok) throw new Error('Failed to update theme preference');
       // Optionally, you could use the returned profile here
-    } catch (e) {
+    } catch(e: unknown) {
+      console.log(e);
       // Optionally, revert theme or show error
       // dispatch(setTheme(theme === 'dark' ? 'light' : 'dark'));
     }
