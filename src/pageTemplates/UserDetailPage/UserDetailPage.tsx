@@ -1,92 +1,49 @@
-"use client";
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import DashDetail from '../../components/DashDetail/DashDetail';
 import ProfileForm from '../../components/ProfileForm/ProfileForm';
 import DangerForm from '../../components/DangerForm/DangerForm';
 import styles from './UserDetailPage.module.scss';
 import UserDetailReduxSync from '../../../app/admin/user-detail/[id]/UserDetailReduxSync';
 import type { User } from '../../interfaces/app';
+import { prisma } from '../../lib/prisma';
+import { notFound } from 'next/navigation';
 
-export default function UserDetailPage() {
-  const params = useParams();
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+export default async function UserDetailPage({ id }: { id: string }) {
+  const userId = parseInt(id);
+  if (isNaN(userId)) return notFound();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      if (!params?.id) {
-        setError(true);
-        setLoading(false);
-        return;
-      }
-      
-      const userId = parseInt(params.id as string);
-      
-      if (isNaN(userId)) {
-        setError(true);
-        setLoading(false);
-        return;
-      }
+  const userData = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      emailVerified: true,
+      profile: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          screenName: true,
+          industry: true,
+          userId: true,
+          role: true,
+        },
+      },
+    },
+  });
 
-      try {
-        const response = await fetch(`/api/admin/users/${userId}`);
-        if (!response.ok) {
-          setError(true);
-          setLoading(false);
-          return;
-        }
+  if (!userData) return notFound();
 
-        const userData = await response.json();
-        const userWithProfile = {
-          ...userData,
-          emailVerified: userData.emailVerified || null,
-          firstName: userData.profile?.firstName || null,
-          lastName: userData.profile?.lastName || null,
-          screenName: userData.profile?.screenName || null,
-          industry: userData.profile?.industry || null
-        };
-        
-        setUser(userWithProfile);
-      } catch (err) {
-        console.error('Error fetching user details:', err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [params?.id]);
-
-  if (loading) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        fontSize: '1.2rem'
-      }}>
-        Loading user details...
-      </div>
-    );
-  }
-
-  if (error || !user) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        fontSize: '1.2rem'
-      }}>
-        User not found
-      </div>
-    );
-  }
+  const user: User = {
+    ...userData,
+    emailVerified: userData.emailVerified ? String(userData.emailVerified) : null,
+    firstName: userData.profile?.firstName || null,
+    lastName: userData.profile?.lastName || null,
+    screenName: userData.profile?.screenName || null,
+    industry: userData.profile?.industry || null,
+    profile: userData.profile || null,
+  };
 
   return (
     <div className={styles.container}>
