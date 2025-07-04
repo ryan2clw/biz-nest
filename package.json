@@ -24,8 +24,7 @@
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "sass": "^1.89.2",
-    "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-react": "^5.26.0"
+    "swagger-jsdoc": "^6.2.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
