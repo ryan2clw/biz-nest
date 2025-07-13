@@ -372,9 +372,11 @@
 :global(body.dark) .actionButton {
   background: $primary-blue-dark-theme;
   color: $text-light-dark-theme;
+  border: 1px solid $secondary-gray-dark-theme-light;
 }
 :global(body.dark) .actionButton:hover {
   background: $primary-blue-dark-theme-dark;
+  border: 1px solid $secondary-gray-dark-theme-light;
 }
 :global(body.dark) .actionText {
   color: $text-secondary-dark-theme;

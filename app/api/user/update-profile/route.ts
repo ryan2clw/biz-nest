@@ -107,15 +107,7 @@ export async function PUT(request: NextRequest) {
       include: { profile: true },
     });
 
-    const userWithProfileFields = {
-      ...user,
-      firstName: user?.profile?.firstName || null,
-      lastName: user?.profile?.lastName || null,
-      screenName: user?.profile?.screenName || null,
-      industry: user?.profile?.industry || null,
-    };
-
-    return NextResponse.json(userWithProfileFields);
+    return NextResponse.json(user);
   } catch (error) {
     console.error('Error updating profile:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

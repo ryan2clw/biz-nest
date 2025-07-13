@@ -27,14 +27,14 @@ export default function DashDetail({ heading }: DashDetailProps) {
   }
 
   const getUserDisplayName = () => {
-    if (currentUser.firstName && currentUser.lastName) {
-      return `${currentUser.firstName} ${currentUser.lastName}`;
+    if (currentUser.profile?.firstName && currentUser.profile?.lastName) {
+      return `${currentUser.profile.firstName} ${currentUser.profile.lastName}`;
     }
-    if (currentUser.firstName) {
-      return currentUser.firstName;
+    if (currentUser.profile?.firstName) {
+      return currentUser.profile.firstName;
     }
-    if (currentUser.lastName) {
-      return currentUser.lastName;
+    if (currentUser.profile?.lastName) {
+      return currentUser.profile.lastName;
     }
     if (currentUser.name) {
       return currentUser.name;
@@ -71,22 +71,22 @@ export default function DashDetail({ heading }: DashDetailProps) {
           
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>First Name:</span>
-            <span className={styles.detailValue}>{currentUser.firstName || 'Not provided'}</span>
+            <span className={styles.detailValue}>{currentUser.profile?.firstName || 'Not provided'}</span>
           </div>
           
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>Last Name:</span>
-            <span className={styles.detailValue}>{currentUser.lastName || 'Not provided'}</span>
+            <span className={styles.detailValue}>{currentUser.profile?.lastName || 'Not provided'}</span>
           </div>
           
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>Screen Name:</span>
-            <span className={styles.detailValue}>{currentUser.screenName || 'Not provided'}</span>
+            <span className={styles.detailValue}>{currentUser.profile?.screenName || 'Not provided'}</span>
           </div>
           
           <div className={styles.detailRow}>
             <span className={styles.detailLabel}>Industry:</span>
-            <span className={styles.detailValue}>{currentUser.industry || 'Not provided'}</span>
+            <span className={styles.detailValue}>{currentUser.profile?.industry || 'Not provided'}</span>
           </div>
           
           <div className={styles.detailRow}>

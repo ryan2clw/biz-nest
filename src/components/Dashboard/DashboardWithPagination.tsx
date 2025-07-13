@@ -9,11 +9,6 @@ interface User {
   email?: string | null;
   image?: string | null;
   emailVerified?: string | null; // API returns this as string due to JSON serialization
-  // Convenience fields from profile
-  firstName?: string | null;
-  lastName?: string | null;
-  screenName?: string | null;
-  industry?: string | null;
   profile?: {
     id: number;
     firstName?: string | null;

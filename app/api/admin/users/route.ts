@@ -1,23 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-// import { getServerSession } from 'next-auth';
 import { prisma } from '../../../../src/lib/prisma';
-
-// Type for the Prisma query result
-type UserWithProfile = {
-  id: number;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-  emailVerified?: Date | null;
-  profile?: {
-    id: number;
-    firstName?: string | null;
-    lastName?: string | null;
-    screenName?: string | null;
-    industry?: string | null;
-    userId: number;
-  } | null;
-};
 
 /**
  * @openapi
@@ -111,17 +93,9 @@ export async function GET(request: NextRequest) {
       take: limit,
     });
 
-    // Transform users to include profile fields at the top level
-    const users = usersWithProfiles.map((user: UserWithProfile) => ({
-      ...user,
-      firstName: user.profile?.firstName || null,
-      lastName: user.profile?.lastName || null,
-      screenName: user.profile?.screenName || null,
-      industry: user.profile?.industry || null
-    }));
-
+    // Return users with only nested profile (no top-level profile fields)
     return NextResponse.json({
-      users,
+      users: usersWithProfiles,
       totalPages,
       currentPage: page,
       totalUsers,

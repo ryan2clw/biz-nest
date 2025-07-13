@@ -84,14 +84,14 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
   };
 
   const getDisplayName = (user: User) => {
-    if (user.firstName && user.lastName) {
-      return `${user.firstName} ${user.lastName}`;
+    if (user.profile?.firstName && user.profile?.lastName) {
+      return `${user.profile.firstName} ${user.profile.lastName}`;
     }
-    if (user.firstName) {
-      return user.firstName;
+    if (user.profile?.firstName) {
+      return user.profile.firstName;
     }
-    if (user.lastName) {
-      return user.lastName;
+    if (user.profile?.lastName) {
+      return user.profile.lastName;
     }
     if (user.name) {
       return user.name;

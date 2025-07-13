@@ -49,9 +49,9 @@
 }
 
 // Dark theme support
-:global(html.dark) .slide {
+:global(body.dark) .slide {
   background: #23272f;
-  color: #fff;
+  color: #60a5fa; // Tailwind's blue-400
 }
 
 .slideText {

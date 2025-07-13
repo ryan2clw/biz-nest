@@ -18,12 +18,20 @@ export default function ProfileForm() {
 
   useEffect(() => {
     if (user) {
-      setFirstName(user.firstName || '');
-      setLastName(user.lastName || '');
-      setScreenName(user.screenName || '');
-      setIndustry(user.industry || '');
+      setFirstName(user.profile?.firstName || '');
+      setLastName(user.profile?.lastName || '');
+      setScreenName(user.profile?.screenName || '');
+      setIndustry(user.profile?.industry || '');
     }
   }, [user]);
+
+  // Make the message disappear after 10 seconds
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(''), 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

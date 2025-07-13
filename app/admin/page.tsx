@@ -58,16 +58,12 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ p
     take: limit,
   });
 
-  // Transform users to include profile fields at the top level
+  // Convert emailVerified to string|null for each user
   const users = usersWithProfiles.map((user) => ({
     ...user,
     emailVerified: user.emailVerified ? String(user.emailVerified) : null,
-    firstName: user.profile?.firstName || null,
-    lastName: user.profile?.lastName || null,
-    screenName: user.profile?.screenName || null,
-    industry: user.profile?.industry || null,
-    profile: user.profile || null,
   }));
 
+  // Pass usersWithProfiles directly, as all profile fields are now nested
   return <AdminPage initialUsers={users} initialTotalPages={totalPages} />;
 } 

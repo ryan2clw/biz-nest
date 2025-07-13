@@ -53,11 +53,8 @@ const appSlice = createSlice({
     setTheme: (state, action: PayloadAction<'light' | 'dark'>) => {
       state.theme = action.payload;
     },
-    toggleTheme: (state) => {
-      state.theme = state.theme === 'dark' ? 'light' : 'dark';
-    },
   },
 });
 
-export const { setSelectedUser, clearSelectedUser, pushPage, popPage, toggleMenu, closeMenu, setTheme, toggleTheme } = appSlice.actions;
+export const { setSelectedUser, clearSelectedUser, pushPage, popPage, toggleMenu, closeMenu, setTheme } = appSlice.actions;
 export default appSlice.reducer; 

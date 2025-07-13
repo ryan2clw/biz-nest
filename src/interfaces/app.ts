@@ -15,11 +15,6 @@ export interface User {
   image?: string | null;
   emailVerified?: string | null; // Keep as string for Redux serialization
   profile?: Profile | null;
-  // Include convenience fields at the top level
-  firstName?: string | null;
-  lastName?: string | null;
-  screenName?: string | null;
-  industry?: string | null;
 }
 
 export interface AppState {

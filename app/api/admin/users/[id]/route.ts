@@ -380,16 +380,7 @@ export async function GET(
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Transform to include profile fields at the top level for convenience
-    const transformedUser = {
-      ...user,
-      firstName: user.profile?.firstName || null,
-      lastName: user.profile?.lastName || null,
-      screenName: user.profile?.screenName || null,
-      industry: user.profile?.industry || null
-    };
-
-    return NextResponse.json(transformedUser);
+    return NextResponse.json(user);
   } catch (error) {
     console.error('Error fetching user:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

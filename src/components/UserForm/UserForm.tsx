@@ -17,7 +17,7 @@ export default function UserForm({ onUpdate }: UserFormProps) {
 
   useEffect(() => {
     if (user) {
-      setScreenName(user.screenName || '');
+      setScreenName(user.profile?.screenName || '');
     }
   }, [user]);
 
