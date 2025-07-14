@@ -1,5 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .dashDetail {
   width: auto;
   flex-shrink: 0;
@@ -10,12 +14,6 @@
   margin: 0 $spacing-md $spacing-lg 0;
   position: relative;
   overflow: hidden;
-}
-
-@media (max-width: 1024px) {
-  .dashDetail {
-    margin: 0 auto 5px auto;
-  }
 }
 
 .dashDetail::before {
@@ -161,54 +159,79 @@
   }
 }
 
-// Dark theme overrides
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
 :global(body.dark) .dashDetail {
   background: $gradient-blue;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
 :global(body.dark) .dashDetail::before {
   background: rgba(24, 24, 27, 0.9);
 }
+
 :global(body.dark) .dashDetail h3 {
   background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
 :global(body.dark) .emptyState {
   color: $text-secondary-dark-theme;
 }
+
 :global(body.dark) .userCard {
   background: $background-dark-theme-light;
   box-shadow: $shadow-dark-theme;
   border: 1px solid $border-dark-theme;
 }
+
 :global(body.dark) .userHeader {
   border-bottom: 1px solid $border-dark-theme;
 }
+
 :global(body.dark) .userAvatar {
   border: 3px solid $background-dark-theme-light;
 }
+
 :global(body.dark) .userName {
   color: $primary-blue-dark-theme;
 }
+
 :global(body.dark) .userEmail {
   color: $text-secondary-dark-theme;
 }
+
 :global(body.dark) .detailLabel {
   color: $text-secondary-dark-theme;
 }
+
 :global(body.dark) .detailValue {
   color: $text-primary-dark-theme;
 }
+
 :global(body.dark) .viewDetailsLink {
   border-top: 1px solid $border-dark-theme;
 }
+
 :global(html.dark) .link {
   color: $primary-blue-dark-theme;
   
   &:hover {
     background: rgba(59, 130, 246, 0.2);
     color: $primary-blue-dark-theme;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 1024px) {
+  .dashDetail {
+    margin: 0 auto 5px auto;
   }
 } 

@@ -1,5 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .navbar {
   position: fixed;
   top: 0;
@@ -172,50 +176,6 @@
   font-weight: $font-weight-medium;
   user-select: none;
 }
-:global(body.dark) .themeLabel {
-  color: $text-secondary-dark-theme;
-}
-
-// Dark theme overrides
-:global(body.dark) .navbar {
-  background: rgba(24, 24, 27, 0.95);
-  border-bottom: 1px solid $border-dark-theme;
-}
-:global(body.dark) .logo h2,
-:global(body.dark) .navLink,
-:global(body.dark) .userName {
-  color: $primary-blue-dark-theme;
-}
-:global(body.dark) .navLink:hover {
-  color: $primary-blue-dark-theme-dark;
-  background: rgba(96, 165, 250, 0.1);
-  border-color: $primary-blue-dark-theme;
-}
-:global(body.dark) .loginBtn {
-  background: $primary-blue-dark-theme;
-  color: $text-light-dark-theme;
-}
-:global(body.dark) .loginBtn:hover {
-  background: $primary-blue-dark-theme-dark;
-}
-:global(html.dark) .adminLink {
-  background: #059669;
-  color: $text-light-dark-theme;
-}
-:global(html.dark) .adminLink:hover {
-  background: #047857;
-}
-:global(html.dark) .avatar {
-  box-shadow: $shadow-dark-theme;
-}
-
-:global(html.dark) .themeToggle {
-  flex-direction: row;
-}
-:global(html.dark) .toggleSwitch {
-  margin-right: 0;
-  margin-left: $spacing-sm;
-}
 
 .backButton {
   background: none;
@@ -232,6 +192,66 @@
 .backButton:hover {
   color: $primary-blue-dark;
 }
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .navbar {
+  background: rgba(24, 24, 27, 0.95);
+  border-bottom: 1px solid $border-dark-theme;
+}
+
+:global(body.dark) .logo h2,
+:global(body.dark) .navLink,
+:global(body.dark) .userName {
+  color: $primary-blue-dark-theme;
+}
+
+:global(body.dark) .navLink:hover {
+  color: $primary-blue-dark-theme-dark;
+  background: rgba(96, 165, 250, 0.1);
+  border-color: $primary-blue-dark-theme;
+}
+
+:global(body.dark) .loginBtn {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+
+:global(body.dark) .loginBtn:hover {
+  background: $primary-blue-dark-theme-dark;
+}
+
+:global(html.dark) .adminLink {
+  background: #059669;
+  color: $text-light-dark-theme;
+}
+
+:global(html.dark) .adminLink:hover {
+  background: #047857;
+}
+
+:global(html.dark) .avatar {
+  box-shadow: $shadow-dark-theme;
+}
+
+:global(html.dark) .themeToggle {
+  flex-direction: row;
+}
+
+:global(html.dark) .toggleSwitch {
+  margin-right: 0;
+  margin-left: $spacing-sm;
+}
+
+:global(body.dark) .themeLabel {
+  color: $text-secondary-dark-theme;
+}
+
+// ============================================================================
+// MOBILE STYLES
+// ============================================================================
 
 // Hamburger Menu
 .hamburger {
@@ -319,45 +339,6 @@
   border-color: $primary-blue;
 }
 
-// Responsive Design
-@media (max-width: 768px) {
-  .navigation,
-  .actions {
-    display: none;
-  }
-  
-  .hamburger {
-    display: flex;
-  }
-  
-  .mobileMenu {
-    display: block;
-  }
-  
-  .container {
-    position: relative;
-  }
-}
-
-// Dark theme overrides for mobile menu
-:global(html.dark) .mobileMenu {
-  background: $background-dark-theme-light;
-  border-top: 1px solid $border-dark-theme;
-}
-
-:global(html.dark) .mobileLink {
-  color: $text-primary-dark-theme;
-  // border-bottom: 1px solid $border-dark-theme;
-}
-
-:global(html.dark) .mobileLink:hover {
-  background: $background-dark-theme;
-}
-
-:global(html.dark) .hamburgerLine {
-  background: $primary-blue-dark-theme;
-}
-
 // Mobile Theme Toggle
 .mobileThemeToggle {
   display: flex;
@@ -410,7 +391,50 @@
   transform: translateX(26px);
 }
 
-// Dark theme overrides for mobile theme toggle
+// ============================================================================
+// MOBILE RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 768px) {
+  .navigation,
+  .actions {
+    display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+  
+  .mobileMenu {
+    display: block;
+  }
+  
+  .container {
+    position: relative;
+  }
+}
+
+// ============================================================================
+// DARK THEME MOBILE OVERRIDES
+// ============================================================================
+
+:global(html.dark) .mobileMenu {
+  background: $background-dark-theme-light;
+  border-top: 1px solid $border-dark-theme;
+}
+
+:global(html.dark) .mobileLink {
+  color: $text-primary-dark-theme;
+}
+
+:global(html.dark) .mobileLink:hover {
+  background: $background-dark-theme;
+}
+
+:global(html.dark) .hamburgerLine {
+  background: $primary-blue-dark-theme;
+}
+
 :global(html.dark) .mobileThemeToggle {
   border-bottom: 1px solid $border-dark-theme;
 }

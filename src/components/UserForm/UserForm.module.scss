@@ -1,5 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .formContainer {
   width: 100%;
   max-width: 600px;
@@ -23,10 +27,6 @@
   font-size: 14px;
   font-weight: 500;
   color: $text-primary;
-  
-  :global(body.dark) & {
-    color: $text-primary-dark-theme;
-  }
 }
 
 .input {
@@ -46,16 +46,6 @@
   
   &::placeholder {
     color: $text-secondary;
-  }
-  
-  :global(body.dark) & {
-    background-color: $background-dark-theme-light;
-    border-color: $border-dark-theme;
-    color: $text-primary-dark-theme;
-    
-    &::placeholder {
-      color: $text-secondary-dark-theme;
-    }
   }
 }
 
@@ -89,17 +79,6 @@
   &:active {
     transform: translateY(1px);
   }
-  
-  :global(body.dark) & {
-    background-color: $background-dark-theme-light;
-    border-color: $border-dark-theme;
-    color: $text-primary-dark-theme;
-    
-    &:hover {
-      background-color: $background-dark-theme;
-      border-color: $secondary-gray-dark-theme;
-    }
-  }
 }
 
 .googleIcon {
@@ -117,11 +96,59 @@
     background-color: #fef2f2;
     border: 1px solid #fecaca;
     color: #dc2626;
-    
-    :global(body.dark) & {
-      background-color: #450a0a;
-      border-color: #7f1d1d;
-      color: #f87171;
-    }
+  }
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .label {
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .input {
+  background-color: $background-dark-theme-light;
+  border-color: $border-dark-theme;
+  color: $text-primary-dark-theme;
+  
+  &::placeholder {
+    color: $text-secondary-dark-theme;
+  }
+}
+
+:global(body.dark) .googleButton {
+  background-color: $background-dark-theme-light;
+  border-color: $border-dark-theme;
+  color: $text-primary-dark-theme;
+  
+  &:hover {
+    background-color: $background-dark-theme;
+    border-color: $secondary-gray-dark-theme;
+  }
+}
+
+:global(body.dark) .message.error {
+  background-color: #450a0a;
+  border-color: #7f1d1d;
+  color: #f87171;
+}
+
+// ============================================================================
+// MOBILE RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 768px) {
+  .formContainer {
+    max-width: 100%;
+    padding: 0 $spacing-md;
+  }
+  
+  .input {
+    font-size: 16px; // Prevents zoom on iOS
+  }
+  
+  .googleButton {
+    font-size: 16px; // Prevents zoom on iOS
   }
 } 

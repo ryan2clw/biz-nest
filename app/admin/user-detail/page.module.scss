@@ -1,22 +1,18 @@
 @use '../../../styles/variables' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .container {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  @media (max-width: 768px) {
-    padding: 0;
-  }
 }
 
 .header {
   margin-bottom: 2rem;
-  @media (max-width: 768px) {
-    padding: 1.25rem 1rem 1rem 1rem;
-    h1 {
-      font-size: 1.8rem;
-    }
-  }
+  
   h1 {
     font-size: 2.5rem;
     font-weight: 700;
@@ -25,12 +21,6 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin: 0;
-    .dark & {
-      background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
   }
 }
 
@@ -38,10 +28,6 @@
   display: flex;
   gap: 2rem;
   align-items: flex-start;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
 }
 
 .formsContainer {
@@ -49,24 +35,10 @@
   gap: 2rem;
   flex: 1;
   width: 100%;
+  
   > * {
     flex: 1;
     min-width: 0;
-  }
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    width: 100%;
-    > * {
-      flex: none;
-    }
-  }
-  @media (max-width: 768px) {
-    align-items: center;
-    justify-content: center;
-    > * {
-      width: 100%;
-      max-width: 400px;
-    }
   }
 }
 
@@ -77,17 +49,71 @@
   h2 {
     color: #ef4444;
     margin-bottom: 1rem;
-    
-    .dark & {
-      color: #f87171;
-    }
   }
   
   p {
     color: $text-secondary;
+  }
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(.dark) .header h1 {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global(.dark) .error h2 {
+  color: #f87171;
+}
+
+:global(.dark) .error p {
+  color: $text-secondary-dark-theme;
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 1024px) {
+  .formsContainer {
+    flex-direction: column;
+    width: 100%;
     
-    .dark & {
-      color: $text-secondary-dark-theme;
+    > * {
+      flex: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+  }
+  
+  .header {
+    padding: 1.25rem 1rem 1rem 1rem;
+    
+    h1 {
+      font-size: 1.8rem;
+    }
+  }
+  
+  .content {
+    flex-direction: column;
+  }
+  
+  .formsContainer {
+    align-items: center;
+    justify-content: center;
+    
+    > * {
+      width: 100%;
+      max-width: 400px;
     }
   }
 } 

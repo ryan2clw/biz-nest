@@ -1,5 +1,9 @@
 @use '../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .container {
   min-height: 100vh;
   display: flex;
@@ -31,7 +35,10 @@
   line-height: 1.5;
 }
 
-// Dark theme overrides
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
 :global(html.dark) .container {
   background: $background-dark-theme;
 }
@@ -44,7 +51,10 @@
   color: $text-secondary-dark-theme;
 }
 
-// Mobile responsiveness
+// ============================================================================
+// MOBILE RESPONSIVE DESIGN
+// ============================================================================
+
 @media (max-width: $breakpoint-md) {
   .container {
     padding: $spacing-md;

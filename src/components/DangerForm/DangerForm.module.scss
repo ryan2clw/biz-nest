@@ -1,22 +1,14 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .dangerForm {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-
-  @media (max-width: 768px) {
-    max-width: 90%;
-    margin-bottom: 2rem;
-    padding-bottom: 7rem;
-  }
 }
-
-// @media (max-width: 1024px) {
-//   .dangerForm {
-//     margin: 0 auto 7.5rem auto;
-//   }
-// }
 
 .accordion {
   border: 1px solid #e5e7eb;
@@ -24,11 +16,6 @@
   overflow: hidden;
   background: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-  :global(body.dark) & {
-    border: 1px solid rgba(79, 172, 254, 0.6);
-    background: #1f2937;
-  }
 }
 
 .accordionHeader {
@@ -45,24 +32,12 @@
   &:hover {
     background: #f3f4f6;
   }
-
-  :global(body.dark) & {
-    background: #1f2937;
-    
-    &:hover {
-      background: #374151;
-    }
-  }
 }
 
 .accordionTitle {
   font-size: 16px;
   font-weight: 600;
   color: #dc2626;
-  
-  :global(.dark) & {
-    color: #f87171;
-  }
 }
 
 .accordionIcon {
@@ -72,10 +47,6 @@
   
   &.open {
     transform: rotate(180deg);
-  }
-  
-  :global(.dark) & {
-    color: #9ca3af;
   }
 }
 
@@ -89,10 +60,6 @@
   &.accordionOpen {
     height: 140px;
     padding: 15px 0 0 0;
-  }
-  
-  :global(.dark) & {
-    border-top-color: #374151;
   }
 }
 
@@ -112,10 +79,6 @@
   margin-bottom: 16px;
   font-weight: 500;
   margin-top: 0;
-  
-  :global(.dark) & {
-    color: #f87171;
-  }
 }
 
 .deleteButton {
@@ -137,16 +100,61 @@
     background: #9ca3af;
     cursor: not-allowed;
   }
+}
 
-  :global(.dark) & {
-    background: #ef4444;
-    
-    &:hover:not(:disabled) {
-      background: #dc2626;
-    }
-    
-    &:disabled {
-      background: #6b7280;
-    }
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .accordion {
+  border: 1px solid rgba(79, 172, 254, 0.6);
+  background: #1f2937;
+}
+
+:global(body.dark) .accordionHeader {
+  background: #1f2937;
+  
+  &:hover {
+    background: #374151;
+  }
+}
+
+:global(.dark) .accordionTitle {
+  color: #f87171;
+}
+
+:global(.dark) .accordionIcon {
+  color: #9ca3af;
+}
+
+:global(.dark) .accordionContent {
+  border-top-color: #374151;
+}
+
+:global(.dark) .warning {
+  color: #f87171;
+}
+
+:global(.dark) .deleteButton {
+  background: #ef4444;
+  
+  &:hover:not(:disabled) {
+    background: #dc2626;
+  }
+  
+  &:disabled {
+    background: #6b7280;
+  }
+}
+
+// ============================================================================
+// MOBILE RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 768px) {
+  .dangerForm {
+    max-width: 90%;
+    margin-bottom: 2rem;
+    padding-bottom: 7rem;
   }
 } 

@@ -1,13 +1,13 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .container {
   width: 100%;
   max-width: 400px;
   margin: 0 $spacing-md 0 0;
-  @media (max-width: 768px) {
-    margin: 0 auto;
-    padding: 5px;
-  } 
 }
 
 .outerContainer {
@@ -57,13 +57,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
-  :global(body.dark) & {
-    background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
 }
 
 .field {
@@ -99,13 +92,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
-  :global(body.dark) & {
-    background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
 }
 
 .formGroup {
@@ -221,7 +207,10 @@
   height: 20px;
 }
 
-// Dark theme overrides
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
 :global(body.dark) .outerContainer {
   background: $gradient-blue;
   box-shadow: $shadow-sm;
@@ -236,6 +225,13 @@
   background: $background-dark-theme-light;
   box-shadow: $shadow-dark-theme;
   border: 1px solid $border-dark-theme;
+}
+
+:global(body.dark) .heading {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 :global(body.dark) .label,
@@ -289,8 +285,23 @@
   background: $background-dark-theme;
 }
 
-// Mobile responsiveness
+:global(body.dark) .formTitle {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
 @media (max-width: $breakpoint-md) {
+  .container {
+    margin: 0 auto;
+    padding: 5px;
+  }
+  
   .formContainer {
     padding: 0;
   }
@@ -308,6 +319,7 @@
   .outerContainer {
     margin: 0 5px;
   }
+  
   .heading {
     margin: $spacing-md 0;
   }

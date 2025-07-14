@@ -1,5 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .admin-layout {
   display: flex;
   gap: $spacing-xl;
@@ -9,6 +13,18 @@
   justify-content: center;
   gap: 0;
 }
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(html.dark) .admin-layout {
+  background: $background-dark-theme;
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
 
 @media (max-width: $breakpoint-lg) {
   .admin-layout {
@@ -23,9 +39,4 @@
     gap: $spacing-md;
     padding: $spacing-md;
   }
-}
-
-// Dark theme overrides
-:global(html.dark) .admin-layout {
-  background: $background-dark-theme;
 } 

@@ -1,5 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .hero {
   background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
   padding: 48px 24px 32px 24px;
@@ -48,32 +52,6 @@
   background: $primary-blue-dark;
 }
 
-// Dark theme overrides
-:global(html.dark) .hero {
-  background: $background-dark-theme-light;
-  box-shadow: 0 4px 24px $shadow-dark-theme;
-}
-:global(html.dark) .hero h1 {
-  color: $primary-blue-dark-theme;
-}
-:global(html.dark) .hero p {
-  color: $text-primary-dark-theme;
-}
-:global(html.dark) .hero button {
-  background: $primary-blue-dark-theme;
-  color: $text-light-dark-theme;
-}
-:global(html.dark) .hero button:hover {
-  background: $primary-blue-dark-theme-dark;
-}
-:global(body.dark) .hero {
-  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-  box-shadow: 0 4px 24px $shadow-dark-theme;
-}
-:global(body.dark) .hero p {
-  color: #fff;
-}
-
 .logoSpan {
   display: inline-block;
   vertical-align: middle;
@@ -83,4 +61,66 @@
 
 .biz, .nest {
   color: $near-white-blue-dark-theme;
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(html.dark) .hero {
+  background: $background-dark-theme-light;
+  box-shadow: 0 4px 24px $shadow-dark-theme;
+}
+
+:global(html.dark) .hero h1 {
+  color: $primary-blue-dark-theme;
+}
+
+:global(html.dark) .hero p {
+  color: $text-primary-dark-theme;
+}
+
+:global(html.dark) .hero button {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+}
+
+:global(html.dark) .hero button:hover {
+  background: $primary-blue-dark-theme-dark;
+}
+
+:global(body.dark) .hero {
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  box-shadow: 0 4px 24px $shadow-dark-theme;
+}
+
+:global(body.dark) .hero p {
+  color: #fff;
+}
+
+// ============================================================================
+// MOBILE RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 32px 16px 24px 16px;
+    margin: 16px auto 24px auto;
+    border-radius: 16px;
+  }
+  
+  .hero h1 {
+    font-size: 2rem;
+    margin: 0 0 8px 24px;
+  }
+  
+  .hero p {
+    font-size: $font-size-lg;
+    max-width: 100%;
+  }
+  
+  .hero button {
+    padding: $spacing-sm $spacing-lg;
+    font-size: $font-size-base;
+  }
 } 

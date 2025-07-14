@@ -1,3 +1,7 @@
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .carousel {
   width: 100%;
   max-width: 600px;
@@ -37,6 +41,29 @@
   margin: 0 auto;
 }
 
+.slideText {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: normal;
+  width: 100%;
+  display: block;
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .slide {
+  background: #23272f;
+  color: #60a5fa; // Tailwind's blue-400
+}
+
+// ============================================================================
+// MOBILE RESPONSIVE DESIGN
+// ============================================================================
+
 @media (max-width: 600px) {
   .slide {
     font-size: 1rem;
@@ -46,20 +73,4 @@
     width: 80vw;
     margin: 0 auto;
   }
-}
-
-// Dark theme support
-:global(body.dark) .slide {
-  background: #23272f;
-  color: #60a5fa; // Tailwind's blue-400
-}
-
-.slideText {
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  white-space: normal;
-  overflow-wrap: normal;
-  width: 100%;
-  display: block;
 } 

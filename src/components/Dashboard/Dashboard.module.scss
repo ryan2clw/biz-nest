@@ -1,5 +1,9 @@
 @use '../../../styles/variables.scss' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .dashboard {
   flex: 0 0 70%;
   padding: $spacing-xl;
@@ -26,25 +30,6 @@
 .dashboard > * {
   position: relative;
   z-index: 2;
-}
-
-@media (max-width: 1400px) {
-  .dashboard {
-    flex: 0 0 60%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .dashboard {
-    flex: 0 0 50%;
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard {
-    flex: 1;
-    margin-right: 0;
-  }
 }
 
 .dashboard h2 {
@@ -332,69 +317,90 @@
   background: #2563eb;
 }
 
-// Dark theme overrides
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
 :global(body.dark) .dashboard {
   background: $gradient-blue;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
 :global(body.dark) .dashboard::before {
   background: rgba(24, 24, 27, 0.9);
 }
+
 :global(body.dark) .dashboard h2 {
   color: #fff;
 }
+
 :global(body.dark) .header {
   background: linear-gradient(135deg, #18181b 0%, #764ba2 100%);
   color: #fff;
   border-bottom: 1px solid $border-dark-theme;
 }
+
 :global(body.dark) .table th {
   color: #000;
 }
+
 :global(body.dark) .table td {
   color: #fff;
 }
+
 :global(body.dark) .table tr:hover {
   background: $background-dark-theme-light;
 }
+
 :global(body.dark) .tableRow:hover {
   background: $background-dark-theme;
 }
+
 :global(body.dark) .selected {
   background: $primary-blue-dark-theme !important;
 }
+
 :global(body.dark) .clickableRow:hover {
   background: $background-dark-theme !important;
 }
+
 :global(body.dark) .userName {
   color: $primary-blue-dark-theme;
 }
+
 :global(body.dark) .actionButton {
   background: $primary-blue-dark-theme;
   color: $text-light-dark-theme;
   border: 1px solid $secondary-gray-dark-theme-light;
 }
+
 :global(body.dark) .actionButton:hover {
   background: $primary-blue-dark-theme-dark;
   border: 1px solid $secondary-gray-dark-theme-light;
 }
+
 :global(body.dark) .actionText {
   color: $text-secondary-dark-theme;
 }
+
 :global(body.dark) .loading {
   color: $text-secondary-dark-theme;
 }
+
 :global(body.dark) .spinner {
   border: 4px solid $background-dark-theme-light;
   border-top: 4px solid $primary-blue-dark-theme;
 }
+
 :global(body.dark) .error {
   color: #f87171;
 }
+
 :global(body.dark) .retryButton {
   background: #f87171;
   color: $text-light-dark-theme;
 }
+
 :global(body.dark) .retryButton:hover {
   background: #ef4444;
 }
@@ -463,7 +469,28 @@
   border-color: $border-dark-theme;
 }
 
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 1400px) {
+  .dashboard {
+    flex: 0 0 60%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard {
+    flex: 0 0 50%;
+  }
+}
+
 @media (max-width: 768px) {
+  .dashboard {
+    flex: 1;
+    margin-right: 0;
+  }
+  
   .table th, .table td {
     color: $text-primary;
   }

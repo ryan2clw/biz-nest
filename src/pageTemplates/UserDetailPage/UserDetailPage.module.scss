@@ -1,5 +1,9 @@
 @use '../../../styles/variables' as *;
 
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .container {
   padding: 2rem;
   max-width: 1200px;
@@ -8,16 +12,6 @@
   border-radius: 12px;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.05);
-
-  :global(body.dark) & {
-    background: rgba(59, 130, 246, 0.3);
-    border: 1px solid rgba(96, 165, 250, 0.4);
-    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
-  }
-
-  @media (max-width: 768px) {
-    padding: 0;
-  }
 }
 
 .header {
@@ -28,12 +22,6 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(148, 163, 184, 0.2);
 
-  :global(body.dark) & {
-    background: rgba(24, 24, 27, 0.95);
-    border: 1px solid $border-dark-theme;
-    backdrop-filter: blur(10px);
-  }
-
   h1 {
     font-size: 2.5rem;
     font-weight: 700;
@@ -42,32 +30,12 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin: 0;
-    
-    :global(body.dark) & {
-      background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-  }
-  @media (max-width: 768px) {
-    padding: 1.25rem 1rem 1rem 1rem;
-    margin: 0.2rem 0 0.3rem 0;
-    text-align: center;
-    h1 {
-      font-size: 1.9rem !important;
-    }
   }
 }
 
 .content {
   display: flex;
-  // gap: 1rem;
   align-items: flex-start;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
 }
 
 .formsContainer {
@@ -75,24 +43,10 @@
   gap: 1rem;
   flex: 1;
   width: 100%;
+  
   > * {
     flex: 1;
     min-width: 0;
-  }
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    width: 100%;
-    > * {
-      flex: none;
-    }
-  }
-  @media (max-width: 768px) {
-    align-items: center;
-    justify-content: center;
-    > * {
-      width: 100%;
-      max-width: 400px;
-    }
   }
 }
 
@@ -103,17 +57,85 @@
   h2 {
     color: #ef4444;
     margin-bottom: 1rem;
-    
-    .dark & {
-      color: #f87171;
-    }
   }
   
   p {
     color: $text-secondary;
+  }
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .container {
+  background: rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
+}
+
+:global(body.dark) .header {
+  background: rgba(24, 24, 27, 0.95);
+  border: 1px solid $border-dark-theme;
+  backdrop-filter: blur(10px);
+}
+
+:global(body.dark) .header h1 {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global(body.dark) .error h2 {
+  color: #f87171;
+}
+
+:global(body.dark) .error p {
+  color: $text-secondary-dark-theme;
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 1024px) {
+  .formsContainer {
+    flex-direction: column;
+    width: 100%;
     
-    .dark & {
-      color: $text-secondary-dark-theme;
+    > * {
+      flex: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0;
+  }
+  
+  .header {
+    padding: 1.25rem 1rem 1rem 1rem;
+    margin: 0.2rem 0 0.3rem 0;
+    text-align: center;
+    
+    h1 {
+      font-size: 1.9rem !important;
+    }
+  }
+  
+  .content {
+    flex-direction: column;
+  }
+  
+  .formsContainer {
+    align-items: center;
+    justify-content: center;
+    
+    > * {
+      width: 100%;
+      max-width: 400px;
     }
   }
 } 

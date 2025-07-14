@@ -1,3 +1,7 @@
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
 .main {
   display: flex;
   flex-direction: column;
@@ -14,4 +18,27 @@
   /* Replace the above URL with a Tampa skyline image if you have a preferred one */
   display: flex;
   flex-direction: column;
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .tampa-bg {
+  filter: brightness(0.7) contrast(1.2);
+}
+
+// ============================================================================
+// MOBILE RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: 768px) {
+  .main {
+    padding: 1rem;
+  }
+  
+  .tampa-bg {
+    min-height: 100vh;
+    background-position: center;
+  }
 } 
