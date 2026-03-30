@@ -58,13 +58,19 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
 
   const handleRowClick = (user: User) => {
     setSelectedUserId(user.id);
-    
+
     const serializedUser: ReduxUser = {
       ...user,
       emailVerified: user.emailVerified || null
     };
-    
+
     dispatch(setSelectedUser(serializedUser));
+
+    if (isMobile) {
+      setTimeout(() => {
+        document.getElementById('dash-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
   };
 
   const handleViewDetails = (e: React.MouseEvent, user: User) => {
@@ -183,7 +189,7 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
                       onClick={(e) => handleViewDetails(e, user)}
                       className={styles.actionButton}
                     >
-                      View Details
+                      Edit User
                     </button>
                   </td>
                 </tr>

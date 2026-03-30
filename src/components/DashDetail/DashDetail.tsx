@@ -17,7 +17,7 @@ export default function DashDetail({ heading }: DashDetailProps) {
 
   if (!currentUser) {
     return (
-      <div className={styles.dashDetail}>
+      <div id="dash-detail" className={styles.dashDetail}>
         <h3>{heading}</h3>
         <div className={styles.emptyState}>
           <p>Select a user to view details</p>
@@ -43,7 +43,7 @@ export default function DashDetail({ heading }: DashDetailProps) {
   };
 
   return (
-    <div className={styles.dashDetail}>
+    <div id="dash-detail" className={styles.dashDetail}>
       <h3>{heading}</h3>
       
       <div className={styles.userCard}>

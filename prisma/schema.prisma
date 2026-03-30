@@ -49,6 +49,7 @@ model User {
   profile       Profile?
   accounts      Account[]
   sessions      Session[]
+  businesses    BusinessUser[]
 }
 
 enum Role {
@@ -95,4 +96,84 @@ model OrderItem {
   unitPrice   Float
   quantity    Int
   total       Float
+}
+
+model Business {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  phone       String?
+  email       String?
+  city        String?
+  state       String?
+  description String?
+  logoUrl     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       BusinessUser[]
+  services    Service[]
+  leads       Lead[]
+  pages       Page[]
+}
+
+model BusinessUser {
+  id         String   @id @default(cuid())
+  userId     Int
+  businessId String
+  role       String
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, businessId])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  businessId  String
+  name        String
+  slug        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, slug])
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  businessId  String
+  name        String
+  email       String?
+  phone       String?
+  message     String?
+  source      String?
+  pagePath    String?
+  status      String   @default("new")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  businessId  String
+  serviceId   String?
+  title       String
+  slug        String
+  city        String?
+  state       String?
+  content     Json?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@unique([businessId, slug])
 }

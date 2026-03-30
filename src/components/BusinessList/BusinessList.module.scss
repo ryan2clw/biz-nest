@@ -1,0 +1,202 @@
+@use '../../../styles/variables.scss' as *;
+
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
+.businessList {
+  flex: 1;
+  background: white;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-md;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  align-self: flex-start;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+
+  h2 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin: 0;
+  }
+}
+
+.refreshButton {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background: #2563eb;
+    color: white;
+  }
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th {
+    background: #f9fafb;
+    padding: 12px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: $text-primary;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+    color: $text-primary;
+  }
+}
+
+.tableRow {
+  transition: background-color 0.15s;
+
+  &:hover {
+    background: #f9fafb;
+  }
+
+  &:last-child td {
+    border-bottom: none;
+  }
+}
+
+.logo {
+  border-radius: $border-radius-sm;
+  object-fit: contain;
+}
+
+.logoPlaceholder {
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-sm;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-secondary;
+}
+
+.nameCell {
+  font-weight: 500;
+}
+
+.slugCell {
+  font-family: monospace;
+  font-size: 13px;
+  color: $text-secondary;
+}
+
+.dateCell {
+  color: $text-secondary;
+  white-space: nowrap;
+}
+
+.loadingCell,
+.emptyCell {
+  text-align: center;
+  padding: 3rem 1rem !important;
+  color: $text-secondary;
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .businessList {
+  background: $background-dark-theme-light;
+  border-color: $border-dark-theme;
+  box-shadow: $shadow-dark-theme;
+}
+
+:global(body.dark) .header {
+  border-bottom-color: $border-dark-theme;
+
+  h2 {
+    color: $text-primary-dark-theme;
+  }
+}
+
+:global(body.dark) .refreshButton {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+
+  &:hover {
+    background: $primary-blue-dark-theme-dark;
+    color: white;
+  }
+}
+
+:global(body.dark) .table {
+  th {
+    background: $background-dark-theme;
+    color: $text-primary-dark-theme;
+    border-bottom-color: $border-dark-theme;
+  }
+
+  td {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+    color: $text-primary-dark-theme;
+  }
+}
+
+:global(body.dark) .tableRow:hover {
+  background: $background-dark-theme;
+}
+
+:global(body.dark) .logoPlaceholder {
+  background: $background-dark-theme;
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .slugCell,
+:global(body.dark) .dateCell {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .loadingCell,
+:global(body.dark) .emptyCell {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .spinner {
+  border-color: $border-dark-theme;
+  border-top-color: $primary-blue-dark-theme;
+}
