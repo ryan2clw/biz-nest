@@ -87,6 +87,7 @@
 
 :global(html.dark) .hero button:hover {
   background: $primary-blue-dark-theme-dark;
+  color: white;
 }
 
 :global(body.dark) .hero {

@@ -377,6 +377,7 @@
 :global(body.dark) .actionButton:hover {
   background: $primary-blue-dark-theme-dark;
   border: 1px solid $secondary-gray-dark-theme-light;
+  color: white;
 }
 
 :global(body.dark) .actionText {
@@ -454,6 +455,7 @@
 
 :global(body.dark) .activePage:hover {
   background: $primary-blue-dark-theme-dark;
+  color: white;
 }
 
 :global(body.dark) .refreshButton {
@@ -463,6 +465,7 @@
 
 :global(body.dark) .refreshButton:hover {
   background: $primary-blue-dark-theme-dark;
+  color: white;
 }
 
 :global(body.dark) .userAvatar {

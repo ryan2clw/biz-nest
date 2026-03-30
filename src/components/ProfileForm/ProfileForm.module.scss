@@ -261,6 +261,7 @@
 :global(body.dark) .button:hover:not(:disabled),
 :global(body.dark) .submitButton:hover:not(:disabled) {
   background: $primary-blue-dark-theme-dark;
+  color: white;
 }
 
 :global(body.dark) .success {

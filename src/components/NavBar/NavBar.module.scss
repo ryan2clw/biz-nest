@@ -221,6 +221,7 @@
 
 :global(body.dark) .loginBtn:hover {
   background: $primary-blue-dark-theme-dark;
+  color: white;
 }
 
 :global(html.dark) .adminLink {
