@@ -2,8 +2,8 @@
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../lib/store';
-import { setTheme } from '../../lib/slices/appSlice';
+import { AppDispatch } from '../../redux/store';
+import { setTheme } from '../../redux/slices/appSlice';
 
 interface SessionUser {
   id?: string | number;

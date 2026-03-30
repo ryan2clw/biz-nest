@@ -4,12 +4,12 @@ import '../styles/globals.css';
 import type { ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { Provider } from 'react-redux';
-import { store } from '../src/lib/store';
+import { store } from '../src/redux/store';
 import NavBar from '../src/components/NavBar/NavBar';
 import ScreenNameUpdater from '../src/components/ScreenNameUpdater/ScreenNameUpdater';
 import ThemeProvider from '../src/components/ThemeProvider/ThemeProvider';
 import ThemeSync from '../src/components/ThemeProvider/ThemeSync';
-import { closeMenu } from '../src/lib/slices/appSlice';
+import { closeMenu } from '../src/redux/slices/appSlice';
 import { Inter } from 'next/font/google';
 
 console.log('Rendering app/layout.tsx');

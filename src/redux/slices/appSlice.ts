@@ -57,4 +57,4 @@ const appSlice = createSlice({
 });
 
 export const { setSelectedUser, clearSelectedUser, pushPage, popPage, toggleMenu, closeMenu, setTheme } = appSlice.actions;
-export default appSlice.reducer; 
+export default appSlice.reducer;

@@ -2,7 +2,7 @@
 
 import styles from './DashDetail.module.scss';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../lib/store';
+import { RootState } from '../../redux/store';
 import Image from 'next/image';
 // import Link from 'next/link';
 

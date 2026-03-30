@@ -6,8 +6,8 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../lib/store';
-import { popPage, toggleMenu, closeMenu, updateThemePreference } from '../../lib/slices/appSlice';
+import { RootState, AppDispatch } from '../../redux/store';
+import { popPage, toggleMenu, closeMenu, updateThemePreference } from '../../redux/slices/appSlice';
 import UserInfoOrLogo from './UserInfoOrLogo';
 
 type AppState = { app: { menuOpen: boolean } };

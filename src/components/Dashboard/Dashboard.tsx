@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { setSelectedUser, pushPage } from '../../lib/slices/appSlice';
+import { setSelectedUser, pushPage } from '../../redux/slices/appSlice';
 import styles from './Dashboard.module.scss';
 
 // Import the User type from the interfaces

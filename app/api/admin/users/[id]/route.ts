@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from 'next/server';
 // import { getServerSession } from 'next-auth';
-import { prisma } from '../../../../../src/lib/prisma';
+import { prisma } from '../../../../../src/db/prisma';
 import type { Prisma } from '@prisma/client';
 
 /**

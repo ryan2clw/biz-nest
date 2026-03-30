@@ -10,4 +10,4 @@ export function useIsAuthorized(requiredRole: string = 'admin') {
   if (status !== 'authenticated') return false;
   const userRole = (session?.user as { profile?: { role?: string } })?.profile?.role;
   return userRole === requiredRole;
-} 
+}

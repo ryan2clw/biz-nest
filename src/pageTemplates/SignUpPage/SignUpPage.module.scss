@@ -94,7 +94,7 @@
   margin: 0;
 
   &:hover {
-    color: darken($primary-blue, 10%);
+    color: color.scale($primary-blue, $lightness: -10%);
   }
 }
 
@@ -133,7 +133,7 @@
   color: color.adjust($primary-blue-dark-theme, $lightness: 10%);
 
   &:hover {
-    color: lighten($primary-blue-dark-theme, 10%);
+    color: color.scale($primary-blue-dark-theme, $lightness: 10%);
   }
 }
 

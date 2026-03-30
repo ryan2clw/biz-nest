@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../../src/lib/authOptions";
+import { authOptions } from "../../../../src/auth/authOptions";
 import UserDetailPage from "../../../../src/pageTemplates/UserDetailPage/UserDetailPage";
 import { redirect } from "next/navigation";
-import { prisma } from "../../../../src/lib/prisma";
+import { prisma } from "../../../../src/db/prisma";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);

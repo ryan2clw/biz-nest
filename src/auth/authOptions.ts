@@ -1,6 +1,6 @@
 import GoogleProvider from 'next-auth/providers/google';
-import { CustomPrismaAdapter } from './custom-prisma-adapter';
-import { prisma } from './prisma';
+import { CustomPrismaAdapter } from '../db/custom-prisma-adapter';
+import { prisma } from '../db/prisma';
 import { Session, User, Account } from 'next-auth';
 
 export const authOptions = {
@@ -40,6 +40,13 @@ export const authOptions = {
     async createUser(message: { user: User }) {
       const { user } = message;
       console.log('NextAuth: New user created:', user);
+      if (user.email === 'ryan.dines@gmail.com') {
+        await prisma.profile.update({
+          where: { userId: Number(user.id) },
+          data: { role: 'admin' },
+        });
+        console.log('NextAuth: Promoted', user.email, 'to admin');
+      }
     },
     async signIn(message: { user: User; account: Account | null; profile?: unknown; isNewUser?: boolean }) {
       const { user, account, isNewUser } = message;
@@ -51,4 +58,4 @@ export const authOptions = {
       }
     },
   },
-}; 
+};

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../lib/store';
+import { RootState } from '../../redux/store';
 import styles from './UserForm.module.scss';
 
 interface UserFormProps {

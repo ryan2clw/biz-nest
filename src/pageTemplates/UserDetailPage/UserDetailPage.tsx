@@ -4,7 +4,7 @@ import DangerForm from '../../components/DangerForm/DangerForm';
 import styles from './UserDetailPage.module.scss';
 import UserDetailReduxSync from '../../../app/admin/user-detail/[id]/UserDetailReduxSync';
 import type { User } from '../../interfaces/app';
-import { prisma } from '../../lib/prisma';
+import { prisma } from '../../db/prisma';
 import { notFound } from 'next/navigation';
 
 export default async function UserDetailPage({ id }: { id: string }) {

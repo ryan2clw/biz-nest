@@ -10,7 +10,7 @@ interface CreateUserData {
 
 export function CustomPrismaAdapter() {
   const adapter = PrismaAdapter(prisma);
-  
+
   return {
     ...adapter,
     createUser: async (data: CreateUserData) => {
@@ -23,13 +23,13 @@ export function CustomPrismaAdapter() {
           emailVerified: data.emailVerified,
         },
       });
-      
+
       // Create profile with split name if name exists
       if (data.name) {
         const nameParts = data.name.split(' ');
         const firstName = nameParts[0] || null;
         const lastName = nameParts.slice(1).join(' ') || null;
-        
+
         await prisma.profile.create({
           data: {
             firstName: firstName,
@@ -37,15 +37,15 @@ export function CustomPrismaAdapter() {
             userId: user.id,
           },
         });
-        
+
         console.log('CustomPrismaAdapter: User and profile created with split name:', {
           firstName,
           lastName,
           email: data.email
         });
       }
-      
+
       return user;
     },
   };
-} 
+}

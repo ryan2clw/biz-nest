@@ -1,4 +1,4 @@
-import { prisma } from "../src/lib/prisma";
+import { prisma } from "../src/db/prisma";
 
 const firstNames = [
   'Jason', 'Jennifer', 'Michael', 'Heather', 'Christopher', 'Amy', 'Matthew', 'Melissa', 'Joshua', 'Stephanie',
@@ -45,7 +45,7 @@ async function main() {
   // Delete all users and profiles first
   await prisma.profile.deleteMany({});
   await prisma.user.deleteMany({});
-  
+
   for (let i = 0; i < 100; i++) {
     const firstName = getRandom(firstNames);
     const lastName = getRandom(lastNames);

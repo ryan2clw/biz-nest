@@ -2,7 +2,7 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useIsAuthorized } from '../lib/hooks';
+import { useIsAuthorized } from '../redux/hooks';
 
 
 

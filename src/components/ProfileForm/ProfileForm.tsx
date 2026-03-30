@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../lib/store';
-import { setSelectedUser } from '../../lib/slices/appSlice';
+import { RootState, AppDispatch } from '../../redux/store';
+import { setSelectedUser } from '../../redux/slices/appSlice';
 import styles from './ProfileForm.module.scss';
 
 export default function ProfileForm() {

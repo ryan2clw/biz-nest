@@ -1,4 +1,4 @@
-import { prisma } from "../src/lib/prisma";
+import { prisma } from "../src/db/prisma";
 
 // Example industry-based order item templates
 const industryOrderTemplates: Record<string, { description: string; type: string; unitPrice: number; quantity: number }[]> = {
