@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({ success: true, business });
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {

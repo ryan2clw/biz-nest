@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import styles from "./CreateBusinessPage.module.scss";
 import BusinessList, { Business } from "../../components/BusinessList/BusinessList";
 
@@ -110,7 +111,7 @@ export default function CreateBusinessPage({ initialBusinesses }: CreateBusiness
                 onClick={() => fileInputRef.current?.click()}
               >
                 {logoPreview ? (
-                  <img src={logoPreview} alt="Logo preview" className={styles.logoPreview} />
+                  <Image src={logoPreview} alt="Logo preview" className={styles.logoPreview} width={200} height={200} unoptimized />
                 ) : (
                   <div className={styles.uploadPlaceholder}>
                     <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

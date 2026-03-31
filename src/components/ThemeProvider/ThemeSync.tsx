@@ -25,6 +25,7 @@ export default function ThemeSync() {
     const pref = user?.profile?.themePreference;
     if (pref === 'dark' || pref === 'light') {
       dispatch(setTheme(pref));
+      document.cookie = `theme=${pref};path=/;max-age=${30 * 24 * 60 * 60};samesite=lax`;
     }
   }, [session, dispatch]);
 

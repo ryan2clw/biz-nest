@@ -38,10 +38,6 @@ export default async function UserDetailPage({ id }: { id: string }) {
   const user: User = {
     ...userData,
     emailVerified: userData.emailVerified ? String(userData.emailVerified) : null,
-    firstName: userData.profile?.firstName || null,
-    lastName: userData.profile?.lastName || null,
-    screenName: userData.profile?.screenName || null,
-    industry: userData.profile?.industry || null,
     profile: userData.profile || null,
   };
 

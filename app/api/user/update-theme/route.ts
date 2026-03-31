@@ -28,7 +28,13 @@ export async function POST(req: NextRequest) {
       data: { themePreference },
     });
 
-    return NextResponse.json({ profile: updatedProfile });
+    const response = NextResponse.json({ profile: updatedProfile });
+    response.cookies.set('theme', themePreference, {
+      path: '/',
+      maxAge: 30 * 24 * 60 * 60,
+      sameSite: 'lax',
+    });
+    return response;
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
