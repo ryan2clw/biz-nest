@@ -4,7 +4,7 @@ import styles from './DashDetail.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import Image from 'next/image';
-// import Link from 'next/link';
+import Link from 'next/link';
 
 
 interface DashDetailProps {
@@ -111,8 +111,13 @@ export default function DashDetail({ heading }: DashDetailProps) {
           )}
         </div>
 
-        {/* Only show View Details link if we're not already on the user detail page */}
-        {/* This is now always false since we only use Redux for user */}
+        {currentUser.profile?.role === 'admin' && (
+          <div className={styles.adminActions}>
+            <Link href={`/admin/create-business/${currentUser.id}`} className={styles.createBusinessBtn}>
+              Create Business
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

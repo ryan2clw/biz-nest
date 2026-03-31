@@ -7,9 +7,10 @@ import BusinessList, { Business } from "../../components/BusinessList/BusinessLi
 
 interface CreateBusinessPageProps {
   initialBusinesses: Business[];
+  userId?: number;
 }
 
-export default function CreateBusinessPage({ initialBusinesses }: CreateBusinessPageProps) {
+export default function CreateBusinessPage({ initialBusinesses, userId }: CreateBusinessPageProps) {
   const [name, setName] = useState("");
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -62,7 +63,7 @@ export default function CreateBusinessPage({ initialBusinesses }: CreateBusiness
       const res = await fetch("/api/admin/business", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, logoUrl: logoPreview }),
+        body: JSON.stringify({ name, logoUrl: logoPreview, ownerId: userId }),
       });
 
       const data = await res.json();

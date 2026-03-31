@@ -128,6 +128,33 @@
   margin-left: $spacing-md;
 }
 
+.adminActions {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-light;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.createBusinessBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  background: $primary-blue;
+  color: $text-light;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: background 0.2s;
+
+  &:hover {
+    background: $primary-blue-dark;
+  }
+}
+
 .viewDetailsLink {
   display: flex;
   justify-content: flex-end;
@@ -211,6 +238,19 @@
 
 :global(body.dark) .detailValue {
   color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .adminActions {
+  border-top: 1px solid $border-dark-theme;
+}
+
+:global(body.dark) .createBusinessBtn {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+
+  &:hover {
+    background: $primary-blue-dark-theme-dark;
+  }
 }
 
 :global(body.dark) .viewDetailsLink {

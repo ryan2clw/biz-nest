@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { name, logoUrl } = body;
+  const { name, logoUrl, ownerId } = body;
 
   if (!name?.trim()) {
     return NextResponse.json({ error: 'Business name is required' }, { status: 400 });
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       logoUrl: logoUrl || null,
       users: {
         create: {
-          userId: dbUser.id,
+          userId: ownerId ?? dbUser.id,
           role: 'owner',
         },
       },

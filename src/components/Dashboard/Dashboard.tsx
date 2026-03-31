@@ -189,7 +189,7 @@ export default function Dashboard({ users, currentPage, totalPages, onPageChange
                       onClick={(e) => handleViewDetails(e, user)}
                       className={styles.actionButton}
                     >
-                      Edit User
+                      User Details
                     </button>
                   </td>
                 </tr>
