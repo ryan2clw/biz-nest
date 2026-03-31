@@ -1,11 +1,10 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../../../src/auth/authOptions";
+import { auth } from "@/auth";
 import UserDetailPage from "../../../../src/pageTemplates/UserDetailPage/UserDetailPage";
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../src/db/prisma";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session?.user?.email) {
     redirect("/");

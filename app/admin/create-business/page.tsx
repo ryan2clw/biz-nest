@@ -1,11 +1,10 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../../src/auth/authOptions";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "../../../src/db/prisma";
 import CreateBusinessPage from "../../../src/pageTemplates/CreateBusinessPage/CreateBusinessPage";
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session?.user?.email) {
     redirect("/");

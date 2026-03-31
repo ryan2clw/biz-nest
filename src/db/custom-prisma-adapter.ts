@@ -1,11 +1,12 @@
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import type { AdapterUser } from '@auth/core/adapters';
 import { prisma } from './prisma';
 
 interface CreateUserData {
-  name?: string;
-  email?: string;
-  image?: string;
-  emailVerified?: Date;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+  emailVerified?: Date | null;
 }
 
 export function CustomPrismaAdapter() {
@@ -45,7 +46,7 @@ export function CustomPrismaAdapter() {
         });
       }
 
-      return user;
+      return { ...user, id: String(user.id) } as AdapterUser;
     },
   };
 }

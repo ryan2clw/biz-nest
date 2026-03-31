@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 import { prisma } from '../../../../src/db/prisma';
 
 export async function POST(request: NextRequest) {
@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   
   try {
     // Get the current session
-    const session = await getServerSession();
+    const session = await auth();
     console.log('update-industry API: Session:', session);
     
     if (!session?.user?.email) {
