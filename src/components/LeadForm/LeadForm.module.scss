@@ -1,0 +1,268 @@
+@use '../../../styles/variables.scss' as *;
+
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
+.formCard {
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  padding: $spacing-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.formCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.formCard > * {
+  position: relative;
+  z-index: 2;
+}
+
+.formTitle {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  margin: 0 0 $spacing-lg 0;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.formGroup {
+  margin-bottom: $spacing-md;
+  flex: 1;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.row {
+  display: flex;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+
+  .formGroup {
+    margin-bottom: 0;
+  }
+}
+
+.label {
+  display: block;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+  margin-bottom: $spacing-xs;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $border-light;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  color: $text-primary;
+  background: $background-white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.errorMsg {
+  padding: $spacing-sm $spacing-md;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: $border-radius-md;
+  color: #dc2626;
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-md;
+}
+
+.submitButton {
+  width: 100%;
+  padding: $spacing-md $spacing-lg;
+  background: $primary-blue;
+  color: $text-light;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: $spacing-sm;
+
+  &:hover:not(:disabled) {
+    background: $primary-blue-dark;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    background: $text-secondary;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.successCard {
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  padding: $spacing-xl;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  text-align: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  svg {
+    color: #15803d;
+  }
+
+  h3 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: $font-size-base;
+    margin: 0;
+  }
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .formCard::before {
+  background: rgba(24, 24, 27, 0.92);
+}
+
+:global(body.dark) .formTitle {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global(body.dark) .label {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .input,
+:global(body.dark) .textarea {
+  background: $background-dark-theme;
+  border-color: $border-dark-theme;
+  color: $text-primary-dark-theme;
+
+  &:focus {
+    border-color: $primary-blue-dark-theme;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-secondary-dark-theme;
+  }
+}
+
+:global(body.dark) .errorMsg {
+  background: #450a0a;
+  border-color: #7f1d1d;
+  color: #f87171;
+}
+
+:global(body.dark) .submitButton {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+
+  &:hover:not(:disabled) {
+    background: $primary-blue-dark-theme-dark;
+    color: white;
+  }
+
+  &:disabled {
+    background: $text-secondary-dark-theme;
+  }
+}
+
+:global(body.dark) .successCard::before {
+  background: rgba(24, 24, 27, 0.92);
+}
+
+:global(body.dark) .successCard h3 {
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .successCard p {
+  color: $text-secondary-dark-theme;
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: $breakpoint-md) {
+  .row {
+    flex-direction: column;
+    gap: 0;
+
+    .formGroup {
+      margin-bottom: $spacing-md;
+    }
+  }
+}

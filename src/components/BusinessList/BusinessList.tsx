@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./BusinessList.module.scss";
 
 export interface Business {
@@ -104,6 +105,12 @@ export default function BusinessList({ businesses, onRefresh, isLoading }: Busin
                       {new Date(biz.createdAt).toLocaleDateString()}
                     </td>
                     <td className={styles.actionsCell}>
+                      <Link
+                        href={`/admin/page-editor/${biz.id}`}
+                        className={styles.editPageBtn}
+                      >
+                        Edit Page
+                      </Link>
                       <button
                         className={styles.deleteButton}
                         onClick={() => handleDeleteClick(biz)}

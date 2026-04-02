@@ -1,7 +1,25 @@
 import styles from './Hero.module.scss';
 import Carousel from '../Carousel/Carousel';
 
-export default function Hero() {
+interface HeroProps {
+  carouselItems?: string[];
+  ctaText?: string;
+  ctaUrl?: string;
+  heroImageUrl?: string;
+}
+
+const DEFAULT_CAROUSEL_ITEMS = [
+  "Build your business nest egg with confidence.",
+  "Biz Nest empowers entrepreneurs and small business owners to create, manage, and grow their business apps with ease.",
+  "Start your journey to financial security and business success—lay the foundation for your future today!",
+];
+
+export default function Hero({
+  carouselItems = DEFAULT_CAROUSEL_ITEMS,
+  ctaText = "Get Started",
+  ctaUrl,
+  heroImageUrl,
+}: HeroProps) {
   return (
     <div className={styles.hero}>
       <h1>
@@ -19,12 +37,16 @@ export default function Hero() {
         </span>
         <span className={styles.nest}>Nest</span>
       </h1>
-      <Carousel items={[
-        "Build your business nest egg with confidence.",
-        "Biz Nest empowers entrepreneurs and small business owners to create, manage, and grow their business apps with ease.",
-        "Start your journey to financial security and business success—lay the foundation for your future today!"
-      ]} />
-      <button>Get Started</button>
+      {heroImageUrl && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={heroImageUrl} alt="Hero" className={styles.heroImage} />
+      )}
+      <Carousel items={carouselItems} />
+      {ctaUrl ? (
+        <a href={ctaUrl} className={styles.ctaButton}>{ctaText}</a>
+      ) : (
+        <button className={styles.ctaButton}>{ctaText}</button>
+      )}
     </div>
   );
-} 
+}

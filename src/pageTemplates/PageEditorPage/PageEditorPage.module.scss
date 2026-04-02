@@ -1,0 +1,423 @@
+@use '../../../styles/variables.scss' as *;
+
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
+.pageLayout {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-xl;
+  padding: $spacing-xl;
+  min-height: 100vh;
+}
+
+.editorPanel {
+  width: 100%;
+  max-width: 480px;
+  flex-shrink: 0;
+}
+
+.previewPanel {
+  flex: 1;
+  min-width: 0;
+}
+
+.outerContainer {
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  padding: $spacing-md;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.outerContainer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.outerContainer > * {
+  position: relative;
+  z-index: 2;
+}
+
+.heading {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  margin: 0 0 $spacing-md 0;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.innerContainer {
+  background: $background-white;
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.businessBadge {
+  display: inline-block;
+  background: rgba(37, 99, 235, 0.08);
+  color: $primary-blue;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  padding: $spacing-xs $spacing-sm;
+  margin-bottom: $spacing-lg;
+}
+
+.section {
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  &:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.sectionTitle {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+}
+
+.formGroup {
+  margin-bottom: $spacing-md;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.label {
+  display: block;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+  margin-bottom: $spacing-xs;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $border-light;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  color: $text-primary;
+  background: $background-white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  resize: vertical;
+
+  &:focus {
+    border-color: $primary-blue;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+}
+
+.uploadArea {
+  width: 100%;
+  min-height: 120px;
+  border: 2px dashed rgba(0, 0, 0, 0.15);
+  border-radius: $border-radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: $background-light;
+  overflow: hidden;
+
+  &:hover {
+    border-color: $primary-blue;
+    background: rgba(37, 99, 235, 0.03);
+  }
+
+  &.hasPreview {
+    border-style: solid;
+    border-color: $primary-blue;
+    min-height: 80px;
+  }
+}
+
+.uploadPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-xs;
+  color: $text-secondary;
+  padding: $spacing-lg;
+
+  svg {
+    color: $primary-blue;
+    opacity: 0.7;
+  }
+
+  span {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.uploadHint {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal !important;
+  color: $text-secondary;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.removeImageBtn {
+  margin-top: $spacing-xs;
+  background: none;
+  border: none;
+  color: #dc2626;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  padding: $spacing-xs 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.publishRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.publishStatus {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: $text-secondary;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+
+  &.toggled {
+    background: $primary-blue;
+  }
+}
+
+.toggleSlider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+
+  .toggled & {
+    transform: translateX(20px);
+  }
+}
+
+.saveButton {
+  width: 100%;
+  padding: $spacing-md $spacing-lg;
+  background: $primary-blue;
+  color: $text-light;
+  border: none;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: $spacing-lg;
+
+  &:hover:not(:disabled) {
+    background: $primary-blue-dark;
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    background: $text-secondary;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.errorMsg {
+  padding: $spacing-sm $spacing-md;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: $border-radius-md;
+  color: #dc2626;
+  font-size: $font-size-sm;
+  margin-top: $spacing-md;
+}
+
+.successMsg {
+  padding: $spacing-sm $spacing-md;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: $border-radius-md;
+  color: #15803d;
+  font-size: $font-size-sm;
+  margin-top: $spacing-md;
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .outerContainer {
+  background: $gradient-blue;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+:global(body.dark) .outerContainer::before {
+  background: rgba(24, 24, 27, 0.9);
+}
+
+:global(body.dark) .heading {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global(body.dark) .innerContainer {
+  background: $background-dark-theme-light;
+  box-shadow: $shadow-dark-theme;
+  border: 1px solid $border-dark-theme;
+}
+
+:global(body.dark) .businessBadge {
+  background: rgba(96, 165, 250, 0.1);
+  color: $primary-blue-dark-theme;
+  border-color: rgba(96, 165, 250, 0.2);
+}
+
+:global(body.dark) .sectionTitle {
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .section {
+  border-bottom-color: $border-dark-theme;
+}
+
+:global(body.dark) .label {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .publishStatus {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .input,
+:global(body.dark) .textarea {
+  background: $background-dark-theme;
+  border-color: $border-dark-theme;
+  color: $text-primary-dark-theme;
+
+  &:focus {
+    border-color: $primary-blue-dark-theme;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  }
+}
+
+:global(body.dark) .uploadArea {
+  background: $background-dark-theme;
+  border-color: $border-dark-theme;
+
+  &:hover {
+    border-color: $primary-blue-dark-theme;
+    background: rgba(96, 165, 250, 0.05);
+  }
+
+  &.hasPreview {
+    border-color: $primary-blue-dark-theme;
+  }
+}
+
+:global(body.dark) .uploadPlaceholder {
+  color: $text-secondary-dark-theme;
+
+  svg {
+    color: $primary-blue-dark-theme;
+  }
+}
+
+:global(body.dark) .saveButton {
+  background: $primary-blue-dark-theme;
+  color: $text-light-dark-theme;
+
+  &:hover:not(:disabled) {
+    background: $primary-blue-dark-theme-dark;
+    color: white;
+  }
+}
+
+:global(body.dark) .errorMsg {
+  background: #450a0a;
+  border-color: #7f1d1d;
+  color: #f87171;
+}
+
+:global(body.dark) .successMsg {
+  background: #052e16;
+  border-color: #166534;
+  color: #6ee7b7;
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: $breakpoint-lg) {
+  .pageLayout {
+    flex-direction: column;
+  }
+
+  .editorPanel {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .pageLayout {
+    padding: $spacing-md $spacing-sm;
+    gap: $spacing-md;
+  }
+}

@@ -40,10 +40,13 @@
   border-bottom: 1px solid #e5e7eb;
 
   h2 {
-    font-size: $font-size-lg;
+    font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
-    color: $text-primary;
     margin: 0;
+    background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
@@ -136,6 +139,28 @@
 .actionsCell {
   white-space: nowrap;
   text-align: right;
+  display: flex;
+  gap: $spacing-sm;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.editPageBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border: 1px solid $primary-blue;
+  color: $primary-blue;
+  border-radius: $border-radius-sm;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s;
+
+  &:hover {
+    background: $primary-blue;
+    color: white;
+  }
 }
 
 .deleteButton {
@@ -275,7 +300,10 @@
   border-bottom-color: $border-dark-theme;
 
   h2 {
-    color: $text-primary-dark-theme;
+    background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
@@ -324,6 +352,16 @@
 :global(body.dark) .spinner {
   border-color: $border-dark-theme;
   border-top-color: $primary-blue-dark-theme;
+}
+
+:global(body.dark) .editPageBtn {
+  border-color: $primary-blue-dark-theme;
+  color: $primary-blue-dark-theme;
+
+  &:hover {
+    background: $primary-blue-dark-theme;
+    color: $text-light-dark-theme;
+  }
 }
 
 :global(body.dark) .deleteButton {
