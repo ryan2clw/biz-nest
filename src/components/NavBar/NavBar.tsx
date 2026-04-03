@@ -100,11 +100,11 @@ export default function NavBar() {
                 <Link href="/admin" className={styles.navLink}>
                   Admin
                 </Link>
-                <Link href="/api-docs" className={styles.navLink}>
-                  API Docs
+                <Link href="/admin/business" className={styles.navLink}>
+                  Business
                 </Link>
-                <Link href="/" className={styles.navLink}>
-                  Home
+                <Link href="/admin/leads" className={styles.navLink}>
+                  Leads
                 </Link>
               </>
             ) : (
@@ -159,11 +159,11 @@ export default function NavBar() {
                 <Link href="/admin" className={styles.mobileLink} onClick={handleMenuClose}>
                   Admin
                 </Link>
-                <Link href="/api-docs" className={styles.mobileLink} onClick={handleMenuClose}>
-                  API Docs
+                <Link href="/admin/business" className={styles.mobileLink} onClick={handleMenuClose}>
+                  Business
                 </Link>
-                <Link href="/" className={styles.mobileLink} onClick={handleMenuClose}>
-                  Home
+                <Link href="/admin/leads" className={styles.mobileLink} onClick={handleMenuClose}>
+                  Leads
                 </Link>
               </>
             ) : (

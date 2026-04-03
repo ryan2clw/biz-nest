@@ -17,17 +17,22 @@ export default async function Page({ params }: { params: Promise<{ businessId: s
 
   const { businessId } = await params;
 
-  const business = await prisma.business.findUnique({
-    where: { id: businessId },
-    select: { id: true, name: true },
-  });
+  const [business, allBusinesses, leads] = await Promise.all([
+    prisma.business.findUnique({
+      where: { id: businessId },
+      select: { id: true, name: true },
+    }),
+    prisma.business.findMany({
+      orderBy: { name: "asc" },
+      select: { id: true, name: true },
+    }),
+    prisma.lead.findMany({
+      where: { businessId },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
   if (!business) redirect("/admin");
 
-  const leads = await prisma.lead.findMany({
-    where: { businessId },
-    orderBy: { createdAt: "desc" },
-  });
-
-  return <LeadsPage business={business} leads={leads} />;
+  return <LeadsPage business={business!} allBusinesses={allBusinesses} leads={leads} />;
 }

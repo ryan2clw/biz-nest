@@ -14,12 +14,12 @@ interface UserInfoOrLogoProps {
 export default function UserInfoOrLogo({ isLoggedIn, user }: UserInfoOrLogoProps) {
   if (isLoggedIn && user) {
     return (
-      <div className={styles.userInfo}>
+      <Link href="/" className={styles.userInfo}>
         {user.image && (
           <Image src={user.image} alt={user.name || 'User'} width={32} height={32} className={styles.avatar} />
         )}
         <span className={styles.userName}>{user.name || user.email}</span>
-      </div>
+      </Link>
     );
   }
   return (
@@ -30,4 +30,4 @@ export default function UserInfoOrLogo({ isLoggedIn, user }: UserInfoOrLogoProps
       </Link>
     </div>
   );
-} 
+}

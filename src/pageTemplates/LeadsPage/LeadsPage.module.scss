@@ -61,6 +61,12 @@
   padding: 2px $spacing-sm;
 }
 
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
 .count {
   font-size: $font-size-sm;
   color: $text-secondary;

@@ -1,5 +1,6 @@
 import styles from "./LeadsPage.module.scss";
 import LeadsTable from "../../components/LeadsTable/LeadsTable";
+import BusinessSwitcher from "../../components/BusinessSwitcher/BusinessSwitcher";
 
 interface Lead {
   id: string;
@@ -20,17 +21,26 @@ interface Business {
 
 interface LeadsPageProps {
   business: Business;
+  allBusinesses: Business[];
   leads: Lead[];
 }
 
-export default function LeadsPage({ business, leads }: LeadsPageProps) {
+export default function LeadsPage({ business, allBusinesses, leads }: LeadsPageProps) {
   return (
     <div className={styles.pageLayout}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div>
+          <div className={styles.headerLeft}>
             <h1 className={styles.heading}>Leads</h1>
-            <span className={styles.businessBadge}>{business.name}</span>
+            {allBusinesses.length > 1 ? (
+              <BusinessSwitcher
+                businesses={allBusinesses}
+                currentBusinessId={business.id}
+                basePath="/admin/leads"
+              />
+            ) : (
+              <span className={styles.businessBadge}>{business.name}</span>
+            )}
           </div>
           <span className={styles.count}>{leads.length} total</span>
         </div>
