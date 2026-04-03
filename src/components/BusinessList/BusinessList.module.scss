@@ -163,6 +163,24 @@
   }
 }
 
+.leadsBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border: 1px solid #16a34a;
+  color: #16a34a;
+  border-radius: $border-radius-sm;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s;
+
+  &:hover {
+    background: #16a34a;
+    color: white;
+  }
+}
+
 .deleteButton {
   background: none;
   border: 1px solid #dc2626;
@@ -361,6 +379,16 @@
   &:hover {
     background: $primary-blue-dark-theme;
     color: $text-light-dark-theme;
+  }
+}
+
+:global(body.dark) .leadsBtn {
+  border-color: #4ade80;
+  color: #4ade80;
+
+  &:hover {
+    background: #4ade80;
+    color: #052e16;
   }
 }
 

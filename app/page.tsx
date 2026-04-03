@@ -10,10 +10,7 @@ export default async function Home() {
   const page = await prisma.page.findFirst({
     where: { published: true },
     orderBy: { updatedAt: 'desc' },
-    select: {
-      content: true,
-      business: { select: { id: true } },
-    },
+    select: { content: true },
   });
 
   const content = page?.content as {
@@ -29,7 +26,6 @@ export default async function Home() {
       ctaText={content?.ctaText}
       ctaUrl={content?.ctaUrl}
       heroImageUrl={content?.heroImageUrl}
-      businessId={page?.business?.id}
     />
   );
 } 

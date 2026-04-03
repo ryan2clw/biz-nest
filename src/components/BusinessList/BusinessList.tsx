@@ -111,6 +111,12 @@ export default function BusinessList({ businesses, onRefresh, isLoading }: Busin
                       >
                         Edit Page
                       </Link>
+                      <Link
+                        href={`/admin/leads/${biz.id}`}
+                        className={styles.leadsBtn}
+                      >
+                        Leads
+                      </Link>
                       <button
                         className={styles.deleteButton}
                         onClick={() => handleDeleteClick(biz)}

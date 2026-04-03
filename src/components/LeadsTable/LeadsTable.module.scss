@@ -1,0 +1,322 @@
+@use '../../../styles/variables.scss' as *;
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th {
+    background: #f9fafb;
+    padding: 12px 20px;
+    text-align: left;
+    font-weight: 600;
+    color: $text-primary;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+    color: $text-primary;
+  }
+}
+
+.tableRow {
+  transition: background-color 0.15s;
+
+  &:hover {
+    background: #f9fafb;
+  }
+
+  &:last-child td {
+    border-bottom: none;
+  }
+}
+
+.nameCell {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nameButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: $primary-blue;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.phoneCell {
+  white-space: nowrap;
+}
+
+.phoneLink {
+  color: $text-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: $primary-blue;
+  }
+}
+
+.messageCell {
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dateCell {
+  color: $text-secondary;
+  white-space: nowrap;
+}
+
+.emailLink {
+  color: $primary-blue;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.empty {
+  color: $text-secondary;
+}
+
+.emptyCell {
+  text-align: center;
+  padding: 3rem 1rem !important;
+  color: $text-secondary;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #f3f4f6;
+  color: $text-secondary;
+
+  &.new {
+    background: rgba(37, 99, 235, 0.1);
+    color: $primary-blue;
+  }
+
+  &.contacted {
+    background: rgba(161, 98, 7, 0.1);
+    color: #a16207;
+  }
+
+  &.closed {
+    background: rgba(22, 163, 74, 0.1);
+    color: #16a34a;
+  }
+}
+
+// Modal
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: $spacing-md;
+}
+
+.modal {
+  background: white;
+  border-radius: $border-radius-lg;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg $spacing-lg $spacing-md;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modalName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  margin: 0;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: $text-secondary;
+  cursor: pointer;
+  padding: $spacing-xs;
+  display: flex;
+  align-items: center;
+  border-radius: $border-radius-sm;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #f3f4f6;
+    color: $text-primary;
+  }
+}
+
+.modalBody {
+  padding: $spacing-md $spacing-lg $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.modalRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.modalLabel {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $text-secondary;
+}
+
+.modalMessage {
+  font-size: $font-size-base;
+  color: $text-primary;
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+// Desktop-only columns
+.desktopOnly {
+  display: table-cell;
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .table {
+  th {
+    background: $background-dark-theme;
+    color: $text-primary-dark-theme;
+    border-bottom-color: $border-dark-theme;
+  }
+
+  td {
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+    color: $text-primary-dark-theme;
+  }
+}
+
+:global(body.dark) .tableRow:hover {
+  background: $background-dark-theme;
+}
+
+:global(body.dark) .nameButton {
+  color: $primary-blue-dark-theme;
+}
+
+:global(body.dark) .phoneLink {
+  color: $text-primary-dark-theme;
+
+  &:hover {
+    color: $primary-blue-dark-theme;
+  }
+}
+
+:global(body.dark) .emailLink {
+  color: $primary-blue-dark-theme;
+}
+
+:global(body.dark) .dateCell,
+:global(body.dark) .empty,
+:global(body.dark) .emptyCell {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .statusBadge {
+  background: $background-dark-theme;
+  color: $text-secondary-dark-theme;
+
+  &.new {
+    background: rgba(96, 165, 250, 0.1);
+    color: $primary-blue-dark-theme;
+  }
+
+  &.contacted {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+  }
+
+  &.closed {
+    background: rgba(74, 222, 128, 0.1);
+    color: #4ade80;
+  }
+}
+
+:global(body.dark) .modal {
+  background: $background-dark-theme-light;
+  border: 1px solid $border-dark-theme;
+}
+
+:global(body.dark) .modalHeader {
+  border-bottom-color: $border-dark-theme;
+}
+
+:global(body.dark) .modalName {
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .closeBtn {
+  color: $text-secondary-dark-theme;
+
+  &:hover {
+    background: $background-dark-theme;
+    color: $text-primary-dark-theme;
+  }
+}
+
+:global(body.dark) .modalLabel {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .modalMessage {
+  color: $text-primary-dark-theme;
+}
+
+// ============================================================================
+// MOBILE STYLES
+// ============================================================================
+
+@media (max-width: $breakpoint-md) {
+  .desktopOnly {
+    display: none;
+  }
+
+  .table td,
+  .table th {
+    padding: 12px 16px;
+  }
+}

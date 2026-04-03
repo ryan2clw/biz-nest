@@ -1,0 +1,107 @@
+@use '../../../styles/variables.scss' as *;
+
+// ============================================================================
+// LIGHT DESKTOP STYLES
+// ============================================================================
+
+.pageLayout {
+  padding: $spacing-xl;
+  min-height: 100vh;
+}
+
+.container {
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.container > * {
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.heading {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  margin: 0 0 $spacing-xs 0;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.businessBadge {
+  display: inline-block;
+  background: rgba(37, 99, 235, 0.08);
+  color: $primary-blue;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  padding: 2px $spacing-sm;
+}
+
+.count {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  font-weight: $font-weight-medium;
+}
+
+// ============================================================================
+// DARK DESKTOP STYLES
+// ============================================================================
+
+:global(body.dark) .container::before {
+  background: rgba(24, 24, 27, 0.9);
+}
+
+:global(body.dark) .header {
+  border-bottom-color: $border-dark-theme;
+}
+
+:global(body.dark) .heading {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global(body.dark) .businessBadge {
+  background: rgba(96, 165, 250, 0.1);
+  color: $primary-blue-dark-theme;
+  border-color: rgba(96, 165, 250, 0.2);
+}
+
+:global(body.dark) .count {
+  color: $text-secondary-dark-theme;
+}
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: $breakpoint-md) {
+  .pageLayout {
+    padding: $spacing-md $spacing-sm;
+  }
+}

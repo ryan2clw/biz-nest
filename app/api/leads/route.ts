@@ -28,7 +28,8 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ lead }, { status: 201 });
-  } catch {
-    return NextResponse.json({ error: "Failed to submit" }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to submit";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
