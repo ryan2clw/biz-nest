@@ -113,7 +113,7 @@ export default function DashDetail({ heading }: DashDetailProps) {
 
         {currentUser.profile?.role === 'admin' && (
           <div className={styles.adminActions}>
-            <Link href={`/admin/create-business/${currentUser.id}`} className={styles.createBusinessBtn}>
+            <Link href={`/admin/business/${currentUser.id}`} className={styles.createBusinessBtn}>
               Create Business
             </Link>
           </div>

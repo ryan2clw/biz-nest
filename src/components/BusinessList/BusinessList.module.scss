@@ -423,3 +423,17 @@
     background: $background-dark-theme;
   }
 }
+
+// ============================================================================
+// RESPONSIVE DESIGN
+// ============================================================================
+
+@media (max-width: $breakpoint-md) {
+  .table {
+    th:not(:first-child):not(:last-child),
+    td:not(:first-child):not(:last-child) {
+      display: none;
+    }
+  }
+}
+
