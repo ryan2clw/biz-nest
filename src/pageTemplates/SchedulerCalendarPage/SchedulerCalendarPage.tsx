@@ -428,9 +428,9 @@ export default function SchedulerCalendarPage({
                         <span className={styles.laneHeaderDot} style={{ backgroundColor: lane.color }} />
                       )}
                       <strong>{lane.title}</strong>
-                      {"isToday" in lane && lane.isToday && (
+                      {"isToday" in lane && lane.isToday ? (
                         <span className={styles.todayBadge}>Today</span>
-                      )}
+                      ) : null}
                     </div>
                     <p>{lane.subtitle}</p>
                   </div>
