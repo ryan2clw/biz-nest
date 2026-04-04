@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import BusinessSwitcher from "../../components/BusinessSwitcher/BusinessSwitcher";
 import styles from "./SchedulerCalendarPage.module.scss";
 
+type View = "day" | "week";
+
 interface Business {
   id: string;
   name: string;
@@ -89,6 +91,37 @@ function formatLongDate(value: string) {
     month: "long",
     day: "numeric",
   });
+}
+
+function getWeekDays(dateStr: string): string[] {
+  const date = new Date(`${dateStr}T12:00:00`);
+  const dow = date.getDay();
+  const diff = dow === 0 ? -6 : 1 - dow; // Monday start
+  const monday = new Date(date);
+  monday.setDate(date.getDate() + diff);
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return getDateInputValue(d);
+  });
+}
+
+function formatWeekDayHeader(dateStr: string) {
+  const date = new Date(`${dateStr}T12:00:00`);
+  return {
+    weekday: date.toLocaleDateString([], { weekday: "short" }),
+    date: date.toLocaleDateString([], { month: "short", day: "numeric" }),
+  };
+}
+
+function formatWeekRange(dateStr: string) {
+  const days = getWeekDays(dateStr);
+  const start = new Date(`${days[0]}T12:00:00`);
+  const end = new Date(`${days[6]}T12:00:00`);
+  if (start.getMonth() === end.getMonth()) {
+    return `${start.toLocaleDateString([], { month: "long", day: "numeric" })} – ${end.getDate()}`;
+  }
+  return `${start.toLocaleDateString([], { month: "short", day: "numeric" })} – ${end.toLocaleDateString([], { month: "short", day: "numeric" })}`;
 }
 
 function formatTime(value: string) {
@@ -202,6 +235,7 @@ export default function SchedulerCalendarPage({
   appointments,
 }: SchedulerCalendarPageProps) {
   const [selectedDate, setSelectedDate] = useState(getDateInputValue(new Date()));
+  const [view, setView] = useState<View>("day");
 
   const selectedDayAppointments = useMemo(
     () => appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledFor, selectedDate)),
@@ -239,6 +273,24 @@ export default function SchedulerCalendarPage({
       ...technicianLanes,
     ];
   }, [selectedDayAppointments, technicians, unassignedAppointments]);
+
+  const weekLanes = useMemo(() => {
+    const today = getDateInputValue(new Date());
+    return getWeekDays(selectedDate).map((dateStr) => {
+      const dayAppointments = appointments.filter((a) => isSameCalendarDay(a.scheduledFor, dateStr));
+      const { weekday, date } = formatWeekDayHeader(dateStr);
+      return {
+        id: dateStr,
+        title: weekday,
+        subtitle: date,
+        isToday: dateStr === today,
+        color: "#2563eb",
+        events: layoutLaneAppointments(dayAppointments),
+      };
+    });
+  }, [selectedDate, appointments]);
+
+  const activeLanes = view === "day" ? lanes : weekLanes;
 
   const appointmentsToday = appointments.filter((appointment) =>
     isSameCalendarDay(appointment.scheduledFor, getDateInputValue(new Date()))
@@ -311,7 +363,9 @@ export default function SchedulerCalendarPage({
           <div className={styles.topBar}>
             <div>
               <p className={styles.topEyebrow}>Calendar View</p>
-              <h2 className={styles.topTitle}>{formatLongDate(selectedDate)}</h2>
+              <h2 className={styles.topTitle}>
+                {view === "day" ? formatLongDate(selectedDate) : formatWeekRange(selectedDate)}
+              </h2>
             </div>
 
             <div className={styles.topControls}>
@@ -326,10 +380,18 @@ export default function SchedulerCalendarPage({
               )}
 
               <div className={styles.viewToggle}>
-                <button type="button" className={`${styles.toggleButton} ${styles.activeToggle}`}>
+                <button
+                  type="button"
+                  className={`${styles.toggleButton} ${view === "day" ? styles.activeToggle : ""}`}
+                  onClick={() => setView("day")}
+                >
                   Day
                 </button>
-                <button type="button" className={styles.toggleButton}>
+                <button
+                  type="button"
+                  className={`${styles.toggleButton} ${view === "week" ? styles.activeToggle : ""}`}
+                  onClick={() => setView("week")}
+                >
                   Week
                 </button>
               </div>
@@ -354,11 +416,21 @@ export default function SchedulerCalendarPage({
             <div className={styles.calendarHeader}>
               <div className={styles.timeHeader}>Time</div>
               <div className={styles.lanesHeader}>
-                {lanes.map((lane) => (
-                  <div key={lane.id} className={styles.laneHeaderCard}>
+                {activeLanes.map((lane) => (
+                  <div
+                    key={lane.id}
+                    className={`${styles.laneHeaderCard} ${"isToday" in lane && lane.isToday ? styles.todayHeader : ""}`}
+                    onClick={view === "week" ? () => { setSelectedDate(lane.id); setView("day"); } : undefined}
+                    style={view === "week" ? { cursor: "pointer" } : undefined}
+                  >
                     <div className={styles.laneHeaderTitle}>
-                      <span className={styles.laneHeaderDot} style={{ backgroundColor: lane.color }} />
+                      {"isToday" in lane && lane.isToday ? null : (
+                        <span className={styles.laneHeaderDot} style={{ backgroundColor: lane.color }} />
+                      )}
                       <strong>{lane.title}</strong>
+                      {"isToday" in lane && lane.isToday && (
+                        <span className={styles.todayBadge}>Today</span>
+                      )}
                     </div>
                     <p>{lane.subtitle}</p>
                   </div>
@@ -376,8 +448,8 @@ export default function SchedulerCalendarPage({
               </div>
 
               <div className={styles.laneColumns}>
-                {lanes.map((lane) => (
-                  <div key={lane.id} className={styles.laneColumn} style={{ height: `${timelineHeight}px` }}>
+                {activeLanes.map((lane) => (
+                  <div key={lane.id} className={`${styles.laneColumn} ${"isToday" in lane && lane.isToday ? styles.todayColumn : ""}`} style={{ height: `${timelineHeight}px` }}>
                     {hours.map((hour, index) =>
                       index === hours.length - 1 ? null : (
                         <div
@@ -389,7 +461,7 @@ export default function SchedulerCalendarPage({
                     )}
 
                     {lane.events.length === 0 ? (
-                      <div className={styles.emptyLane}>Nothing scheduled in this lane.</div>
+                      <div className={styles.emptyLane}>Nothing scheduled.</div>
                     ) : null}
 
                     {lane.events.map((appointment) => (
@@ -405,12 +477,15 @@ export default function SchedulerCalendarPage({
                         }}
                       >
                         <div className={styles.eventTime}>
-                          {formatTime(appointment.scheduledFor)} - {appointment.durationMinutes} min
+                          {formatTime(appointment.scheduledFor)} · {appointment.durationMinutes} min
                         </div>
                         <h3>{appointment.title}</h3>
                         <p className={styles.eventCustomer}>{appointment.customerName}</p>
                         {appointment.location ? <p>{appointment.location}</p> : null}
-                        {appointment.lead ? <p>Lead: {appointment.lead.name}</p> : null}
+                        {view === "week" && appointment.technician ? (
+                          <p>{appointment.technician.name}</p>
+                        ) : null}
+                        {view === "day" && appointment.lead ? <p>Lead: {appointment.lead.name}</p> : null}
                         {appointment.notes ? <p>{appointment.notes}</p> : null}
                       </article>
                     ))}

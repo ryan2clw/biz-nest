@@ -352,6 +352,26 @@
   font-size: $font-size-sm;
 }
 
+.todayHeader {
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.todayBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: $font-weight-bold;
+  background: rgba(37, 99, 235, 0.1);
+  color: $primary-blue;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.todayColumn {
+  background: rgba(37, 99, 235, 0.025);
+}
+
 .calendarBody {
   display: grid;
   grid-template-columns: 104px minmax(0, 1fr);
@@ -585,6 +605,20 @@
 :global(body.dark) .emptyLane {
   background: rgba(39, 39, 42, 0.8);
   border-color: $border-dark-theme;
+}
+
+:global(body.dark) .todayHeader {
+  background: rgba(96, 165, 250, 0.06);
+}
+
+:global(body.dark) .todayBadge {
+  background: rgba(96, 165, 250, 0.12);
+  color: $primary-blue-dark-theme;
+  border-color: rgba(96, 165, 250, 0.25);
+}
+
+:global(body.dark) .todayColumn {
+  background: rgba(96, 165, 250, 0.03);
 }
 
 // ============================================================================
