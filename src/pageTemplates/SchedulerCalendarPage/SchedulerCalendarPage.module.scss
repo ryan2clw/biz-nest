@@ -1,0 +1,646 @@
+@use "../../../styles/variables.scss" as *;
+
+// ============================================================================
+// LAYOUT
+// ============================================================================
+
+.pageLayout {
+  padding: $spacing-xl;
+  min-height: 100vh;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 272px minmax(0, 1fr);
+  gap: $spacing-lg;
+  max-width: 1540px;
+  margin: 0 auto;
+}
+
+// ============================================================================
+// SIDEBAR
+// ============================================================================
+
+.sidebar {
+  display: grid;
+  align-content: start;
+  gap: $spacing-md;
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.sidebar > * {
+  position: relative;
+  z-index: 2;
+}
+
+.sidebarHeader {
+  display: grid;
+  gap: 6px;
+  padding: 20px 20px 0;
+}
+
+.sidebarEyebrow {
+  margin: 0;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $text-secondary;
+}
+
+.sidebarTitle {
+  margin: 0;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sidebarText {
+  margin: 0;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  line-height: 1.5;
+}
+
+.sidebarCard {
+  display: grid;
+  gap: $spacing-sm;
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cardLabel {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $text-secondary;
+}
+
+.teamList {
+  display: grid;
+  gap: $spacing-sm;
+}
+
+.teamItem {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: flex-start;
+}
+
+.teamItem strong {
+  display: block;
+  font-size: $font-size-base;
+  color: $text-primary;
+}
+
+.teamItem p,
+.emptyMessage {
+  margin: 2px 0 0;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.teamDot,
+.laneHeaderDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.teamDot {
+  margin-top: 5px;
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-sm;
+}
+
+.statItem {
+  padding: $spacing-sm;
+  border-radius: $border-radius-md;
+  background: rgba(37, 99, 235, 0.05);
+  border: 1px solid rgba(37, 99, 235, 0.1);
+}
+
+.statItem strong {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: $font-weight-bold;
+  line-height: 1;
+  color: $text-primary;
+}
+
+.statItem span {
+  display: block;
+  margin-top: 4px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+// ============================================================================
+// MAIN CONTENT
+// ============================================================================
+
+.main {
+  display: grid;
+  align-content: start;
+  gap: $spacing-md;
+}
+
+.topBar,
+.calendarFrame {
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.topBar::before,
+.calendarFrame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.topBar > *,
+.calendarFrame > * {
+  position: relative;
+  z-index: 2;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: 20px 24px;
+}
+
+.topEyebrow {
+  margin: 0;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $text-secondary;
+}
+
+.topTitle {
+  margin: 4px 0 0;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.topControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+}
+
+.businessBadge {
+  display: inline-block;
+  background: rgba(37, 99, 235, 0.08);
+  color: $primary-blue;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  padding: 6px $spacing-sm;
+}
+
+.viewToggle {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: $border-radius-md;
+  background: rgba(241, 245, 249, 0.9);
+  border: 1px solid #dce6ec;
+}
+
+.toggleButton {
+  border: 0;
+  background: transparent;
+  color: $text-secondary;
+  padding: 7px 14px;
+  border-radius: calc(#{$border-radius-md} - 2px);
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.activeToggle {
+  background: rgba(37, 99, 235, 0.1);
+  color: $primary-blue;
+}
+
+.dateInput {
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #dce6ec;
+  border-radius: $border-radius-sm;
+  background: #ffffff;
+  color: $text-primary;
+  font: inherit;
+  font-size: $font-size-sm;
+}
+
+// ============================================================================
+// LEGEND
+// ============================================================================
+
+.legendRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.legendRow span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid #dce6ec;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+// ============================================================================
+// CALENDAR GRID
+// ============================================================================
+
+.calendarFrame {
+  overflow: hidden;
+}
+
+.calendarHeader {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  border-bottom: 1px solid #e5e7eb;
+  background: rgba(248, 251, 253, 0.8);
+}
+
+.timeHeader {
+  padding: 18px 16px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+}
+
+.lanesHeader {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  border-left: 1px solid #e5e7eb;
+}
+
+.laneHeaderCard {
+  padding: 16px 18px;
+  border-left: 1px solid #e5e7eb;
+}
+
+.laneHeaderTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $text-primary;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+}
+
+.laneHeaderCard p {
+  margin: 6px 0 0;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.calendarBody {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+}
+
+.timeColumn {
+  background: rgba(251, 253, 255, 0.9);
+}
+
+.timeSlot {
+  position: relative;
+  padding: 8px 12px;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-bottom: 1px solid #e8eef2;
+}
+
+.laneColumns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  border-left: 1px solid #e5e7eb;
+}
+
+.laneColumn {
+  position: relative;
+  border-left: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.hourLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #e8eef2;
+}
+
+.emptyLane {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  padding: 10px 12px;
+  border-radius: $border-radius-md;
+  background: rgba(248, 250, 252, 0.9);
+  color: $secondary-gray-light;
+  font-size: $font-size-sm;
+  border: 1px dashed #dce6ec;
+}
+
+// ============================================================================
+// EVENT CARDS
+// ============================================================================
+
+.eventCard {
+  position: absolute;
+  overflow: hidden;
+  padding: 10px 12px 10px 14px;
+  border-radius: $border-radius-lg;
+  border: 1px solid #dce6ec;
+  border-left-width: 5px;
+  box-shadow: $shadow-md;
+  background: #ffffff;
+}
+
+.eventCard h3 {
+  margin: 4px 0 3px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+}
+
+.eventCard p {
+  margin: 2px 0 0;
+  color: $text-secondary;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.eventTime {
+  font-weight: $font-weight-bold;
+  color: $secondary-gray-dark;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.eventCustomer {
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+  font-size: $font-size-sm;
+}
+
+.scheduled {
+  background: #eff6ff;
+}
+
+.in_progress {
+  background: #fef3c7;
+}
+
+.completed {
+  background: #dcfce7;
+}
+
+.blocked {
+  background: #fee2e2;
+}
+
+// ============================================================================
+// DARK THEME
+// ============================================================================
+
+:global(body.dark) .sidebar::before,
+:global(body.dark) .topBar::before,
+:global(body.dark) .calendarFrame::before {
+  background: rgba(24, 24, 27, 0.92);
+}
+
+:global(body.dark) .sidebarTitle,
+:global(body.dark) .topTitle {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global(body.dark) .sidebarEyebrow,
+:global(body.dark) .topEyebrow,
+:global(body.dark) .cardLabel,
+:global(body.dark) .sidebarText,
+:global(body.dark) .teamItem p,
+:global(body.dark) .emptyMessage,
+:global(body.dark) .laneHeaderCard p,
+:global(body.dark) .timeSlot,
+:global(body.dark) .timeHeader,
+:global(body.dark) .statItem span,
+:global(body.dark) .emptyLane {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .teamItem strong,
+:global(body.dark) .statItem strong,
+:global(body.dark) .laneHeaderTitle,
+:global(body.dark) .eventCard h3,
+:global(body.dark) .eventCustomer {
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .sidebarCard {
+  border-top-color: $border-dark-theme;
+}
+
+:global(body.dark) .statItem {
+  background: rgba(96, 165, 250, 0.07);
+  border-color: rgba(96, 165, 250, 0.15);
+}
+
+:global(body.dark) .businessBadge {
+  background: rgba(96, 165, 250, 0.1);
+  color: $primary-blue-dark-theme;
+  border-color: rgba(96, 165, 250, 0.2);
+}
+
+:global(body.dark) .activeToggle {
+  background: rgba(96, 165, 250, 0.12);
+  color: $primary-blue-dark-theme;
+}
+
+:global(body.dark) .toggleButton {
+  color: $text-secondary-dark-theme;
+
+  &:hover {
+    color: $text-primary-dark-theme;
+  }
+}
+
+:global(body.dark) .calendarHeader {
+  background: rgba(24, 24, 27, 0.5);
+  border-bottom-color: $border-dark-theme;
+}
+
+:global(body.dark) .lanesHeader,
+:global(body.dark) .laneHeaderCard,
+:global(body.dark) .laneColumns,
+:global(body.dark) .laneColumn,
+:global(body.dark) .calendarBody {
+  border-color: $border-dark-theme;
+}
+
+:global(body.dark) .timeColumn {
+  background: rgba(24, 24, 27, 0.5);
+}
+
+:global(body.dark) .timeSlot,
+:global(body.dark) .hourLine {
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+:global(body.dark) .laneColumn {
+  background: rgba(39, 39, 42, 0.4);
+}
+
+:global(body.dark) .eventCard {
+  background: #27272a;
+  border-color: rgba(255, 255, 255, 0.1);
+
+  p {
+    color: $text-secondary-dark-theme;
+  }
+}
+
+:global(body.dark) .scheduled { background: rgba(30, 58, 138, 0.3); }
+:global(body.dark) .in_progress { background: rgba(120, 53, 15, 0.3); }
+:global(body.dark) .completed { background: rgba(20, 83, 45, 0.3); }
+:global(body.dark) .blocked { background: rgba(127, 29, 29, 0.3); }
+
+:global(body.dark) .legendRow span {
+  background: rgba(39, 39, 42, 0.8);
+  border-color: $border-dark-theme;
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .dateInput,
+:global(body.dark) .viewToggle {
+  background: #27272a;
+  border-color: $border-dark-theme;
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .emptyLane {
+  background: rgba(39, 39, 42, 0.8);
+  border-color: $border-dark-theme;
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: 1200px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .sidebarHeader {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .pageLayout {
+    padding: $spacing-md $spacing-sm;
+  }
+
+  .sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .topBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topControls {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .calendarHeader,
+  .calendarBody {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .timeHeader,
+  .timeSlot {
+    padding-inline: 8px;
+    font-size: 0.72rem;
+  }
+
+  .lanesHeader,
+  .laneColumns {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(200px, 1fr);
+    overflow-x: auto;
+  }
+}
