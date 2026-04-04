@@ -115,6 +115,8 @@ model Business {
   services    Service[]
   leads       Lead[]
   pages       Page[]
+  technicians Technician[]
+  appointments Appointment[]
 }
 
 model BusinessUser {
@@ -158,6 +160,46 @@ model Lead {
   updatedAt   DateTime @updatedAt
 
   business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+}
+
+model Technician {
+  id          String   @id @default(cuid())
+  businessId  String
+  name        String
+  phone       String?
+  email       String?
+  color       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  business     Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+}
+
+model Appointment {
+  id              String      @id @default(cuid())
+  businessId      String
+  technicianId    String?
+  leadId          String?
+  title           String
+  customerName    String
+  location        String?
+  status          String      @default("scheduled")
+  scheduledFor    DateTime
+  durationMinutes Int         @default(120)
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  business        Business    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  technician      Technician? @relation(fields: [technicianId], references: [id], onDelete: SetNull)
+  lead            Lead?       @relation(fields: [leadId], references: [id], onDelete: SetNull)
+
+  @@index([businessId, scheduledFor])
+  @@index([technicianId, scheduledFor])
+  @@index([leadId])
 }
 
 model Page {

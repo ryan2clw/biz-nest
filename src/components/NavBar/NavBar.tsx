@@ -103,6 +103,9 @@ export default function NavBar() {
                 <Link href="/admin/business" className={styles.navLink}>
                   Business
                 </Link>
+                <Link href="/admin/scheduler" className={styles.navLink}>
+                  Scheduler
+                </Link>
                 <Link href="/admin/leads" className={styles.navLink}>
                   Leads
                 </Link>
@@ -161,6 +164,9 @@ export default function NavBar() {
                 </Link>
                 <Link href="/admin/business" className={styles.mobileLink} onClick={handleMenuClose}>
                   Business
+                </Link>
+                <Link href="/admin/scheduler" className={styles.mobileLink} onClick={handleMenuClose}>
+                  Scheduler
                 </Link>
                 <Link href="/admin/leads" className={styles.mobileLink} onClick={handleMenuClose}>
                   Leads
