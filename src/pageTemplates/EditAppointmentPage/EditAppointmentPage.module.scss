@@ -1,0 +1,361 @@
+@use "../../../styles/variables.scss" as *;
+
+.pageLayout {
+  padding: $spacing-xl;
+  min-height: 100vh;
+}
+
+.container {
+  background: $gradient-blue;
+  border-radius: $border-radius-md;
+  box-shadow: $shadow-sm;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  gap: 0;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1;
+}
+
+.container > * {
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $text-secondary;
+}
+
+.heading {
+  margin: 4px 0 0;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  background: linear-gradient(135deg, $primary-blue, $secondary-gray);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subheading {
+  margin: 0.35rem 0 0;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  max-width: 44rem;
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.businessBadge,
+.secondaryLink,
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+}
+
+.businessBadge {
+  background: rgba(37, 99, 235, 0.08);
+  color: $primary-blue;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  padding: 6px 12px;
+}
+
+.secondaryLink,
+.navLink {
+  background: rgba(255, 255, 255, 0.72);
+  color: $text-primary;
+  border: 1px solid #dce6ec;
+  padding: 6px 12px;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.summaryCard,
+.formCard,
+.infoCard {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: $border-radius-lg;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: $shadow-sm;
+}
+
+.summaryCard {
+  padding: 1rem 1.1rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.summaryLabel,
+.infoLabel {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.summaryCard strong,
+.infoBlock strong {
+  color: $text-primary;
+  font-size: $font-size-lg;
+}
+
+.summaryCard p,
+.infoBlock p {
+  margin: 0;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.successBanner,
+.errorBanner {
+  margin: 0 24px;
+  border-radius: $border-radius-md;
+  padding: 0.75rem 1rem;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+}
+
+.successBanner {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.errorBanner {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.9fr);
+  gap: 1rem;
+  padding: 20px 24px 24px;
+}
+
+.formCard,
+.infoCard {
+  padding: 1.25rem;
+}
+
+.formCard {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.sidePanel {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $text-primary;
+}
+
+.cardHeader span {
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: $border-radius-md;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  color: $text-primary;
+  font: inherit;
+  font-size: $font-size-sm;
+
+  &:focus {
+    outline: 2px solid rgba(37, 99, 235, 0.3);
+    outline-offset: 0;
+    border-color: $primary-blue;
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.primaryButton {
+  border: none;
+  border-radius: $border-radius-md;
+  padding: 0.75rem 1.1rem;
+  background: linear-gradient(135deg, $primary-blue, $primary-blue-dark);
+  color: #f8fafc;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+}
+
+.infoCard {
+  display: grid;
+  gap: 1rem;
+}
+
+.infoBlock {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.linkStack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+:global(body.dark) .container::before {
+  background: rgba(24, 24, 27, 0.9);
+}
+
+:global(body.dark) .header,
+:global(body.dark) .summaryGrid {
+  border-bottom-color: $border-dark-theme;
+}
+
+:global(body.dark) .heading {
+  background: linear-gradient(135deg, $primary-blue-dark-theme, $secondary-gray-dark-theme);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:global(body.dark) .eyebrow,
+:global(body.dark) .subheading,
+:global(body.dark) .summaryLabel,
+:global(body.dark) .infoLabel,
+:global(body.dark) .summaryCard p,
+:global(body.dark) .infoBlock p,
+:global(body.dark) .cardHeader span {
+  color: $text-secondary-dark-theme;
+}
+
+:global(body.dark) .summaryCard strong,
+:global(body.dark) .infoBlock strong,
+:global(body.dark) .cardHeader h2,
+:global(body.dark) .secondaryLink,
+:global(body.dark) .navLink {
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .summaryCard,
+:global(body.dark) .formCard,
+:global(body.dark) .infoCard {
+  background: rgba(39, 39, 42, 0.72);
+  border-color: $border-dark-theme;
+}
+
+:global(body.dark) .input,
+:global(body.dark) .textarea {
+  background: #27272a;
+  border-color: rgba(255, 255, 255, 0.15);
+  color: $text-primary-dark-theme;
+}
+
+:global(body.dark) .businessBadge {
+  background: rgba(96, 165, 250, 0.1);
+  color: $primary-blue-dark-theme;
+  border-color: rgba(96, 165, 250, 0.2);
+}
+
+:global(body.dark) .secondaryLink,
+:global(body.dark) .navLink {
+  background: rgba(39, 39, 42, 0.88);
+  border-color: $border-dark-theme;
+}
+
+@media (max-width: $breakpoint-lg) {
+  .summaryGrid,
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .pageLayout {
+    padding: $spacing-md $spacing-sm;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gridRow {
+    grid-template-columns: 1fr;
+  }
+
+  .header,
+  .summaryGrid,
+  .contentGrid {
+    padding-inline: 16px;
+  }
+
+  .successBanner,
+  .errorBanner {
+    margin-inline: 16px;
+  }
+}

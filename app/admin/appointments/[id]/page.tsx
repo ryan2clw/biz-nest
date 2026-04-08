@@ -1,9 +1,9 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "../../../../src/db/prisma";
-import SchedulerPage from "../../../../src/pageTemplates/SchedulerPage/SchedulerPage";
+import EditAppointmentPage from "../../../../src/pageTemplates/EditAppointmentPage/EditAppointmentPage";
 
-export default async function Page({ params }: { params: Promise<{ businessId: string }> }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
   if (!session?.user?.email) redirect("/");
 
@@ -14,23 +14,44 @@ export default async function Page({ params }: { params: Promise<{ businessId: s
 
   if (dbUser?.profile?.role !== "admin") redirect("/");
 
-  const { businessId } = await params;
+  const { id } = await params;
 
-  const [business, allBusinesses, technicians, leads, appointments] = await Promise.all([
-    prisma.business.findUnique({
-      where: { id: businessId },
-      select: { id: true, name: true },
-    }),
-    prisma.business.findMany({
-      orderBy: { name: "asc" },
-      select: { id: true, name: true },
-    }),
+  const appointment = await prisma.appointment.findUnique({
+    where: { id },
+    include: {
+      business: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      technician: {
+        select: {
+          id: true,
+          name: true,
+          color: true,
+        },
+      },
+      lead: {
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  if (!appointment) redirect("/admin");
+
+  const [technicians, leads] = await Promise.all([
     prisma.technician.findMany({
-      where: { businessId, isActive: true },
+      where: { businessId: appointment.businessId, isActive: true },
       orderBy: { name: "asc" },
     }),
     prisma.lead.findMany({
-      where: { businessId },
+      where: { businessId: appointment.businessId },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
@@ -40,35 +61,14 @@ export default async function Page({ params }: { params: Promise<{ businessId: s
         status: true,
       },
     }),
-    prisma.appointment.findMany({
-      where: { businessId },
-      orderBy: [{ scheduledStart: "asc" }, { createdAt: "desc" }],
-      include: {
-        technician: {
-          select: {
-            id: true,
-            name: true,
-            color: true,
-          },
-        },
-        lead: {
-          select: {
-            id: true,
-            name: true,
-            phone: true,
-            email: true,
-          },
-        },
-      },
-    }),
   ]);
 
-  if (!business) redirect("/admin");
-
   return (
-    <SchedulerPage
-      business={business}
-      allBusinesses={allBusinesses}
+    <EditAppointmentPage
+      business={{
+        id: appointment.business.id,
+        name: appointment.business.name,
+      }}
       technicians={technicians.map((technician) => ({
         ...technician,
         phone: technician.phone ?? null,
@@ -82,7 +82,7 @@ export default async function Page({ params }: { params: Promise<{ businessId: s
         phone: lead.phone ?? null,
         email: lead.email ?? null,
       }))}
-      appointments={appointments.map((appointment) => ({
+      appointment={{
         ...appointment,
         location: appointment.location ?? null,
         notes: appointment.notes ?? null,
@@ -92,7 +92,7 @@ export default async function Page({ params }: { params: Promise<{ businessId: s
         scheduledEnd: appointment.scheduledEnd.toISOString(),
         createdAt: appointment.createdAt.toISOString(),
         updatedAt: appointment.updatedAt.toISOString(),
-      }))}
+      }}
     />
   );
 }

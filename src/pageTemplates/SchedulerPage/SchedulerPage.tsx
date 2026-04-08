@@ -1,7 +1,7 @@
 "use client";
 
-import { FormEvent, useMemo, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useMemo, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./SchedulerPage.module.scss";
 import BusinessSwitcher from "../../components/BusinessSwitcher/BusinessSwitcher";
 
@@ -39,8 +39,8 @@ interface Appointment {
   customerName: string;
   location: string | null;
   status: string;
-  scheduledFor: string;
-  durationMinutes: number;
+  scheduledStart: string;
+  scheduledEnd: string;
   notes: string | null;
   createdAt: string;
   updatedAt: string;
@@ -96,6 +96,10 @@ function formatTime(value: string) {
   });
 }
 
+function formatTimeRange(start: string, end: string) {
+  return `${formatTime(start)} - ${formatTime(end)}`;
+}
+
 export default function SchedulerPage({
   business,
   allBusinesses,
@@ -104,6 +108,7 @@ export default function SchedulerPage({
   appointments,
 }: SchedulerPageProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [selectedDate, setSelectedDate] = useState(getDateInputValue(new Date()));
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -122,19 +127,43 @@ export default function SchedulerPage({
     location: "",
     leadId: "",
     technicianId: "",
-    scheduledFor: getDateTimeInputValue(new Date(Date.now() + 60 * 60 * 1000)),
-    durationMinutes: "120",
+    scheduledStart: getDateTimeInputValue(new Date(Date.now() + 60 * 60 * 1000)),
+    scheduledEnd: getDateTimeInputValue(new Date(Date.now() + 3 * 60 * 60 * 1000)),
     status: "scheduled",
     notes: "",
   });
 
+  useEffect(() => {
+    const start = searchParams.get("start");
+    const end = searchParams.get("end");
+    const date = searchParams.get("date");
+    const technicianId = searchParams.get("technicianId") || "";
+
+    if (date) {
+      setSelectedDate(date);
+    }
+
+    if (!start || !end) {
+      return;
+    }
+
+    const resolvedTechnicianId = technicians.some((technician) => technician.id === technicianId) ? technicianId : "";
+
+    setAppointmentForm((current) => ({
+      ...current,
+      technicianId: resolvedTechnicianId,
+      scheduledStart: start,
+      scheduledEnd: end,
+    }));
+  }, [searchParams, technicians]);
+
   const appointmentsForDay = useMemo(
-    () => appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledFor, selectedDate)),
+    () => appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledStart, selectedDate)),
     [appointments, selectedDate]
   );
 
   const appointmentsToday = useMemo(
-    () => appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledFor, getDateInputValue(new Date()))).length,
+    () => appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledStart, getDateInputValue(new Date()))).length,
     [appointments]
   );
 
@@ -196,8 +225,8 @@ export default function SchedulerPage({
       location: "",
       leadId: "",
       technicianId: "",
-      scheduledFor: appointmentForm.scheduledFor,
-      durationMinutes: "120",
+      scheduledStart: appointmentForm.scheduledStart,
+      scheduledEnd: appointmentForm.scheduledEnd,
       status: "scheduled",
       notes: "",
     });
@@ -345,17 +374,16 @@ export default function SchedulerPage({
               <input
                 className={styles.input}
                 type="datetime-local"
-                value={appointmentForm.scheduledFor}
-                onChange={(event) => setAppointmentForm((current) => ({ ...current, scheduledFor: event.target.value }))}
+                value={appointmentForm.scheduledStart}
+                onChange={(event) => setAppointmentForm((current) => ({ ...current, scheduledStart: event.target.value }))}
                 required
               />
               <input
                 className={styles.input}
-                type="number"
-                min="15"
-                step="15"
-                value={appointmentForm.durationMinutes}
-                onChange={(event) => setAppointmentForm((current) => ({ ...current, durationMinutes: event.target.value }))}
+                type="datetime-local"
+                value={appointmentForm.scheduledEnd}
+                onChange={(event) => setAppointmentForm((current) => ({ ...current, scheduledEnd: event.target.value }))}
+                required
               />
             </div>
             <div className={styles.gridRow}>
@@ -423,7 +451,7 @@ export default function SchedulerPage({
                           {appointment.status.replace("_", " ")}
                         </span>
                       </div>
-                      <p className={styles.cardMeta}>{formatTime(appointment.scheduledFor)} • {appointment.durationMinutes} min</p>
+                      <p className={styles.cardMeta}>{formatTimeRange(appointment.scheduledStart, appointment.scheduledEnd)}</p>
                       <p className={styles.cardMeta}>{appointment.customerName}</p>
                       {appointment.location && <p className={styles.cardMeta}>{appointment.location}</p>}
                       {appointment.notes && <p className={styles.cardNotes}>{appointment.notes}</p>}
@@ -462,7 +490,7 @@ export default function SchedulerPage({
                             {appointment.status.replace("_", " ")}
                           </span>
                         </div>
-                        <p className={styles.cardMeta}>{formatTime(appointment.scheduledFor)} • {appointment.durationMinutes} min</p>
+                        <p className={styles.cardMeta}>{formatTimeRange(appointment.scheduledStart, appointment.scheduledEnd)}</p>
                         <p className={styles.cardMeta}>{appointment.customerName}</p>
                         {appointment.location && <p className={styles.cardMeta}>{appointment.location}</p>}
                         {appointment.lead && (

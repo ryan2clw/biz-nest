@@ -34,21 +34,26 @@ export async function POST(request: NextRequest) {
     customerName,
     location,
     status,
-    scheduledFor,
-    durationMinutes,
+    scheduledStart,
+    scheduledEnd,
     notes,
   } = body;
 
-  if (!businessId || !title?.trim() || !customerName?.trim() || !scheduledFor) {
+  if (!businessId || !title?.trim() || !customerName?.trim() || !scheduledStart || !scheduledEnd) {
     return NextResponse.json(
-      { error: "Business, title, customer name, and schedule time are required" },
+      { error: "Business, title, customer name, start time, and end time are required" },
       { status: 400 }
     );
   }
 
-  const scheduledDate = new Date(scheduledFor);
-  if (Number.isNaN(scheduledDate.getTime())) {
+  const startDate = new Date(scheduledStart);
+  const endDate = new Date(scheduledEnd);
+  if (Number.isNaN(startDate.getTime()) || Number.isNaN(endDate.getTime())) {
     return NextResponse.json({ error: "Invalid schedule time" }, { status: 400 });
+  }
+
+  if (endDate <= startDate) {
+    return NextResponse.json({ error: "End time must be after start time" }, { status: 400 });
   }
 
   const business = await prisma.business.findUnique({
@@ -91,8 +96,8 @@ export async function POST(request: NextRequest) {
       customerName: customerName.trim(),
       location: location?.trim() || null,
       status: status?.trim() || "scheduled",
-      scheduledFor: scheduledDate,
-      durationMinutes: Math.max(15, Number(durationMinutes) || 120),
+      scheduledStart: startDate,
+      scheduledEnd: endDate,
       notes: notes?.trim() || null,
     },
   });

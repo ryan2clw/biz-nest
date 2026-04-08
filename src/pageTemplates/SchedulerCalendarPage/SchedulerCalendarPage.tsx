@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { UIEvent, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import BusinessSwitcher from "../../components/BusinessSwitcher/BusinessSwitcher";
 import styles from "./SchedulerCalendarPage.module.scss";
 
@@ -40,8 +41,8 @@ interface Appointment {
   customerName: string;
   location: string | null;
   status: string;
-  scheduledFor: string;
-  durationMinutes: number;
+  scheduledStart: string;
+  scheduledEnd: string;
   notes: string | null;
   createdAt: string;
   updatedAt: string;
@@ -73,15 +74,34 @@ interface CalendarEvent extends Appointment {
   width: string;
 }
 
+interface Lane {
+  id: string;
+  title: string;
+  subtitle: string;
+  color: string;
+  events: CalendarEvent[];
+  isToday?: boolean;
+}
+
 const START_HOUR = 8;
 const END_HOUR = 18;
 const HOUR_HEIGHT = 88;
+const HALF_HOUR_HEIGHT = HOUR_HEIGHT / 2;
 
 function getDateInputValue(date: Date) {
   const year = date.getFullYear();
   const month = `${date.getMonth() + 1}`.padStart(2, "0");
   const day = `${date.getDate()}`.padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+function getDateTimeInputValue(date: Date) {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
+  const hours = `${date.getHours()}`.padStart(2, "0");
+  const minutes = `${date.getMinutes()}`.padStart(2, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
 function formatLongDate(value: string) {
@@ -95,14 +115,15 @@ function formatLongDate(value: string) {
 
 function getWeekDays(dateStr: string): string[] {
   const date = new Date(`${dateStr}T12:00:00`);
-  const dow = date.getDay();
-  const diff = dow === 0 ? -6 : 1 - dow; // Monday start
+  const dayOfWeek = date.getDay();
+  const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
   const monday = new Date(date);
   monday.setDate(date.getDate() + diff);
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
-    return getDateInputValue(d);
+
+  return Array.from({ length: 7 }, (_, index) => {
+    const current = new Date(monday);
+    current.setDate(monday.getDate() + index);
+    return getDateInputValue(current);
   });
 }
 
@@ -118,10 +139,15 @@ function formatWeekRange(dateStr: string) {
   const days = getWeekDays(dateStr);
   const start = new Date(`${days[0]}T12:00:00`);
   const end = new Date(`${days[6]}T12:00:00`);
+
   if (start.getMonth() === end.getMonth()) {
-    return `${start.toLocaleDateString([], { month: "long", day: "numeric" })} – ${end.getDate()}`;
+    return `${start.toLocaleDateString([], { month: "long", day: "numeric" })} - ${end.getDate()}`;
   }
-  return `${start.toLocaleDateString([], { month: "short", day: "numeric" })} – ${end.toLocaleDateString([], { month: "short", day: "numeric" })}`;
+
+  return `${start.toLocaleDateString([], { month: "short", day: "numeric" })} - ${end.toLocaleDateString([], {
+    month: "short",
+    day: "numeric",
+  })}`;
 }
 
 function formatTime(value: string) {
@@ -131,10 +157,23 @@ function formatTime(value: string) {
   });
 }
 
+function getDurationMinutes(start: string, end: string) {
+  return Math.max(30, Math.round((new Date(end).getTime() - new Date(start).getTime()) / 60000));
+}
+
 function formatHourLabel(hour: number) {
   const suffix = hour >= 12 ? "PM" : "AM";
   const twelveHour = hour % 12 === 0 ? 12 : hour % 12;
   return `${twelveHour} ${suffix}`;
+}
+
+function formatSlotLabel(hour: number, minute: number) {
+  const date = new Date();
+  date.setHours(hour, minute, 0, 0);
+  return date.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
 function isSameCalendarDay(value: string, selectedDate: string) {
@@ -149,42 +188,46 @@ function getMinutesFromStart(value: string) {
 }
 
 function getEventStyle(appointment: Appointment, columnIndex: number, columnCount: number): CalendarEvent {
-  const minutesFromStart = getMinutesFromStart(appointment.scheduledFor);
-  const duration = Math.max(appointment.durationMinutes, 30);
+  const minutesFromStart = getMinutesFromStart(appointment.scheduledStart);
+  const duration = getDurationMinutes(appointment.scheduledStart, appointment.scheduledEnd);
   const top = Math.max(0, (minutesFromStart / 60) * HOUR_HEIGHT);
   const height = Math.max((duration / 60) * HOUR_HEIGHT, 64);
   const inset = 6;
-  const width = `calc(${100 / columnCount}% - ${inset}px)`;
-  const left = `calc(${(100 / columnCount) * columnIndex}% + ${inset / 2}px)`;
 
   return {
     ...appointment,
     top,
     height,
-    left,
-    width,
+    width: `calc(${100 / columnCount}% - ${inset}px)`,
+    left: `calc(${(100 / columnCount) * columnIndex}% + ${inset / 2}px)`,
   };
+}
+
+function intersectsWindow(appointment: Appointment, startDate: Date, endDate: Date) {
+  const appointmentStart = new Date(appointment.scheduledStart).getTime();
+  const appointmentEnd = new Date(appointment.scheduledEnd).getTime();
+  return appointmentStart < endDate.getTime() && appointmentEnd > startDate.getTime();
 }
 
 function layoutLaneAppointments(appointments: Appointment[]) {
   const sorted = [...appointments].sort(
-    (a, b) => new Date(a.scheduledFor).getTime() - new Date(b.scheduledFor).getTime()
+    (a, b) => new Date(a.scheduledStart).getTime() - new Date(b.scheduledStart).getTime()
   );
 
   const laidOut: CalendarEvent[] = [];
   let currentCluster: Appointment[] = [];
-  let active: { appointment: Appointment; end: number }[] = [];
+  let active: { end: number }[] = [];
 
   function flushCluster(cluster: Appointment[]) {
     if (cluster.length === 0) return;
 
     const columnAssignments = new Map<string, number>();
-    const groupedActive: { id: string; end: number; column: number }[] = [];
+    const groupedActive: { end: number; column: number }[] = [];
     let maxColumns = 1;
 
     for (const appointment of cluster) {
-      const start = getMinutesFromStart(appointment.scheduledFor);
-      const end = start + Math.max(appointment.durationMinutes, 30);
+      const start = getMinutesFromStart(appointment.scheduledStart);
+      const end = start + getDurationMinutes(appointment.scheduledStart, appointment.scheduledEnd);
 
       for (let index = groupedActive.length - 1; index >= 0; index -= 1) {
         if (groupedActive[index].end <= start) {
@@ -197,7 +240,7 @@ function layoutLaneAppointments(appointments: Appointment[]) {
         column += 1;
       }
 
-      groupedActive.push({ id: appointment.id, end, column });
+      groupedActive.push({ end, column });
       columnAssignments.set(appointment.id, column);
       maxColumns = Math.max(maxColumns, groupedActive.length);
     }
@@ -208,8 +251,8 @@ function layoutLaneAppointments(appointments: Appointment[]) {
   }
 
   for (const appointment of sorted) {
-    const start = getMinutesFromStart(appointment.scheduledFor);
-    const end = start + Math.max(appointment.durationMinutes, 30);
+    const start = getMinutesFromStart(appointment.scheduledStart);
+    const end = start + getDurationMinutes(appointment.scheduledStart, appointment.scheduledEnd);
 
     active = active.filter((item) => item.end > start);
 
@@ -219,7 +262,7 @@ function layoutLaneAppointments(appointments: Appointment[]) {
     }
 
     currentCluster.push(appointment);
-    active.push({ appointment, end });
+    active.push({ end });
   }
 
   flushCluster(currentCluster);
@@ -234,11 +277,17 @@ export default function SchedulerCalendarPage({
   leads,
   appointments,
 }: SchedulerCalendarPageProps) {
+  const router = useRouter();
   const [selectedDate, setSelectedDate] = useState(getDateInputValue(new Date()));
   const [view, setView] = useState<View>("day");
+  const [pendingAppointmentId, setPendingAppointmentId] = useState<string | null>(null);
+  const headerScrollRef = useRef<HTMLDivElement | null>(null);
+  const bodyScrollRef = useRef<HTMLDivElement | null>(null);
+  const syncingScrollRef = useRef<"header" | "body" | null>(null);
+  const navigationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const selectedDayAppointments = useMemo(
-    () => appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledFor, selectedDate)),
+    () => appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledStart, selectedDate)),
     [appointments, selectedDate]
   );
 
@@ -250,8 +299,13 @@ export default function SchedulerCalendarPage({
   const totalHours = END_HOUR - START_HOUR;
   const timelineHeight = totalHours * HOUR_HEIGHT;
   const hours = Array.from({ length: totalHours + 1 }, (_, index) => START_HOUR + index);
+  const timeSlots = Array.from({ length: totalHours * 2 }, (_, index) => ({
+    hour: START_HOUR + Math.floor(index / 2),
+    minute: index % 2 === 0 ? 0 : 30,
+    top: index * HALF_HOUR_HEIGHT,
+  }));
 
-  const lanes = useMemo(() => {
+  const dayLanes = useMemo<Lane[]>(() => {
     const technicianLanes = technicians.map((technician) => ({
       id: technician.id,
       title: technician.name,
@@ -274,11 +328,13 @@ export default function SchedulerCalendarPage({
     ];
   }, [selectedDayAppointments, technicians, unassignedAppointments]);
 
-  const weekLanes = useMemo(() => {
+  const weekLanes = useMemo<Lane[]>(() => {
     const today = getDateInputValue(new Date());
+
     return getWeekDays(selectedDate).map((dateStr) => {
-      const dayAppointments = appointments.filter((a) => isSameCalendarDay(a.scheduledFor, dateStr));
+      const dayAppointments = appointments.filter((appointment) => isSameCalendarDay(appointment.scheduledStart, dateStr));
       const { weekday, date } = formatWeekDayHeader(dateStr);
+
       return {
         id: dateStr,
         title: weekday,
@@ -288,18 +344,93 @@ export default function SchedulerCalendarPage({
         events: layoutLaneAppointments(dayAppointments),
       };
     });
-  }, [selectedDate, appointments]);
+  }, [appointments, selectedDate]);
 
-  const activeLanes = view === "day" ? lanes : weekLanes;
+  const activeLanes = view === "day" ? dayLanes : weekLanes;
+  const laneGridStyle = {
+    ["--lane-count" as string]: String(activeLanes.length),
+    ["--lane-min-width" as string]: view === "week" ? "150px" : "220px",
+  };
 
   const appointmentsToday = appointments.filter((appointment) =>
-    isSameCalendarDay(appointment.scheduledFor, getDateInputValue(new Date()))
+    isSameCalendarDay(appointment.scheduledStart, getDateInputValue(new Date()))
   ).length;
+
+  useEffect(() => {
+    return () => {
+      if (navigationTimeoutRef.current) {
+        clearTimeout(navigationTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  function syncHorizontalScroll(source: "header" | "body", event: UIEvent<HTMLDivElement>) {
+    const nextScrollLeft = event.currentTarget.scrollLeft;
+
+    if (syncingScrollRef.current && syncingScrollRef.current !== source) {
+      syncingScrollRef.current = null;
+      return;
+    }
+
+    syncingScrollRef.current = source;
+
+    if (source === "header" && bodyScrollRef.current) {
+      bodyScrollRef.current.scrollLeft = nextScrollLeft;
+    }
+
+    if (source === "body" && headerScrollRef.current) {
+      headerScrollRef.current.scrollLeft = nextScrollLeft;
+    }
+  }
+
+  function navigateToEditAppointment(appointmentId: string) {
+    router.push(`/admin/appointments/${appointmentId}`);
+  }
+
+  function handleSlotClick(lane: Lane, hour: number, minute: number) {
+    const startDate = new Date(`${selectedDate}T00:00:00`);
+    startDate.setHours(hour, minute, 0, 0);
+
+    const endDate = new Date(startDate);
+    endDate.setHours(endDate.getHours() + 2);
+
+    const matchingAppointment = lane.events
+      .filter((appointment) => intersectsWindow(appointment, startDate, endDate))
+      .sort(
+        (left, right) =>
+          Math.abs(new Date(left.scheduledStart).getTime() - startDate.getTime()) -
+          Math.abs(new Date(right.scheduledStart).getTime() - startDate.getTime())
+      )[0];
+
+    if (matchingAppointment) {
+      if (navigationTimeoutRef.current) {
+        clearTimeout(navigationTimeoutRef.current);
+      }
+
+      setPendingAppointmentId(matchingAppointment.id);
+      navigationTimeoutRef.current = setTimeout(() => {
+        navigateToEditAppointment(matchingAppointment.id);
+      }, 260);
+      return;
+    }
+
+    const searchParams = new URLSearchParams({
+      start: getDateTimeInputValue(startDate),
+      end: getDateTimeInputValue(endDate),
+      date: selectedDate,
+    });
+
+    if (lane.id !== "unassigned") {
+      searchParams.set("technicianId", lane.id);
+    }
+
+    router.push(`/admin/scheduler/${business.id}?${searchParams.toString()}`);
+  }
 
   return (
     <div className={styles.pageLayout}>
-      <div className={styles.shell}>
-        <aside className={styles.sidebar}>
+      <div className={`${styles.shell} ${view === "week" ? styles.shellWeek : ""}`}>
+        <aside className={`${styles.sidebar} ${view === "week" ? styles.sidebarHidden : ""}`}>
           <div className={styles.sidebarHeader}>
             <p className={styles.sidebarEyebrow}>Dispatch Hub</p>
             <h1 className={styles.sidebarTitle}>Technician Calendar</h1>
@@ -415,26 +546,36 @@ export default function SchedulerCalendarPage({
           <section className={styles.calendarFrame}>
             <div className={styles.calendarHeader}>
               <div className={styles.timeHeader}>Time</div>
-              <div className={styles.lanesHeader}>
-                {activeLanes.map((lane) => (
-                  <div
-                    key={lane.id}
-                    className={`${styles.laneHeaderCard} ${"isToday" in lane && lane.isToday ? styles.todayHeader : ""}`}
-                    onClick={view === "week" ? () => { setSelectedDate(lane.id); setView("day"); } : undefined}
-                    style={view === "week" ? { cursor: "pointer" } : undefined}
-                  >
-                    <div className={styles.laneHeaderTitle}>
-                      {"isToday" in lane && lane.isToday ? null : (
-                        <span className={styles.laneHeaderDot} style={{ backgroundColor: lane.color }} />
-                      )}
-                      <strong>{lane.title}</strong>
-                      {"isToday" in lane && lane.isToday ? (
-                        <span className={styles.todayBadge}>Today</span>
-                      ) : null}
+              <div
+                ref={headerScrollRef}
+                className={styles.headerScroll}
+                onScroll={(event) => syncHorizontalScroll("header", event)}
+              >
+                <div
+                  className={`${styles.lanesHeader} ${view === "week" ? styles.weekGrid : ""}`}
+                  style={laneGridStyle}
+                >
+                  {activeLanes.map((lane) => (
+                    <div
+                      key={lane.id}
+                      className={`${styles.laneHeaderCard} ${lane.isToday ? styles.todayHeader : ""}`}
+                      onClick={view === "week" ? () => {
+                        setSelectedDate(lane.id);
+                        setView("day");
+                      } : undefined}
+                      style={view === "week" ? { cursor: "pointer" } : undefined}
+                    >
+                      <div className={styles.laneHeaderTitle}>
+                        {lane.isToday ? null : (
+                          <span className={styles.laneHeaderDot} style={{ backgroundColor: lane.color }} />
+                        )}
+                        <strong>{lane.title}</strong>
+                        {lane.isToday ? <span className={styles.todayBadge}>Today</span> : null}
+                      </div>
+                      <p>{lane.subtitle}</p>
                     </div>
-                    <p>{lane.subtitle}</p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -447,50 +588,73 @@ export default function SchedulerCalendarPage({
                 ))}
               </div>
 
-              <div className={styles.laneColumns}>
-                {activeLanes.map((lane) => (
-                  <div key={lane.id} className={`${styles.laneColumn} ${"isToday" in lane && lane.isToday ? styles.todayColumn : ""}`} style={{ height: `${timelineHeight}px` }}>
-                    {hours.map((hour, index) =>
-                      index === hours.length - 1 ? null : (
-                        <div
-                          key={hour}
-                          className={styles.hourLine}
-                          style={{ top: `${index * HOUR_HEIGHT}px` }}
-                        />
-                      )
-                    )}
+              <div
+                ref={bodyScrollRef}
+                className={styles.bodyScroll}
+                onScroll={(event) => syncHorizontalScroll("body", event)}
+              >
+                <div
+                  className={`${styles.laneColumns} ${view === "week" ? styles.weekGrid : ""}`}
+                  style={laneGridStyle}
+                >
+                  {activeLanes.map((lane) => (
+                    <div
+                      key={lane.id}
+                      className={`${styles.laneColumn} ${lane.isToday ? styles.todayColumn : ""}`}
+                      style={{ height: `${timelineHeight}px` }}
+                    >
+                      {view === "day"
+                        ? timeSlots.map(({ hour, minute, top }) => (
+                            <button
+                              key={`${lane.id}-${hour}-${minute}`}
+                              type="button"
+                              className={styles.hourClickTarget}
+                              style={{ top: `${top}px`, height: `${HALF_HOUR_HEIGHT}px` }}
+                              onClick={() => handleSlotClick(lane, hour, minute)}
+                              aria-label={`Schedule a two-hour appointment at ${formatSlotLabel(hour, minute)} for ${lane.title}`}
+                            />
+                          ))
+                        : null}
 
-                    {lane.events.length === 0 ? (
-                      <div className={styles.emptyLane}>Nothing scheduled.</div>
-                    ) : null}
+                      {hours.map((hour, index) =>
+                        index === hours.length - 1 ? null : (
+                          <div key={hour} className={styles.hourLine} style={{ top: `${index * HOUR_HEIGHT}px` }} />
+                        )
+                      )}
 
-                    {lane.events.map((appointment) => (
-                      <article
-                        key={appointment.id}
-                        className={`${styles.eventCard} ${styles[appointment.status] ?? ""}`}
-                        style={{
-                          top: `${appointment.top}px`,
-                          height: `${appointment.height}px`,
-                          left: appointment.left,
-                          width: appointment.width,
-                          borderLeftColor: appointment.technician?.color || lane.color,
-                        }}
-                      >
-                        <div className={styles.eventTime}>
-                          {formatTime(appointment.scheduledFor)} · {appointment.durationMinutes} min
-                        </div>
-                        <h3>{appointment.title}</h3>
-                        <p className={styles.eventCustomer}>{appointment.customerName}</p>
-                        {appointment.location ? <p>{appointment.location}</p> : null}
-                        {view === "week" && appointment.technician ? (
-                          <p>{appointment.technician.name}</p>
-                        ) : null}
-                        {view === "day" && appointment.lead ? <p>Lead: {appointment.lead.name}</p> : null}
-                        {appointment.notes ? <p>{appointment.notes}</p> : null}
-                      </article>
-                    ))}
-                  </div>
-                ))}
+                      {lane.events.length === 0 ? (
+                        <div className={styles.emptyLane}>Nothing scheduled.</div>
+                      ) : null}
+
+                      {lane.events.map((appointment) => (
+                        <article
+                          key={appointment.id}
+                          className={`${styles.eventCard} ${styles[appointment.status] ?? ""} ${
+                            pendingAppointmentId === appointment.id ? styles.eventCardActive : ""
+                          }`}
+                          onClick={() => navigateToEditAppointment(appointment.id)}
+                          style={{
+                            top: `${appointment.top}px`,
+                            height: `${appointment.height}px`,
+                            left: appointment.left,
+                            width: appointment.width,
+                            borderLeftColor: appointment.technician?.color || lane.color,
+                          }}
+                        >
+                          <div className={styles.eventTime}>
+                            {formatTime(appointment.scheduledStart)} - {formatTime(appointment.scheduledEnd)}
+                          </div>
+                          <h3>{appointment.title}</h3>
+                          <p className={styles.eventCustomer}>{appointment.customerName}</p>
+                          {appointment.location ? <p>{appointment.location}</p> : null}
+                          {view === "week" && appointment.technician ? <p>{appointment.technician.name}</p> : null}
+                          {view === "day" && appointment.lead ? <p>Lead: {appointment.lead.name}</p> : null}
+                          {appointment.notes ? <p>{appointment.notes}</p> : null}
+                        </article>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>

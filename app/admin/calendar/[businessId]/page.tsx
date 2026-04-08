@@ -47,7 +47,7 @@ export default async function Page({ params }: { params: Promise<{ businessId: s
     }),
     prisma.appointment.findMany({
       where: { businessId },
-      orderBy: [{ scheduledFor: "asc" }, { createdAt: "desc" }],
+      orderBy: [{ scheduledStart: "asc" }, { createdAt: "desc" }],
       include: {
         technician: {
           select: {
@@ -95,7 +95,8 @@ export default async function Page({ params }: { params: Promise<{ businessId: s
         notes: appointment.notes ?? null,
         technicianId: appointment.technicianId ?? null,
         leadId: appointment.leadId ?? null,
-        scheduledFor: appointment.scheduledFor.toISOString(),
+        scheduledStart: appointment.scheduledStart.toISOString(),
+        scheduledEnd: appointment.scheduledEnd.toISOString(),
         createdAt: appointment.createdAt.toISOString(),
         updatedAt: appointment.updatedAt.toISOString(),
       }))}

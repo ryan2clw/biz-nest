@@ -187,8 +187,8 @@ model Appointment {
   customerName    String
   location        String?
   status          String      @default("scheduled")
-  scheduledFor    DateTime
-  durationMinutes Int         @default(120)
+  scheduledStart  DateTime
+  scheduledEnd    DateTime
   notes           String?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
@@ -197,8 +197,8 @@ model Appointment {
   technician      Technician? @relation(fields: [technicianId], references: [id], onDelete: SetNull)
   lead            Lead?       @relation(fields: [leadId], references: [id], onDelete: SetNull)
 
-  @@index([businessId, scheduledFor])
-  @@index([technicianId, scheduledFor])
+  @@index([businessId, scheduledStart])
+  @@index([technicianId, scheduledStart])
   @@index([leadId])
 }
 
