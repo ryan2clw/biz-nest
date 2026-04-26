@@ -76,8 +76,6 @@ export default function NavBar() {
     }, 100);
   };
 
-  console.log('NavBar render, menuOpen:', menuOpen);
-
   return (
     <div onClick={handleBodyClick} style={{ width: '100%' }}>
       <nav className={styles.navbar} onClick={e => e.stopPropagation()}>

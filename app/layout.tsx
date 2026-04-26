@@ -6,8 +6,6 @@ import ClientProviders from '../src/components/ClientProviders/ClientProviders';
 
 const inter = Inter({ subsets: ['latin'] });
 
-console.log('Rendering app/layout.tsx');
-
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const cookieStore = await cookies();
   const theme = cookieStore.get('theme')?.value ?? 'dark';
